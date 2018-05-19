@@ -20,8 +20,11 @@ defmodule Mix.Tasks.Valiot.Gen.Api do
   end
 
   defp createFiles({:ok, struct}) do
-    case Map.has_key?(struct, :enums) do
-      true -> Mix.Enums.generate_ecto_enums(Map.get(struct, :enums))
-    end
+    # case Map.has_key?(struct, :enums) do
+    #   true -> Mix.Enums.generate_ecto_enums(Map.get(struct, :enums))
+    # end
+    # Mix.Schema.generate_migrations(Map.get(struct, :types))
+    # Mix.Schema.generate_schemas(Map.get(struct, :types))
+    # Mix.Schema.generate_context(Map.get(struct, :types))
   end
 end

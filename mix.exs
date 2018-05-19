@@ -47,7 +47,8 @@ defmodule ValiotApp.Mixfile do
       {:bcrypt_elixir, "~> 1.0"},
       {:guardian, "~> 1.0"},
       {:ecto_enum, "~> 1.0"},
-      {:cors_plug, "~> 1.5"}
+      {:cors_plug, "~> 1.5"},
+      {:inflex, "~> 1.10.0"}
     ]
   end
 
