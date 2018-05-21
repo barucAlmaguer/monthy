@@ -23,7 +23,7 @@ defmodule Mix.Tasks.Valiot.Gen.Api do
   defp createFiles({:ok, struct}) do
     IO.inspect(struct)
     Mix.Enums.generate_ecto_enums(Map.get(struct, :enums))
-    # Mix.Schema.generate_migrations(Map.get(struct, :types))
+    Mix.Migrations.generate_migrations(Map.get(struct, :types))
     Mix.Schema.generate_schemas(Map.get(struct, :types))
     Mix.Schema.generate_context(Map.get(struct, :types))
   end
