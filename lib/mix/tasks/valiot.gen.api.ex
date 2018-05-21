@@ -26,5 +26,6 @@ defmodule Mix.Tasks.Valiot.Gen.Api do
     Mix.Migrations.generate_migrations(Map.get(struct, :types))
     Mix.Schema.generate_schemas(Map.get(struct, :types))
     Mix.Schema.generate_context(Map.get(struct, :types))
+    Mix.GraphQL.generate_resolvers(Map.get(struct, :types))
   end
 end
