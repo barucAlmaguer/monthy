@@ -8,7 +8,8 @@ defmodule Mix.Tasks.Valiot.Gen.Api do
 
     case File.read(path) do
       {:ok, body} ->
-        createFiles(SdlProcessing.start_processing(body))
+        SdlProcessing.start_processing(body)
+        |> createFiles
 
       {:error, reason} ->
         IO.puts("There was an error when opening the file ): Reason: #{reason}")
@@ -20,11 +21,10 @@ defmodule Mix.Tasks.Valiot.Gen.Api do
   end
 
   defp createFiles({:ok, struct}) do
-    # case Map.has_key?(struct, :enums) do
-    #   true -> Mix.Enums.generate_ecto_enums(Map.get(struct, :enums))
-    # end
+    IO.inspect(struct)
+    Mix.Enums.generate_ecto_enums(Map.get(struct, :enums))
     # Mix.Schema.generate_migrations(Map.get(struct, :types))
-    # Mix.Schema.generate_schemas(Map.get(struct, :types))
-    # Mix.Schema.generate_context(Map.get(struct, :types))
+    Mix.Schema.generate_schemas(Map.get(struct, :types))
+    Mix.Schema.generate_context(Map.get(struct, :types))
   end
 end

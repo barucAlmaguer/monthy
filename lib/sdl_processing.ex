@@ -9,9 +9,12 @@ defmodule ValiotApp.SdlProcessing do
   end
 
   defp to_struct(body) do
+    enums = body |> extractEnums |> toMap(:enum, [])
+    types = body |> extractTypes |> toMap(:types, enums)
+
     struct = %{
-      types: body |> extractTypes |> toMap(:types),
-      enums: body |> extractEnums |> toMap(:enum)
+      types: types,
+      enums: enums
     }
 
     case Validations.invalid_types(struct) do
@@ -26,15 +29,15 @@ defmodule ValiotApp.SdlProcessing do
     valid_types =
       [
         "Float",
-        "Int",
-        "ID",
+        "Integer",
         "String",
         "Boolean",
-        "",
-        "NaiveDateTime",
+        "NaiveDatetime",
         "DateTime",
         "Date"
-      ] ++ Enum.map(enums, fn {k, _} -> Atom.to_string(k) end)
+      ] ++
+        Enum.map(enums, fn {k, _} -> Atom.to_string(k) end) ++
+        Enum.map(types, fn {k, _} -> "[#{Atom.to_string(k)}]" end)
 
     types =
       types
@@ -90,9 +93,9 @@ defmodule ValiotApp.SdlProcessing do
     |> List.flatten()
   end
 
-  defp attributeMap(lst, map \\ %{})
+  defp attributeMap(lst, enums, map \\ %{})
 
-  defp attributeMap([h | t], map) do
+  defp attributeMap([h | t], enums, map) do
     [name, body] = String.split(h, ~r/\s*:\s*/, parts: 2)
     [[type] | _] = Regex.scan(~r/\w*/, body)
     null = Regex.match?(~r/!/, body)
@@ -103,16 +106,40 @@ defmodule ValiotApp.SdlProcessing do
         nil -> nil
       end
 
-    attributeMap(t, Map.put(map, name, %{type: type, null: !null, default: default}))
+    valid_types = [
+      "Float",
+      "Integer",
+      "String",
+      "Boolean",
+      "NaiveDatetime",
+      "DateTime",
+      "Date"
+    ]
+
+    database =
+      cond do
+        type == "" -> :has_many
+        Enum.member?(valid_types, type) -> :normal
+        Enum.map(enums, fn {k, _} -> Atom.to_string(k) end) |> Enum.member?(type) -> :enum
+        true -> :belongs_to
+      end
+
+    type = if type == "", do: body, else: type
+
+    attributeMap(
+      t,
+      enums,
+      Map.put(map, name, %{type: type, null: !null, default: default, database: database})
+    )
   end
 
-  defp attributeMap([], map), do: map
+  defp attributeMap([], _, map), do: map
 
-  defp toMap(lst, type, map \\ Keyword.new())
+  defp toMap(lst, type, enums, map \\ Keyword.new())
 
-  defp toMap([], _, map), do: map
+  defp toMap([], _, _, map), do: map
 
-  defp toMap([h | t], type, map) do
+  defp toMap([h | t], type, enums, map) do
     lst =
       String.replace(h, ~r/\s*}/, "")
       |> String.split(" {")
@@ -127,11 +154,11 @@ defmodule ValiotApp.SdlProcessing do
     attrs =
       case type do
         :enum -> attrs
-        :types -> attrs |> attributeMap
+        :types -> attrs |> attributeMap(enums)
       end
 
     key = key |> String.trim() |> String.to_atom()
 
-    toMap(t, type, Keyword.put(map, key, attrs))
+    toMap(t, type, enums, Keyword.put(map, key, attrs))
   end
 end

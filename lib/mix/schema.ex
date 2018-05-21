@@ -1,4 +1,20 @@
 defmodule Mix.Schema do
+  def generate_schemas(types) do
+    paths = Mix.Phoenix.generator_paths()
+
+    Enum.each(types, fn {k, v} ->
+      ctx_path =
+        Mix.Phoenix.context_app_path(
+          :valiot_app,
+          "lib/valiot_app/api/#{k |> Inflex.underscore()}.ex"
+        )
+
+      Mix.Phoenix.copy_from(paths, "priv/templates/", [k: k, v: v], [
+        {:eex, "schema.exs", ctx_path}
+      ])
+    end)
+  end
+
   def generate_context(types) do
     paths = Mix.Phoenix.generator_paths()
 

@@ -5,19 +5,19 @@ defmodule ValiotApp.Validations do
     valid_types =
       [
         "Float",
-        "Int",
+        "Integer",
         "ID",
         "String",
         "Boolean",
-        "",
-        "NaiveDateTime",
+        "NaiveDatetime",
         "DateTime",
         "Date"
       ] ++
         Enum.map(enums, fn {k, _} -> Atom.to_string(k) end) ++
-        Enum.map(types, fn {k, _} -> Atom.to_string(k) end)
+        Enum.map(types, fn {k, _} -> Atom.to_string(k) end) ++
+        Enum.map(types, fn {k, _} -> "[#{Atom.to_string(k)}]" end)
 
-    Enum.map(types, fn {k, v} -> Enum.map(v, fn {type, val} -> Map.get(val, :type) end) end)
+    Enum.map(types, fn {_k, v} -> Enum.map(v, fn {_type, val} -> Map.get(val, :type) end) end)
     |> List.flatten()
     |> Enum.uniq()
     |> Enum.any?(fn t ->
