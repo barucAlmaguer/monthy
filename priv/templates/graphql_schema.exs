@@ -35,7 +35,7 @@ defmodule ValiotAppWeb.Schema do
 <% end %>end
 
   <%= for {schema, values} <- types do %>
-  input_object :update_<%= schema |> Inflex.underscore %>, type: <%= inspect schema |> Inflex.underscore |> String.to_atom %>_params do
+  input_object :update_<%= schema |> Inflex.underscore %>_params do
     <%= for {type, attrs} <- values do %><%= case Map.get(attrs, :database) do %>
     <% :normal -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
     <% :has_many -> %>
