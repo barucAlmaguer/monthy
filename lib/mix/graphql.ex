@@ -14,4 +14,32 @@ defmodule Mix.GraphQL do
       ])
     end)
   end
+
+  def generate_types(%{types: types, enums: enums}) do
+    paths = Mix.Phoenix.generator_paths()
+
+    ctx_path =
+      Mix.Phoenix.context_app_path(
+        :valiot_app,
+        "lib/valiot_app_web/schema/types.ex"
+      )
+
+    Mix.Phoenix.copy_from(paths, "priv/templates/", [enums: enums, types: types], [
+      {:eex, "types.exs", ctx_path}
+    ])
+  end
+
+  def generate_schema(%{types: types, enums: enums}) do
+    paths = Mix.Phoenix.generator_paths()
+
+    ctx_path =
+      Mix.Phoenix.context_app_path(
+        :valiot_app,
+        "lib/valiot_app_web/schema.ex"
+      )
+
+    Mix.Phoenix.copy_from(paths, "priv/templates/", [enums: enums, types: types], [
+      {:eex, "graphql_schema.exs", ctx_path}
+    ])
+  end
 end
