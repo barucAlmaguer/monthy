@@ -30,6 +30,7 @@ enum Step {
 ```
   * Run `mix valiot.gen.api /path/to/schema.graphql`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+  * Run the formatter with `mix format`
   * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
