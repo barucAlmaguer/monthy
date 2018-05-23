@@ -6,9 +6,7 @@ defmodule Mix.Migrations do
       ctx_path =
         Mix.Phoenix.context_app_path(
           :valiot_app,
-          "priv/repo/migrations/#{timestamp()}_create_#{
-            k |> Inflex.underscore() |> Inflex.pluralize()
-          }.exs"
+          "priv/repo/migrations/#{timestamp()}_create_#{k |> Inflex.underscore() |> Inflex.pluralize()}.exs"
         )
 
       :timer.sleep(1000)

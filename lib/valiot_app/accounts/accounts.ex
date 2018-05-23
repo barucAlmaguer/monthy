@@ -4,7 +4,7 @@ defmodule ValiotApp.Accounts do
   """
 
   import Ecto.Query, warn: false
-  alias ValiotApp.Repo
+  alias ValiotApp.ValiotRepo
 
   alias ValiotApp.Accounts.User
 

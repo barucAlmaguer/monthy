@@ -6,7 +6,7 @@
 use Mix.Config
 
 # General application configuration
-config :valiot_app, ecto_repos: [ValiotApp.Repo]
+config :valiot_app, ecto_repos: [ValiotApp.Repo, ValiotApp.ValiotRepo]
 
 # Configures the endpoint
 config :valiot_app, ValiotAppWeb.Endpoint,

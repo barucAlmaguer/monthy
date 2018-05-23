@@ -11,13 +11,6 @@ defmodule ValiotAppWeb.Schema.Types do
 
   # Objects
 
-  object :user do
-    field(:id, :id)
-    field(:name, :string)
-    field(:last_name, :string)
-    field(:email, :string)
-    field(:password, :string)
-  end
   <%= for {schema, values} <- types do %>
   object <%= inspect schema |> Inflex.underscore |> String.to_atom %> do
     field(:id, :id)
@@ -28,8 +21,4 @@ defmodule ValiotAppWeb.Schema.Types do
     <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> String.downcase |> String.to_atom %>)
 <% end %><% end %>end
 <% end %>
-
-  object :session do
-    field(:token, :string)
-  end
 end

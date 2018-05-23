@@ -4,7 +4,7 @@ defmodule ValiotAppWeb.Context do
   import Plug.Conn
   import Ecto.Query, only: [where: 2]
 
-  alias ValiotApp.Repo
+  alias ValiotApp.ValiotRepo
   alias ValiotApp.Accounts.User
 
   def init(opts), do: opts
@@ -29,7 +29,7 @@ defmodule ValiotAppWeb.Context do
   defp authorize(token) do
     User
     |> where(token: ^token)
-    |> Repo.one()
+    |> ValiotRepo.one()
     |> case do
       nil -> {:error, "Invalid authorization token"}
       user -> {:ok, user}
