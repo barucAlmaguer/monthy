@@ -14,7 +14,7 @@ type Author {
   lastName: String!
   dateOfBirth: Date
   posts: [Post]
-  coments: [Comment]
+  comments: [Comment]
 }
 
 type Post {
