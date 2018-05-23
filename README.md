@@ -9,23 +9,32 @@ To start your Phoenix server:
     * In case of DateTime put it as Datetime, so NaiveDatetime, Datetime, etc
     * Example of GraphQL schema
 ```
-type BlackBook {
-  brand: Brand
-  fillDate: Date
-  restTank: RestTank
-  volume: Float @defaultValue(value: 58)
+type Author {
+  name: String!
+  lastName: String!
+  dateOfBirth: Date
+  posts: [Post]
+  coments: [Comment]
 }
 
-type Beer {
-  brands: [Brand]
-  name: String! @defaultValue(value: "beer_name")
-  order: Order!
-  step: Step
+type Post {
+  author: Author
+  name: String!
+  body: String!
+  status: Status
+  comments: [Comment]
 }
 
-enum Step {
-  EMPTYING
-  FINISHED
+type Comment {
+  author: Author
+  post: Post
+  body: String!
+}
+
+enum Status {
+  APPROVED
+  PENDING
+  REJECTED
 }
 ```
   * Run `mix valiot.gen.api /path/to/schema.graphql`
