@@ -45,6 +45,6 @@ config :valiot_app, ValiotApp.Repo,
 
 config :valiot_app, ValiotApp.ValiotRepo,
   adapter: Ecto.Adapters.Postgres,
-  database: "valiot_app_dev",
+  database: "valiot_server_dev",
   hostname: "localhost",
   pool_size: 10
