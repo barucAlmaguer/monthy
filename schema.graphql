@@ -1,0 +1,27 @@
+type Author {
+  name: String!
+  lastName: String!
+  dateOfBirth: Date
+  posts: [Post]
+  comments: [Comment]
+}
+
+type Post {
+  author: Author
+  name: String!
+  body: String!
+  status: Status
+  comments: [Comment]
+}
+
+type Comment {
+  author: Author
+  post: Post
+  body: String!
+}
+
+enum Status {
+  APPROVED
+  PENDING
+  REJECTED
+}

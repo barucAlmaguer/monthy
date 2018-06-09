@@ -4,8 +4,15 @@ defmodule ValiotApp.Api do
   alias ValiotApp.Api
 
   <%= for {k, _} <- types do %><% singular_schema = k |> Inflex.underscore; module = inspect [Atom.to_string(k)] |> Module.concat %>
-  def list_<%= k |> Inflex.underscore |> Inflex.pluralize %> do
-    Repo.all(Api.<%= module %>)
+  def list_<%= k |> Inflex.underscore |> Inflex.pluralize %>(filters) do
+    filters
+    |> Enum.reduce(Api.<%= module %>, fn
+      {_, nil}, query ->
+        query
+      {:filter, filter}, query ->
+        query |> filter_with(filter)
+    end)
+    |> Repo.all()
   end
 
   def get_<%= singular_schema %>!(id), do: Repo.get!(Api.<%= module %>, id)
@@ -29,6 +36,13 @@ defmodule ValiotApp.Api do
 
   def change_<%= singular_schema %>(%Api.<%= module %>{} = <%= singular_schema %>) do
     Api.<%= module %>.changeset(<%= singular_schema %>, %{})
+  end
+
+  def filter_with(query, filter) do
+    Enum.reduce(filter, query, fn
+      {:matching, filter}, query ->
+        from q in query, where: ilike(q.filter, ^"%#{filter}%")
+    end)
   end
 <% end %>
 end
