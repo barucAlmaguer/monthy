@@ -1,5 +1,7 @@
 # ValiotApp
 
+[ ![Codeship Status for DisruptiveAngels/valiot-app](https://app.codeship.com/projects/2edd70f0-4fb1-0136-e065-4202c386f1e6/status?branch=master)](https://app.codeship.com/projects/293608)
+
 To start your Phoenix server:
 
   * Install dependencies with `mix deps.get`
