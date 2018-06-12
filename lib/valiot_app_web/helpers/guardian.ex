@@ -1,5 +1,5 @@
 defmodule ValiotAppWeb.Guardian do
-  use Guardian, otp_app: :valiot_app_api
+  use Guardian, otp_app: :valiot_app
   alias ValiotApp.Accounts
 
   def subject_for_token(user, _claims) do

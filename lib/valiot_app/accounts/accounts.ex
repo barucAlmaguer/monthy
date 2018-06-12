@@ -11,13 +11,13 @@ defmodule ValiotApp.Accounts do
   def store_token(%User{} = user, token) do
     user
     |> User.store_token_changeset(%{token: token})
-    |> Repo.update()
+    |> ValiotRepo.update()
   end
 
   def revoke_token(%User{} = user, token) do
     user
     |> User.store_token_changeset(%{token: token})
-    |> Repo.update()
+    |> ValiotRepo.update()
   end
 
   @doc """
@@ -30,7 +30,7 @@ defmodule ValiotApp.Accounts do
 
   """
   def list_users do
-    Repo.all(User)
+    ValiotRepo.all(User)
   end
 
   @doc """
@@ -47,8 +47,8 @@ defmodule ValiotApp.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
-  def get_user(id), do: Repo.get(User, id)
+  def get_user!(id), do: ValiotRepo.get!(User, id)
+  def get_user(id), do: ValiotRepo.get(User, id)
 
   @doc """
   Creates a user.
@@ -65,7 +65,7 @@ defmodule ValiotApp.Accounts do
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.registration_changeset(attrs)
-    |> Repo.insert()
+    |> ValiotRepo.insert()
   end
 
   @doc """
@@ -83,7 +83,7 @@ defmodule ValiotApp.Accounts do
   def update_user(%User{} = user, attrs) do
     user
     |> User.update_changeset(attrs)
-    |> Repo.update()
+    |> ValiotRepo.update()
   end
 
   @doc """
@@ -99,7 +99,7 @@ defmodule ValiotApp.Accounts do
 
   """
   def delete_user(%User{} = user) do
-    Repo.delete(user)
+    ValiotRepo.delete(user)
   end
 
   @doc """
