@@ -47,3 +47,134 @@ enum Status {
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+
+
+
+## Making Queries
+  * The following examples use the schema provided above.
+  * The initial data (Seeds) used can be found in: `lib/support/seeds.ex`, uncomment the section of *Authors Seeds* inside of this file.
+
+### To run a Query in Elixir tests section:
+  * Change the `@token` or eliminate it if not needed, in `error_filters_test.exs` 
+  * Run the tests provided in the repository with `mix test test/valiot_app_web/schema/query/error_filters_test.exs` 
+  
+
+### To run a Query with GraphiQL :
+  * Populate the Database with `mix run priv/repo/seeds.exs`
+
+#### Example 1
+  * Get children values of a field:  
+```
+{
+  authors{
+    name
+    dateOfBirth
+  }
+}
+```
+  * Output:
+```
+{
+  "data": {
+    "authors": [
+      {
+        "name": "George",
+        "dateOfBirth": "1990-01-01"
+      },
+      {
+        "name": "Henry",
+        "dateOfBirth": "1995-02-01"
+      },
+      {
+        "name": "Rebeca",
+        "dateOfBirth": "1999-05-07"
+      },
+      {
+        "name": "Anna",
+        "dateOfBirth": "1980-10-07"
+      },
+      {
+        "name": "Samantha",
+        "dateOfBirth": "2000-01-01"
+      }   
+    ]
+  }
+}
+```
+#### Example 2
+  * Get children values of a field using the keyword `filter`
+```
+{
+  authors(filter: {name: "Rebeca"}) {
+    lastName
+  }
+}
+```
+  * Output:
+```
+{
+  "data": {
+    "authors": [
+      {
+        "lastName": "Jones"
+      }
+    ]
+  }
+}
+```
+#### Example 3.1
+  * Get children values of a field using the keyword `filter` and a variable `$term`
+```
+query ($term: String) {
+    authors(filter: {last_name: $term}) {
+      name
+      dateOfBirth
+      lastName
+    }
+}
+```
+  * Define the variable in section *Query variables* :
+```
+{"term": "Williams"}
+```
+  * Output:
+```
+{
+  "data": {
+    "authors": [
+      {
+        "name": "George",
+        "lastName": "Williams",
+        "dateOfBirth": "1990-01-01"
+      }
+    ]
+  }
+}
+```
+#### Example 3.2
+  * Get children values of a field using the keyword `filter` and a variable `$term`
+```
+query ($term: Int) {
+    authors(filter: {id: $term}) {
+      lastName
+      dateOfBirth
+    }
+  }
+```
+  * Define the variable in section *Query variables* :
+```
+{"term": 1}
+```
+  * Output:
+```
+{
+  "data": {
+    "authors": [
+      {
+        "lastName": "Williams",
+        "dateOfBirth": "1990-01-01"
+      }
+    ]
+  }
+}
+```

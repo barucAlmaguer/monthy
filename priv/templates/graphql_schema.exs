@@ -25,6 +25,7 @@ defmodule ValiotAppWeb.Schema do
     <%= for {schema, values} <- types do %>
     @desc <%= inspect "Get all #{schema |> Inflex.pluralize |> Inflex.underscore}" %>
     field <%= inspect schema |> Inflex.pluralize |> Inflex.underscore |> String.to_atom %>, list_of(<%= inspect schema |> Inflex.underscore |> String.to_atom %>) do
+    arg(:filter, :filters_<%= schema |> Inflex.underscore %>)
       resolve(&ValiotApp.<%= inspect [Atom.to_string(schema)] |> Module.concat %>Resolver.all/2)
     end
 
@@ -43,6 +44,23 @@ defmodule ValiotAppWeb.Schema do
     <% :belongs_to -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>_id, :integer)
     <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> String.downcase |> String.to_atom %>)
 <% end %><% end %>
+  end
+<% end %>
+
+  <%= for {schema, values} <- types do %>
+  @desc <%= inspect "Filtering #{schema |> Inflex.underscore |> Inflex.pluralize}" %>
+  input_object :filters_<%= schema |> Inflex.underscore %> do
+    @desc "Matching id"
+    field(:id, :id)
+    <%= for {type, attrs} <- values do %>
+    <%= case Map.get(attrs, :database) do %>
+    <% :normal -> %>@desc <%= inspect "Matching #{type |> Inflex.underscore }" %>
+    field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
+    <% :has_many -> %>
+    <% :belongs_to -> %>
+    <% :enum -> %>@desc <%= inspect "Matching #{type |> Inflex.underscore }" %>
+    field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
+    <% end %><% end %>
   end
 <% end %>
 
