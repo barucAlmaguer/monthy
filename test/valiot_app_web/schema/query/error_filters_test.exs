@@ -2,12 +2,38 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   use ValiotAppWeb.ConnCase, async: true
 
   # Change to your corresponding Authorization Bearer token:
-  @token "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ2YWxpb3RfYXBwIiwiZXhwIjoxNTMxMTg4OTIxLCJpYXQiOjE1Mjg3Njk3MjEsImlzcyI6InZhbGlvdF9hcHAiLCJqdGkiOiJjYTE0NWJlOS1lMGIyLTQzMzgtODgyMy1mNTg2MTRhNmFmZDUiLCJuYmYiOjE1Mjg3Njk3MjAsInN1YiI6IjEiLCJ0eXAiOiJhY2Nlc3MifQ.Asre2h9_r2kArARIFFe4lmdeX8knUF2pXUKKEUZfatzwD1ISOv-8x5Diyr9l86ewclF8MlvW875fOye-2LhWAg"
+  @token "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ2YWxpb3RfYXBwIiwiZXhwIjoxNTMxNDk5NzE4LCJpYXQiOjE1MjkwODA1MTgsImlzcyI6InZhbGlvdF9hcHAiLCJqdGkiOiIyODY4NjVjZi1iN2UzLTQyMjctOWYzNS0xY2ViZGUwOWE1NTQiLCJuYmYiOjE1MjkwODA1MTcsInN1YiI6IjQiLCJ0eXAiOiJhY2Nlc3MifQ.I3PV52s4fdwtdSiIBS8irozcaTzCeFg3smtQp_E7apVvXK0_2Zh2mrtpDGuKt4VgVWmoPN4jlHHEgpUs--iHsw"
 
   # If you do not need a request header with a token feel free to erase them
 
+  setup_all do
+    Mix.Tasks.Valiot.Gen.Api.run(["#{File.cwd!()}/schema.graphql"])
+    IEx.Helpers.recompile()
+    System.cmd("mix", ["ecto.migrate"], env: [{"MIX_ENV", "test"}])
+    :ok
+  end
+
   setup do
-    ValiotApp.Seeds.run()
+    Code.eval_string(
+      "%ValiotApp.Api.Author{id: 1, last_name: \"Williams\", name: \"George\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string(
+      "%ValiotApp.Api.Author{id: 2, last_name: \"Smith\", name: \"Henry\", date_of_birth: ~D[1995-02-01]} |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string(
+      "%ValiotApp.Api.Author{id: 3, last_name: \"Jones\", name: \"Rebeca\", date_of_birth: ~D[1999-05-07]} |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string(
+      "%ValiotApp.Api.Author{id: 4, last_name: \"Johnson\", name: \"Anna\", date_of_birth: ~D[1980-10-07]} |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string("_ =
+      %ValiotApp.Api.Author{id: 5, last_name: \"Johnson\", name: \"Samantha\", date_of_birth: ~D[2000-01-01]}
+      |> ValiotApp.Repo.insert!()")
+    :ok
   end
 
   @query """

@@ -11,7 +11,7 @@ defmodule Mix.Migrations do
 
       :timer.sleep(1000)
 
-      Mix.Phoenix.copy_from(paths, "priv/templates/", [k: k, v: v], [
+      Mix.Helper.copy_from(paths, "priv/templates/", [k: k, v: v], [
         {:eex, "migration.exs", ctx_path}
       ])
     end)

@@ -9,9 +9,15 @@ defmodule Mix.GraphQL do
           "lib/valiot_app/resolvers/#{Inflex.underscore(k)}_resolver.ex"
         )
 
-      Mix.Phoenix.copy_from(paths, "priv/templates/", [k: k, v: v], [
-        {:eex, "resolver.exs", ctx_path}
-      ])
+      Mix.Helper.copy_from(
+        paths,
+        "priv/templates/",
+        [k: k, v: v],
+        [
+          {:eex, "resolver.exs", ctx_path}
+        ],
+        %{force: true}
+      )
     end)
   end
 
@@ -24,9 +30,15 @@ defmodule Mix.GraphQL do
         "lib/valiot_app_web/schema/types.ex"
       )
 
-    Mix.Phoenix.copy_from(paths, "priv/templates/", [enums: enums, types: types], [
-      {:eex, "types.exs", ctx_path}
-    ])
+    Mix.Helper.copy_from(
+      paths,
+      "priv/templates/",
+      [enums: enums, types: types],
+      [
+        {:eex, "types.exs", ctx_path}
+      ],
+      %{force: true}
+    )
   end
 
   def generate_schema(%{types: types, enums: enums}) do
@@ -38,8 +50,14 @@ defmodule Mix.GraphQL do
         "lib/valiot_app_web/schema.ex"
       )
 
-    Mix.Phoenix.copy_from(paths, "priv/templates/", [enums: enums, types: types], [
-      {:eex, "graphql_schema.exs", ctx_path}
-    ])
+    Mix.Helper.copy_from(
+      paths,
+      "priv/templates/",
+      [enums: enums, types: types],
+      [
+        {:eex, "graphql_schema.exs", ctx_path}
+      ],
+      %{force: true}
+    )
   end
 end
