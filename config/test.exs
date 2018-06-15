@@ -12,6 +12,8 @@ config :logger, level: :warn
 # Configure your database
 config :valiot_app, ValiotApp.Repo,
   adapter: Ecto.Adapters.Postgres,
+  # username: "postgres",
+  # password: "postgres",
   database: "valiot_app_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
@@ -19,5 +21,7 @@ config :valiot_app, ValiotApp.Repo,
 config :valiot_app, ValiotApp.ValiotRepo,
   adapter: Ecto.Adapters.Postgres,
   database: "valiot_server_test",
+  # username: "postgres",
+  # password: "postgres",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

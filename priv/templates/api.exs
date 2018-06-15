@@ -3,14 +3,20 @@ defmodule ValiotApp.Api do
   alias ValiotApp.Repo
   alias ValiotApp.Api
 
-  <%= for {k, _} <- types do %><% singular_schema = k |> Inflex.underscore; module = inspect [Atom.to_string(k)] |> Module.concat %>
+  <%= for {k, values} <- types do %><% singular_schema = k |> Inflex.underscore; module = inspect [Atom.to_string(k)] |> Module.concat %>
+
+  def list_<%= k |> Inflex.underscore |> Inflex.pluralize %> do
+    Repo.all(Api.<%= module %>)
+  end
+
   def list_<%= k |> Inflex.underscore |> Inflex.pluralize %>(filters) do
     filters
     |> Enum.reduce(Api.<%= module %>, fn
       {_, nil}, query ->
         query
+
       {:filter, filter}, query ->
-        query |> filter_with(filter)
+        query |> filter_<%= k |> Inflex.underscore |> Inflex.pluralize %>(filter)
     end)
     |> Repo.all()
   end
@@ -38,11 +44,18 @@ defmodule ValiotApp.Api do
     Api.<%= module %>.changeset(<%= singular_schema %>, %{})
   end
 
-  def filter_with(query, filter) do
+  def filter_<%= k |> Inflex.underscore |> Inflex.pluralize %>(query, filter) do
     Enum.reduce(filter, query, fn
-      {:matching, filter}, query ->
-        from q in query, where: ilike(q.filter, ^"%#{filter}%")
+      {:id, id}, query ->
+        from(q in query, where: q.id == ^id)
+      <%= for {type, attrs} <- values do %><%= case Map.get(attrs, :database) do %>
+      <% :normal -> %>{<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= type |> Inflex.underscore %>}, query ->
+      from(q in query, where: q.<%= type |> Inflex.underscore %> == ^<%= type |> Inflex.underscore %>)
+      <% :has_many -> %>
+      <% :belongs_to -> %>
+      <% :enum -> %>{<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= type |> Inflex.underscore %>}, query ->
+      from(q in query, where: q.<%= type |> Inflex.underscore  %> == ^<%= type |> Inflex.underscore  %>)<% end %>
+      <% end %>
     end)
-  end
-<% end %>
+  end<% end %>
 end
