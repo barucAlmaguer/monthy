@@ -9,7 +9,7 @@ type Author {
 type Post {
   author: Author
   name: String!
-  body: String!
+  body: String! @default(value: "Null")
   status: Status
   comments: [Comment]
 }
