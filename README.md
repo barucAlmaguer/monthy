@@ -14,7 +14,7 @@ To start your Phoenix server:
 ```
 type Author {
   name: String!
-  lastName: String!
+  lastName: String! @default(value: "null")
   dateOfBirth: Date
   posts: [Post]
   comments: [Comment]
@@ -23,7 +23,7 @@ type Author {
 type Post {
   author: Author
   name: String!
-  body: String!  @default(value: "Null")
+  body: String!
   status: Status
   comments: [Comment]
 }
@@ -53,15 +53,15 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 ## Making Queries
   * The following examples use the schema provided above.
-  * The initial data (Seeds) used can be found in: `error_filters_test.exs`.
 
 ### To run a Query in Elixir tests section:
   * Change the `@token` or eliminate it if not needed, in `error_filters_test.exs` 
-  * Run the tests provided in the repository with `mix test test/valiot_app_web/schema/query/error_filters_test.exs` 
+  * Run the tests provided in the repository with `mix test test/valiot_app_web/schema/query/error_filters_test.exs`
+  * Run deault value test provided with `mix test test/valiot_app_web/schema/query/default_value_test.exs`
   
 
 ### To run a Query with GraphiQL :
-  * Populate the Database and begin tests.
+  * Populate the Database with seeds in `/default_value_test.exs` by putting them in `seeds.ex` file and running `mix run priv/repo/seeds.exs`
 
 #### Example 1
   * Get children values of a field:  
@@ -179,3 +179,4 @@ query ($term: Int) {
   }
 }
 ```
+

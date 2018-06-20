@@ -15,24 +15,21 @@ defmodule ValiotApp.Schema.Query.DefaultValTests do
 
   setup do
     Code.eval_string(
-      "%ValiotApp.Api.Author{name: \"George\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Author{id: 1, name: \"George\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(
-      "henry =
-      %ValiotApp.Api.Author{name: \"Henry\", last_name: \"Smith\", date_of_birth: ~D[1995-02-01]} |> ValiotApp.Repo.insert!()"
+      "_ = %ValiotApp.Api.Author{id: 2, name: \"Henry\", date_of_birth: ~D[1995-02-01]} |> ValiotApp.Repo.insert!()"
     )
-
-    Code.eval_string("%ValiotApp.Api.Post{name: \"Hello World\", author: henry} |> ValiotApp.Repo.insert!()")
 
     :ok
   end
 
   @query """
   {
-    posts {
-      body
+    authors {
       name
+      lastName
     }
   }
   """
@@ -47,8 +44,9 @@ defmodule ValiotApp.Schema.Query.DefaultValTests do
 
     assert json_response(conn, 200) == %{
              "data" => %{
-               "posts" => [
-                 %{"body" => "Null", "name" => "Hello World"}
+               "authors" => [
+                 %{"name" => "George", "lastName" => "Williams"},
+                 %{"name" => "Henry", "lastName" => "null"}
                ]
              }
            }
