@@ -6,13 +6,6 @@ defmodule ValiotApp.Schema.Query.DefaultValTests do
 
   # If you do not need a request header with a token feel free to erase them
 
-  setup_all do
-    Mix.Tasks.Valiot.Gen.Api.run(["#{File.cwd!()}/schema.graphql"])
-    IEx.Helpers.recompile()
-    System.cmd("mix", ["ecto.migrate"], env: [{"MIX_ENV", "test"}])
-    :ok
-  end
-
   setup do
     Code.eval_string(
       "%ValiotApp.Api.Author{id: 1, name: \"George\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
