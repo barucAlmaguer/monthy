@@ -20,18 +20,23 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:error, "Not Authorized"}
   end
 
-  def create(args, %{context: %{current_user: _current_user}}) do
-    Api.create_<%= Atom.to_string(k) |> Inflex.underscore %>(args)
+  def create(args, _) do
+    {:ok, request} = Api.create_<%= Atom.to_string(k) |> Inflex.underscore %>(args)
+    Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, create_<%= Atom.to_string(k) |> Inflex.underscore %>: "*")
+    {:ok, request}
+
   end
 
   def create(_args, _info) do
     {:error, "Not Authorized"}
   end
 
-  def update(%{id: id, <%= Atom.to_string(k) |> Inflex.underscore %>: <%= Atom.to_string(k) |> Inflex.underscore %>_params}, %{context: %{current_user: _current_user}}) do
+  def update(%{id: id, <%= Atom.to_string(k) |> Inflex.underscore %>: <%= Atom.to_string(k) |> Inflex.underscore %>_params}, _) do
     case Api.get_<%= Atom.to_string(k) |> Inflex.underscore %>(id) do
       nil -> {:error, "Resource with id #{id} was not found"}
-      <%= Atom.to_string(k) |> Inflex.underscore %> -> Api.update_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>, <%= Atom.to_string(k) |> Inflex.underscore %>_params)
+      <%= Atom.to_string(k) |> Inflex.underscore %> -> {:ok, request} = Api.update_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>, <%= Atom.to_string(k) |> Inflex.underscore %>_params)
+      Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, update_<%= Atom.to_string(k) |> Inflex.underscore %>: "*")
+      {:ok, request}
     end
   end
 
@@ -39,10 +44,12 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:error, "Not Authorized"}
   end
 
-  def delete(%{id: id}, %{context: %{current_user: _current_user}}) do
+  def delete(%{id: id}, _) do
     case Api.get_<%= Atom.to_string(k) |> Inflex.underscore %>(id) do
       nil -> {:error, "Resource with id #{id} was not found"}
-      <%= Atom.to_string(k) |> Inflex.underscore %> -> Api.delete_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>)
+      <%= Atom.to_string(k) |> Inflex.underscore %> -> {:ok, request} = Api.delete_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>)
+      Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, delete_<%= Atom.to_string(k) |> Inflex.underscore %>: "*")
+      {:ok, request}
     end
   end
 
