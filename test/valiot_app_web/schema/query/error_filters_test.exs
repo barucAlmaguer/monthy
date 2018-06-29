@@ -244,4 +244,34 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
              }
            }
   end
+
+  @query """
+  query ($before: Datetime) {
+    authors(filter: {before: $before}) {
+      name
+    }
+  }
+  """
+  @variables %{"before" => DateTime.utc_now}
+  test "8. Authors filter before now" do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query, variables: @variables)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "authors" => [
+                 %{"name" => "George"},
+                 %{"name" => "Henry"},
+                 %{"name" => "Rebeca"},
+                 %{"name" => "Anna"},
+                 %{"name" => "Samantha"}
+               ]
+             }
+           }
+  end
 end

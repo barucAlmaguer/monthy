@@ -52,6 +52,10 @@ defmodule ValiotAppWeb.Schema do
   input_object :filters_<%= schema |> Inflex.underscore %> do
     @desc "Matching id"
     field(:id, :id)
+    @desc "time before"
+    field(:before, :datetime)
+    @desc "time after"
+    field(:after, :datetime)
     <%= for {type, attrs} <- values do %>
     <%= case Map.get(attrs, :database) do %>
     <% :normal -> %>@desc <%= inspect "Matching #{type |> Inflex.underscore }" %>
