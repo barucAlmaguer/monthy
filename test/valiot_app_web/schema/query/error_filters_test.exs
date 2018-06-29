@@ -246,7 +246,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   end
 
   @query """
-  query ($before: Datetime) {
+  query ($before: DateTime!) {
     authors(filter: {before: $before}) {
       name
     }
