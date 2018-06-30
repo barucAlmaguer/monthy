@@ -1,6 +1,8 @@
 defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver do
   alias ValiotApp.Api
 
+  #def all(args, %{context: %{current_user: _current_user}}) do
+
   def all(args, %{context: %{current_user: _current_user}}) do
     {:ok, Api.list_<%= Atom.to_string(k) |> Inflex.pluralize |> Inflex.underscore %>(args)}
   end
@@ -20,7 +22,7 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:error, "Not Authorized"}
   end
 
-  def create(args, _) do
+  def create(args, %{context: %{current_user: _current_user}}) do
     {:ok, request} = Api.create_<%= Atom.to_string(k) |> Inflex.underscore %>(args)
     Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, create_<%= Atom.to_string(k) |> Inflex.underscore %>: "*")
     {:ok, request}
@@ -31,7 +33,7 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:error, "Not Authorized"}
   end
 
-  def update(%{id: id, <%= Atom.to_string(k) |> Inflex.underscore %>: <%= Atom.to_string(k) |> Inflex.underscore %>_params}, _) do
+  def update(%{id: id, <%= Atom.to_string(k) |> Inflex.underscore %>: <%= Atom.to_string(k) |> Inflex.underscore %>_params}, %{context: %{current_user: _current_user}}) do
     case Api.get_<%= Atom.to_string(k) |> Inflex.underscore %>(id) do
       nil -> {:error, "Resource with id #{id} was not found"}
       <%= Atom.to_string(k) |> Inflex.underscore %> -> {:ok, request} = Api.update_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>, <%= Atom.to_string(k) |> Inflex.underscore %>_params)
@@ -44,7 +46,7 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:error, "Not Authorized"}
   end
 
-  def delete(%{id: id}, _) do
+  def delete(%{id: id}, %{context: %{current_user: _current_user}}) do
     case Api.get_<%= Atom.to_string(k) |> Inflex.underscore %>(id) do
       nil -> {:error, "Resource with id #{id} was not found"}
       <%= Atom.to_string(k) |> Inflex.underscore %> -> {:ok, request} = Api.delete_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>)

@@ -8,11 +8,11 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
 
   setup do
     Code.eval_string(
-      "%ValiotApp.Api.Author{id: 1, name: \"George\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Author{id: 6, name: \"Steven\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(
-      "_ = %ValiotApp.Api.Author{id: 2, name: \"Henry\", last_name: \"Smith\", date_of_birth: ~D[1995-02-01]} |> ValiotApp.Repo.insert!()"
+      "_ = %ValiotApp.Api.Author{id: 7, name: \"Peter\", last_name: \"Smith\", date_of_birth: ~D[1995-02-01]} |> ValiotApp.Repo.insert!()"
     )
 
     :ok
@@ -22,7 +22,8 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
   subscription {
     createAuthor {
       name
-      id
+      lastName
+      dateOfBirth
     }
   }
   """
@@ -32,7 +33,6 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
       name
       lastName
       dateOfBirth
-      id
     }
   }
   """
@@ -49,19 +49,24 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
     assert %{
              data: %{
                "createAuthor" => %{
-                 "author" => %{
-                   "id" => 3,
-                   "name" => "Jennifer",
-                   "lastName" => "Jones",
-                   "dateOfBirth" => "1992-01-01"
-                 }
+                 "dateOfBirth" => "1992-01-01",
+                 "lastName" => "Jones",
+                 "name" => "Jennifer"
                }
              }
            } = reply
 
     # check to see if we got subscription data
     expected = %{
-      result: %{data: %{"createAuthor" => %{"name" => "Jennifer", "id" => 3}}},
+      result: %{
+        data: %{
+          "createAuthor" => %{
+            "dateOfBirth" => "1992-01-01",
+            "lastName" => "Jones",
+            "name" => "Jennifer"
+          }
+        }
+      },
       subscriptionId: subscription_id
     }
 
@@ -73,16 +78,19 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
   subscription {
     updateAuthor {
       name
+      lastName
+      dateOfBirth
       id
     }
   }
   """
   @mutation """
   mutation ($input: UpdateAuthorParams!) {
-    updateAuthor(author: $input, id: 1) {
+    updateAuthor(author: $input, id: 6) {
       name
       lastName
       id
+      dateOfBirth
     }
   }
   """
@@ -93,16 +101,35 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
 
     # run a mutation to trigger the subscription
     author_input = %{
-      "name" => "Charles"
+      "name" => "Liam"
     }
 
     ref = push_doc(socket, @mutation, variables: %{"input" => author_input})
     assert_reply(ref, :ok, reply)
-    assert %{data: %{"updateAuthor" => %{"name" => "Charles", "lastName" => "Williams", "id" => 1}}} = reply
+
+    assert %{
+             data: %{
+               "updateAuthor" => %{
+                 "dateOfBirth" => "1990-01-01",
+                 "id" => "6",
+                 "lastName" => "Williams",
+                 "name" => "Liam"
+               }
+             }
+           } = reply
 
     # check to see if we got subscription data
     expected = %{
-      result: %{data: %{"updateAuthor" => %{"name" => "Charles", "id" => 1}}},
+      result: %{
+        data: %{
+          "updateAuthor" => %{
+            "dateOfBirth" => "1990-01-01",
+            "id" => "6",
+            "lastName" => "Williams",
+            "name" => "Liam"
+          }
+        }
+      },
       subscriptionId: subscription_id
     }
 
@@ -114,16 +141,19 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
   subscription {
     deleteAuthor {
       name
+      lastName
       id
+      dateOfBirth
     }
   }
   """
   @mutation """
   mutation {
-    deleteAuthor(id: 2) {
+    deleteAuthor(id: 7) {
       name
       lastName
       id
+      dateOfBirth
     }
   }
   """
@@ -136,11 +166,30 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
 
     ref = push_doc(socket, @mutation)
     assert_reply(ref, :ok, reply)
-    assert %{data: %{"deleteAuthor" => %{"name" => "Henry", "lastName" => "Smith", "id" => 2}}} = reply
+
+    assert %{
+             data: %{
+               "deleteAuthor" => %{
+                 "dateOfBirth" => "1995-02-01",
+                 "id" => "7",
+                 "lastName" => "Smith",
+                 "name" => "Peter"
+               }
+             }
+           } = reply
 
     # check to see if we got subscription data
     expected = %{
-      result: %{data: %{"deleteAuthor" => %{"name" => "Henry", "id" => 2}}},
+      result: %{
+        data: %{
+          "deleteAuthor" => %{
+            "dateOfBirth" => "1995-02-01",
+            "id" => "7",
+            "lastName" => "Smith",
+            "name" => "Peter"
+          }
+        }
+      },
       subscriptionId: subscription_id
     }
 
