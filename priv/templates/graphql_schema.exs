@@ -25,7 +25,9 @@ defmodule ValiotAppWeb.Schema do
     <%= for {schema, values} <- types do %>
     @desc <%= inspect "Get all #{schema |> Inflex.pluralize |> Inflex.underscore}" %>
     field <%= inspect schema |> Inflex.pluralize |> Inflex.underscore |> String.to_atom %>, list_of(<%= inspect schema |> Inflex.underscore |> String.to_atom %>) do
-    arg(:filter, :filters_<%= schema |> Inflex.underscore %>)
+      arg(:filter, :filters_<%= schema |> Inflex.underscore %>)
+      arg(:limit, :integer)
+      arg(:offset, :integer)
       resolve(&ValiotApp.<%= inspect [Atom.to_string(schema)] |> Module.concat %>Resolver.all/2)
     end
 
