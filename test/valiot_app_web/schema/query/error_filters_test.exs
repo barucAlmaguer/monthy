@@ -246,14 +246,14 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   end
 
   @query """
-  query ($before: DateTime!) {
-    authors(filter: {before: $before}) {
+  query ($after: DateTime!) {
+    authors(filter: {after: $after}) {
       name
     }
   }
   """
-  @variables %{"before" => DateTime.utc_now}
-  test "8. Authors filter before now" do
+  @variables %{"after" => "2018-07-03T15:52:11.330Z"}
+  test "8. Authors filter after" do
     response =
       build_conn()
       |> put_req_header(
