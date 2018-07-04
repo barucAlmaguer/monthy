@@ -48,13 +48,21 @@ defmodule ValiotApp.Api do
     Enum.reduce(filter, query, fn
       {:id, id}, query ->
         from(q in query, where: q.id == ^id)
-      <%= for {type, attrs} <- values do %><%= case Map.get(attrs, :database) do %>
-      <% :normal -> %>{<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= type |> Inflex.underscore %>}, query ->
-      from(q in query, where: q.<%= type |> Inflex.underscore %> == ^<%= type |> Inflex.underscore %>)
-      <% :has_many -> %>
-      <% :belongs_to -> %>
-      <% :enum -> %>{<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= type |> Inflex.underscore %>}, query ->
-      from(q in query, where: q.<%= type |> Inflex.underscore  %> == ^<%= type |> Inflex.underscore  %>)<% end %>
+      <%= for {type, attrs} <- values do %>
+        <%= case Map.get(attrs, :database) do %>
+          <% :normal -> %>{<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= type |> Inflex.underscore %>}, query ->
+          <%= case Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom do %>
+            <% :string -> %>
+              from q in query, where: ilike(q.<%= type |> Inflex.underscore  %>, ^"%#{<%= type |> Inflex.underscore  %>}%")
+            <% _ -> %>
+            <%= Map.get(attrs, :type) %>
+            from(q in query, where: q.<%= type |> Inflex.underscore %> == ^<%= type |> Inflex.underscore %>)
+          <% end %>
+          <% :has_many -> %>
+          <% :belongs_to -> %>
+          <% :enum -> %>{<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= type |> Inflex.underscore %>}, query ->
+          from(q in query, where: q.<%= type |> Inflex.underscore  %> == ^<%= type |> Inflex.underscore  %>)
+        <% end %>
       <% end %>
     end)
   end<% end %>
