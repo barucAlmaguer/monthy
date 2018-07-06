@@ -11,6 +11,7 @@ defmodule ValiotAppWeb.SubscriptionCase do
       # Import conveniences for testing with channels
       use ValiotAppWeb.ChannelCase
       use Absinthe.Phoenix.SubscriptionTest, schema: ValiotAppWeb.Schema
+      use Phoenix.ConnTest
 
       setup do
         {:ok, socket} = Phoenix.ChannelTest.connect(ValiotAppWeb.UserSocket, %{})
