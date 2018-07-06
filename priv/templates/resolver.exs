@@ -1,8 +1,6 @@
 defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver do
   alias ValiotApp.Api
 
-  #def all(args, %{context: %{current_user: _current_user}}) do
-
   def all(args, %{context: %{current_user: _current_user}}) do
     {:ok, Api.list_<%= Atom.to_string(k) |> Inflex.pluralize |> Inflex.underscore %>(args)}
   end
@@ -26,7 +24,6 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:ok, request} = Api.create_<%= Atom.to_string(k) |> Inflex.underscore %>(args)
     Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, create_<%= Atom.to_string(k) |> Inflex.underscore %>: "*")
     {:ok, request}
-
   end
 
   def create(_args, _info) do
