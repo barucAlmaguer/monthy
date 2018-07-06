@@ -5,6 +5,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   @token "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ2YWxpb3RfYXBwIiwiZXhwIjoxNTMxNDk5NzE4LCJpYXQiOjE1MjkwODA1MTgsImlzcyI6InZhbGlvdF9hcHAiLCJqdGkiOiIyODY4NjVjZi1iN2UzLTQyMjctOWYzNS0xY2ViZGUwOWE1NTQiLCJuYmYiOjE1MjkwODA1MTcsInN1YiI6IjQiLCJ0eXAiOiJhY2Nlc3MifQ.I3PV52s4fdwtdSiIBS8irozcaTzCeFg3smtQp_E7apVvXK0_2Zh2mrtpDGuKt4VgVWmoPN4jlHHEgpUs--iHsw"
 
   # If you do not need a request header with a token feel free to erase them
+
   setup do
     Code.eval_string(
       "%ValiotApp.Api.Author{id: 1, last_name: \"Williams\", name: \"George\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
