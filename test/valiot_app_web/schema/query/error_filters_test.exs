@@ -60,12 +60,12 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   @query """
   {
-    authors(filter: {name: "Rebeca"}) {
+    authors(filter: {name: "beca"}) {
       name
     }
   }
   """
-  test "2. Authors filtered by name: Rebeca " do
+  test "2. Authors filtered by name: beca " do
     response =
       build_conn()
       |> put_req_header(

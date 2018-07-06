@@ -9,9 +9,15 @@ defmodule Mix.Schema do
           "lib/valiot_app/api/#{k |> Inflex.underscore()}.ex"
         )
 
-      Mix.Helper.copy_from(paths, "priv/templates/", [k: k, v: v], [
-        {:eex, "schema.exs", ctx_path}
-      ])
+      Mix.Helper.copy_from(
+        paths,
+        "priv/templates/",
+        [k: k, v: v],
+        [
+          {:eex, "schema.exs", ctx_path}
+        ],
+        %{force: true}
+      )
     end)
   end
 
@@ -24,8 +30,14 @@ defmodule Mix.Schema do
         "lib/valiot_app/api/api.ex"
       )
 
-    Mix.Helper.copy_from(paths, "priv/templates/", [types: types], [
-      {:eex, "api.exs", ctx_path}
-    ])
+    Mix.Helper.copy_from(
+      paths,
+      "priv/templates/",
+      [types: types],
+      [
+        {:eex, "api.exs", ctx_path}
+      ],
+      %{force: true}
+    )
   end
 end

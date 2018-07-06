@@ -1,6 +1,6 @@
 type Author {
   name: String!
-  lastName: String!
+  lastName: String! @default(value: "null")
   dateOfBirth: Date
   posts: [Post]
   comments: [Comment]

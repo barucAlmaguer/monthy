@@ -9,11 +9,12 @@ To start your Phoenix server:
     * Do not put ID's in the schemas
     * Use Integer instead of Int for schema
     * In case of DateTime put it as Datetime, so NaiveDatetime, Datetime, etc
+    * Add default values with `@default(value: my_value)`
     * Example of GraphQL schema
 ```
 type Author {
   name: String!
-  lastName: String!
+  lastName: String! @default(value: "null")
   dateOfBirth: Date
   posts: [Post]
   comments: [Comment]
@@ -56,10 +57,9 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 ### To run the tests:
   * Change the `@token` or eliminate it if not needed, in `error_filters_test.exs` 
   * Run the tests provided in the repository with `mix test` 
-  
 
 ### To run a Query with GraphiQL :
-  * Populate the Database with `mix run priv/repo/seeds.exs`
+  * Populate the Database with seeds in `/default_value_test.exs` by putting them in `seeds.ex` file and running `mix run priv/repo/seeds.exs`
 
 #### Example 1
   * Get children values of a field:  
@@ -177,6 +177,7 @@ query ($term: Int) {
   }
 }
 ```
+
 
 ## Subscriptions and Mutations
   * Run the test provided for subscriptions with `mix test`
