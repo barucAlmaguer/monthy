@@ -55,8 +55,7 @@ defmodule ValiotApp.Api do
             <% :string -> %>
               from q in query, where: ilike(q.<%= type |> Inflex.underscore  %>, ^"%#{<%= type |> Inflex.underscore  %>}%")
             <% _ -> %>
-            <%= Map.get(attrs, :type) %>
-            from(q in query, where: q.<%= type |> Inflex.underscore %> == ^<%= type |> Inflex.underscore %>)
+              from(q in query, where: q.<%= type |> Inflex.underscore %> == ^<%= type |> Inflex.underscore %>)
           <% end %>
           <% :has_many -> %>
           <% :belongs_to -> %>

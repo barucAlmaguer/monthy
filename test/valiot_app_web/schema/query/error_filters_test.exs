@@ -24,7 +24,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     )
 
     Code.eval_string("_ =
-      %ValiotApp.Api.Author{id: 5, last_name: \"Johnson\", name: \"Samantha\", date_of_birth: ~D[2000-01-01]}
+      %ValiotApp.Api.Author{id: 5, active: true, last_name: \"Johnson\", name: \"Samantha\", date_of_birth: ~D[2000-01-01]}
       |> ValiotApp.Repo.insert!()")
     :ok
   end
@@ -212,6 +212,31 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   end
 
   @query """
+  {
+    authors(filter: {active: true}) {
+      name
+    }
+  }
+  """
+  test "8. Authors filter by Boolean" do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "authors" => [
+                 %{"name" => "Samantha"}
+               ]
+             }
+           }
+  end
+
+  @query """
   query ($term: Int) {
     authors(filter: {id: $term}) {
       lastName
@@ -220,7 +245,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => 1}
-  test "8. Authors filter by ID" do
+  test "9. Authors filter by ID" do
     response =
       build_conn()
       |> put_req_header(
