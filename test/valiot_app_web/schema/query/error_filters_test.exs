@@ -15,10 +15,10 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   setup do
     Code.eval_string(
-      "%ValiotApp.Api.Comment{id: 1, authorId: 1, body: \"te quedo conganas\" |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Comment{id: 1, authorId: 1, body: \"te quedo conganas\"}|> ValiotApp.Repo.insert!()"
     )
     Code.eval_string(
-      "%ValiotApp.Api.Comment{id: 2, authorId: 1, body: \"te quedo chido\" |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Comment{id: 2, authorId: 1, body: \"te quedo chido\"}|> ValiotApp.Repo.insert!()"
     )
     Code.eval_string(
       "%ValiotApp.Api.Author{id: 1, last_name: \"Williams\", name: \"George\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
