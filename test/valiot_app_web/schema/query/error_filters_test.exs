@@ -15,6 +15,12 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   setup do
     Code.eval_string(
+      "%ValiotApp.Api.Comment{id: 1, authorId: 1, body:\"te quedo conganas\" |> ValiotApp.Repo.insert!()"
+    )
+    Code.eval_string(
+      "%ValiotApp.Api.Comment{id: 2, authorId: 1, body:\"te quedo chido\" |> ValiotApp.Repo.insert!()"
+    )
+    Code.eval_string(
       "%ValiotApp.Api.Author{id: 1, last_name: \"Williams\", name: \"George\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
     )
 
@@ -241,6 +247,36 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
                "authors" => [
                  %{"dateOfBirth" => "1990-01-01", "lastName" => "Williams"}
                ]
+             }
+           }
+  end
+
+  @query """
+  query ($term: Int) {
+    author(id: $term) {
+      comments(filter:{id:term}){
+        id
+      }
+    }
+  }
+  """
+  @variables %{"term" => 1}
+  test "9. Authors with many assoc in comments" do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query, variables: @variables)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "author" => %{
+                 "comments" => [
+                   %{"id" => "1"}
+                 ]
+               }
              }
            }
   end
