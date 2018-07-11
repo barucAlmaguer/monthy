@@ -32,7 +32,7 @@ defmodule ValiotApp.Api do
       {:filter, filter}, query ->
         query |> filter_<%= k |> Inflex.underscore |> Inflex.pluralize %>(filter)
     end)
-    from(q in query, where: field(q, ^val) == ^item.id) |>
+    from(q in query, where: field(q, ^field_belong) == ^item.id) |>
     Repo.all()
   end
 
