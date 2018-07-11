@@ -15,12 +15,6 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   setup do
     Code.eval_string(
-      "%ValiotApp.Api.Comment{id: 1, authorId: 1, body: \"te quedo conganas\"}|> ValiotApp.Repo.insert!()"
-    )
-    Code.eval_string(
-      "%ValiotApp.Api.Comment{id: 2, authorId: 1, body: \"te quedo chido\"}|> ValiotApp.Repo.insert!()"
-    )
-    Code.eval_string(
       "%ValiotApp.Api.Author{id: 1, last_name: \"Williams\", name: \"George\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
     )
 
@@ -34,6 +28,25 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
     Code.eval_string(
       "%ValiotApp.Api.Author{id: 4, last_name: \"Johnson\", name: \"Anna\", date_of_birth: ~D[1980-10-07]} |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string(
+      "%ValiotApp.Api.Comment{
+        author_id: 1,
+        body: \"heyy\",
+        id: 1,
+        inserted_at: ~N[2018-07-11 23:08:17.345950],
+        updated_at: ~N[2018-07-11 23:08:17.345957]
+      }|> ValiotApp.Repo.insert!()"
+    )
+    Code.eval_string(
+      "%ValiotApp.Api.Comment{
+        author_id: 1,
+        body: \"how are you\",
+        id: 2,
+        inserted_at: ~N[2018-07-11 23:08:17.345950],
+        updated_at: ~N[2018-07-11 23:08:17.345957]
+      }|> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string("_ =
@@ -254,7 +267,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   @query """
   query ($term: Int) {
     author(id: $term) {
-      comments(filter:{id:term}){
+      comments(filter:{id:$term}){
         id
       }
     }
