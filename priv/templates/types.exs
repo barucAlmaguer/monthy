@@ -17,7 +17,13 @@ defmodule ValiotAppWeb.Schema.Types do
     field(:filter, :string)
     <%= for {type, attrs} <- values do %><%= case Map.get(attrs, :database) do %>
     <% :normal -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
-    <% :has_many -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, list_of(<%= inspect type |> Inflex.singularize |> Inflex.underscore |> String.to_atom %>), resolve: assoc(<%= inspect type |> Inflex.underscore |> String.to_atom %>))
+    <% :has_many -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, list_of(<%= inspect type |> Inflex.singularize |> Inflex.underscore |> String.to_atom %>) do
+      arg(:filter, :filters_<%= inspect type |> Inflex.underscore %>)
+      resolve(&ValiotApp.<%= inspect type |> Inflex.camelize %>Resolver.all/3)
+    end
+
+
+    resolve: assoc(<%= inspect type |> Inflex.underscore |> String.to_atom %>))
     <% :belongs_to -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect type |> Inflex.underscore |> String.to_atom %>, resolve: assoc(<%= inspect type |> Inflex.underscore |> String.to_atom %>))
     <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> String.downcase |> String.to_atom %>)
 <% end %><% end %>end

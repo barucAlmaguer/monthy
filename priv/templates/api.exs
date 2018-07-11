@@ -21,6 +21,21 @@ defmodule ValiotApp.Api do
     |> Repo.all()
   end
 
+  def list_<%= k |> Inflex.underscore |> Inflex.pluralize %>(filters, item) do
+    field_belong = item.__struct__ |> to_string() |> String.split(".") |> List.last |>
+    String.downcase |> Kernel.<>("_id") |>String.to_atom
+    query = filters
+    |> Enum.reduce(Api.<%= module %>, fn
+      {_, nil}, query ->
+        query
+
+      {:filter, filter}, query ->
+        query |> filter_<%= k |> Inflex.underscore |> Inflex.pluralize %>(filter)
+    end)
+    from(q in query, where: field(q, ^val) == ^item.id) |>
+    Repo.all()
+  end
+
   def get_<%= singular_schema %>!(id), do: Repo.get!(Api.<%= module %>, id)
   def get_<%= singular_schema %>(id), do: Repo.get(Api.<%= module %>, id)
 
