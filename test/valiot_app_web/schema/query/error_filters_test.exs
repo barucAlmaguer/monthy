@@ -30,24 +30,20 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
       "%ValiotApp.Api.Author{id: 4, last_name: \"Johnson\", name: \"Anna\", date_of_birth: ~D[1980-10-07]} |> ValiotApp.Repo.insert!()"
     )
 
-    Code.eval_string(
-      "%ValiotApp.Api.Comment{
+    Code.eval_string("%ValiotApp.Api.Comment{
         author_id: 1,
         body: \"heyy\",
         id: 1,
         inserted_at: ~N[2018-07-11 23:08:17.345950],
         updated_at: ~N[2018-07-11 23:08:17.345957]
-      }|> ValiotApp.Repo.insert!()"
-    )
-    Code.eval_string(
-      "%ValiotApp.Api.Comment{
+      }|> ValiotApp.Repo.insert!()")
+    Code.eval_string("%ValiotApp.Api.Comment{
         author_id: 1,
         body: \"how are you\",
         id: 2,
         inserted_at: ~N[2018-07-11 23:08:17.345950],
         updated_at: ~N[2018-07-11 23:08:17.345957]
-      }|> ValiotApp.Repo.insert!()"
-    )
+      }|> ValiotApp.Repo.insert!()")
 
     Code.eval_string("_ =
       %ValiotApp.Api.Author{id: 5, last_name: \"Johnson\", name: \"Samantha\", date_of_birth: ~D[2000-01-01]}
