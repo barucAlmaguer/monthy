@@ -12,9 +12,11 @@ defmodule ValiotApp.Application do
       supervisor(ValiotApp.Repo, []),
       supervisor(ValiotApp.ValiotRepo, []),
       # Start the endpoint when the application starts
-      supervisor(ValiotAppWeb.Endpoint, [])
+      supervisor(ValiotAppWeb.Endpoint, []),
       # Start your own worker by calling: ValiotApp.Worker.start_link(arg1, arg2, arg3)
       # worker(ValiotApp.Worker, [arg1, arg2, arg3]),
+
+      supervisor(Absinthe.Subscription, [ValiotAppWeb.Endpoint])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
