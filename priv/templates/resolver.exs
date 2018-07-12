@@ -1,6 +1,11 @@
 defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver do
   alias ValiotApp.Api
 
+
+  def all(item, args, %{context: %{current_user: _current_user}}) do
+    {:ok, Api.list_<%= Atom.to_string(k) |> Inflex.pluralize |> Inflex.underscore %>(args, item)}
+  end
+
   def all(args, %{context: %{current_user: _current_user}}) do
     {:ok, Api.list_<%= Atom.to_string(k) |> Inflex.pluralize |> Inflex.underscore %>(args)}
   end

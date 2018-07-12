@@ -23,6 +23,21 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
       "%ValiotApp.Api.Author{id: 4, last_name: \"Johnson\", name: \"Anna\", date_of_birth: ~D[1980-10-07]} |> ValiotApp.Repo.insert!()"
     )
 
+    Code.eval_string("%ValiotApp.Api.Comment{
+        author_id: 1,
+        body: \"heyy\",
+        id: 1,
+        inserted_at: ~N[2018-07-11 23:08:17.345950],
+        updated_at: ~N[2018-07-11 23:08:17.345957]
+      }|> ValiotApp.Repo.insert!()")
+    Code.eval_string("%ValiotApp.Api.Comment{
+        author_id: 1,
+        body: \"how are you\",
+        id: 2,
+        inserted_at: ~N[2018-07-11 23:08:17.345950],
+        updated_at: ~N[2018-07-11 23:08:17.345957]
+      }|> ValiotApp.Repo.insert!()")
+
     Code.eval_string("_ =
       %ValiotApp.Api.Author{id: 5, active: true, last_name: \"Johnson\", name: \"Samantha\", date_of_birth: ~D[2000-01-01]}
       |> ValiotApp.Repo.insert!()")
@@ -264,14 +279,17 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   end
 
   @query """
-  query ($limit: Int, $offset: Int) {
-    authors(limit: $limit, offset: $offset ) {
-      name
+  
+  query ($term: Int) {
+    author(id: $term) {
+      comments(filter:{id:$term}){
+        id
+      }
     }
   }
   """
-  @variables %{"limit" => 1, "offset" => 1}
-  test "9. Authors using limit and offset" do
+  @variables %{"term" => 1}
+  test "10. Authors with many assoc in comments" do
     response =
       build_conn()
       |> put_req_header(
@@ -282,11 +300,12 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
     assert json_response(response, 200) == %{
              "data" => %{
-               "authors" => [
-                 %{"name" => "Henry"}
-               ]
+               "author" => %{
+                 "comments" => [
+                   %{"id" => "1"}
+                 ]
+               }
              }
            }
   end
-
 end
