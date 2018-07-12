@@ -279,7 +279,34 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   end
 
   @query """
+  query ($after: DateTime!) {
+    authors(filter: {after: $after}) {
+      name
+    }
+  }
+  """
+  @variables %{"after" => "2018-07-03T15:52:11.330Z"}
+  test "10. Authors filter after" do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query, variables: @variables)
+
+    assert json_response(response, 200) == %{
+             "data" => %{ "authors" => [
+                 %{"name" => "George"},
+                 %{"name" => "Henry"},
+                 %{"name" => "Rebeca"},
+                 %{"name" => "Anna"},
+                 %{"name" => "Samantha"}
+               ] }
+           }
+  end
   
+  @query """
   query ($term: Int) {
     author(id: $term) {
       comments(filter:{id:$term}){
@@ -289,7 +316,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => 1}
-  test "10. Authors with many assoc in comments" do
+  test "11. Authors with many assoc in comments" do
     response =
       build_conn()
       |> put_req_header(
