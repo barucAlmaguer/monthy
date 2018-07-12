@@ -93,4 +93,27 @@ defmodule ValiotAppWeb.Schema do
       resolve(&ValiotApp.<%= inspect [Atom.to_string(schema)] |> Module.concat %>Resolver.delete/2)
     end
 <% end %>end
+
+  subscription do
+    <%= for {schema, values} <- types do %>
+    field :update_<%= schema |> Inflex.underscore %>, <%= inspect schema |> Inflex.underscore |> String.to_atom %> do
+      config(fn _args, _info ->
+        {:ok, topic: "*"}
+      end)
+    end
+
+    field :create_<%= schema |> Inflex.underscore %>, <%= inspect schema |> Inflex.underscore |> String.to_atom %> do
+      config(fn _args, _info ->
+        {:ok, topic: "*"}
+      end)
+    end
+
+    field :delete_<%= schema |> Inflex.underscore %>, <%= inspect schema |> Inflex.underscore |> String.to_atom %> do
+      config(fn _args, _info ->
+        {:ok, topic: "*"}
+      end)
+    end
+  <% end %>
+  end
+
 end

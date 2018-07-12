@@ -9,11 +9,12 @@ To start your Phoenix server:
     * Do not put ID's in the schemas
     * Use Integer instead of Int for schema
     * In case of DateTime put it as Datetime, so NaiveDatetime, Datetime, etc
+    * Add default values with `@default(value: my_value)`
     * Example of GraphQL schema
 ```
 type Author {
   name: String!
-  lastName: String!
+  lastName: String! @default(value: "null")
   dateOfBirth: Date
   posts: [Post]
   comments: [Comment]
@@ -61,15 +62,13 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 
 ## Making Queries
   * The following examples use the schema provided above.
-  * The initial data (Seeds) used can be found in: `lib/support/seeds.ex`, uncomment the section of *Authors Seeds* inside of this file.
-
+  
 ### To run a Query in Elixir tests section:
   * Change the `@token` or eliminate it if not needed, in `error_filters_test.exs`
   * Run the tests provided in the repository with `mix test test/valiot_app_web/schema/query/error_filters_test.exs`
 
-
 ### To run a Query with GraphiQL :
-  * Populate the Database with `mix run priv/repo/seeds.exs`
+  * Populate the Database with seeds in `/default_value_test.exs` by putting them in `seeds.ex` file and running `mix run priv/repo/seeds.exs`
 
 #### Example 1
   * Get children values of a field:  
@@ -187,3 +186,94 @@ query ($term: Int) {
   }
 }
 ```
+
+
+## Subscriptions and Mutations
+  * Run the test provided for subscriptions with `mix test`
+
+### Example 1
+  * Subscribe to *Create*
+```
+subscription {
+  createAuthor {
+    name
+    lastName
+    dateOfBirth
+  }
+}
+```
+  * Trigger the subscription with a mutation `createAuthor`
+```
+mutation {
+  createAuthor(name: "Jennifer", lastName: "Jones", dateOfBirth: "1992-01-01") {
+    name
+    lastName
+    dateOfBirth
+  }
+}
+```
+  * Output of the subscription:
+```
+{
+  "data": {
+    "createAuthor": [
+      {
+        "dateOfBirth": "1992-01-01",
+        "lastName": "Jones",
+        "name": "Jennifer"
+      }
+    ]
+  }
+}
+```
+### Example 2
+  * Subscribe to *Update*
+```
+subscription {
+  updateAuthor {
+    name
+    lastName
+    dateOfBirth
+    id
+  }
+}
+```
+  * Trigger the subscription with a mutation `updateAuthor`
+```
+mutation ($input: UpdateAuthorParams) {
+  updateAuthor(author: $input, id: 6) {
+    name
+    lastName
+    id
+    dateOfBirth
+  }
+}
+```
+  * Define the variable in section *Query variables* :
+```
+{"input": {"name": "Liam"}}
+```
+## Example 3
+  * Subscribe to *Delete*
+```
+subscription {
+  deleteAuthor {
+    name
+    lastName
+    id
+    dateOfBirth
+  }
+}
+```
+  * Trigger the subscription with a mutation `deleteAuthor`
+```
+mutation {
+  deleteAuthor(id: 7) {
+    name
+    lastName
+    id
+    dateOfBirth
+  }
+}
+```
+

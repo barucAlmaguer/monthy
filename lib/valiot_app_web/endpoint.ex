@@ -1,5 +1,6 @@
 defmodule ValiotAppWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :valiot_app
+  use Absinthe.Phoenix.Endpoint
 
   socket("/socket", ValiotAppWeb.UserSocket)
 

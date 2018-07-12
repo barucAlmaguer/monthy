@@ -1,5 +1,6 @@
 defmodule ValiotAppWeb.UserSocket do
   use Phoenix.Socket
+  use Absinthe.Phoenix.Socket, schema: ValiotAppWeb.Schema
 
   ## Channels
   # channel "room:*", ValiotAppWeb.RoomChannel
