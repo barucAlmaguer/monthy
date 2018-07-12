@@ -54,7 +54,7 @@ defmodule ValiotAppWeb.Schema do
   input_object :filters_<%= schema |> Inflex.underscore %> do
     @desc "Matching id"
     field(:id, :id)
-    @desc "ilter of datetime before and including date"
+    @desc "filter of datetime before and including date"
     field(:before, :datetime)
     @desc "filter of datetime after and including date"
     field(:after, :datetime)
