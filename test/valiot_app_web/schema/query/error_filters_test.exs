@@ -306,6 +306,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
            }
   end
   
+  @query """
   query ($term: Int) {
     author(id: $term) {
       comments(filter:{id:$term}){
