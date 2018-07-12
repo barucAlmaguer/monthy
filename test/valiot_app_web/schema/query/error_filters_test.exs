@@ -6,13 +6,6 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   # If you do not need a request header with a token feel free to erase them
 
-  setup_all do
-    Mix.Tasks.Valiot.Gen.Api.run(["#{File.cwd!()}/schema.graphql"])
-    IEx.Helpers.recompile()
-    System.cmd("mix", ["ecto.migrate"], env: [{"MIX_ENV", "test"}])
-    :ok
-  end
-
   setup do
     Code.eval_string(
       "%ValiotApp.Api.Author{id: 1, last_name: \"Williams\", name: \"George\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
@@ -46,7 +39,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
       }|> ValiotApp.Repo.insert!()")
 
     Code.eval_string("_ =
-      %ValiotApp.Api.Author{id: 5, last_name: \"Johnson\", name: \"Samantha\", date_of_birth: ~D[2000-01-01]}
+      %ValiotApp.Api.Author{id: 5, active: true, last_name: \"Johnson\", name: \"Samantha\", date_of_birth: ~D[2000-01-01]}
       |> ValiotApp.Repo.insert!()")
     :ok
   end
@@ -82,12 +75,12 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   @query """
   {
-    authors(filter: {name: "Rebeca"}) {
+    authors(filter: {name: "beca"}) {
       name
     }
   }
   """
-  test "2. Authors filtered by name: Rebeca " do
+  test "2. Authors filtered by name: beca " do
     response =
       build_conn()
       |> put_req_header(
@@ -234,6 +227,31 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   end
 
   @query """
+  {
+    authors(filter: {active: true}) {
+      name
+    }
+  }
+  """
+  test "8. Authors filter by Boolean" do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "authors" => [
+                 %{"name" => "Samantha"}
+               ]
+             }
+           }
+  end
+
+  @query """
   query ($term: Int) {
     authors(filter: {id: $term}) {
       lastName
@@ -242,7 +260,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => 1}
-  test "8. Authors filter by ID" do
+  test "9. Authors filter by ID" do
     response =
       build_conn()
       |> put_req_header(
@@ -261,6 +279,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   end
 
   @query """
+  
   query ($term: Int) {
     author(id: $term) {
       comments(filter:{id:$term}){
@@ -270,7 +289,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => 1}
-  test "9. Authors with many assoc in comments" do
+  test "10. Authors with many assoc in comments" do
     response =
       build_conn()
       |> put_req_header(

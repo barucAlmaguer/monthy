@@ -8,7 +8,13 @@ defmodule ValiotAppWeb.Router do
   scope "/api" do
     pipe_through(:graphql)
 
-    forward("/graphiql", Absinthe.Plug.GraphiQL, schema: ValiotAppWeb.Schema)
+    forward(
+      "/graphiql",
+      Absinthe.Plug.GraphiQL,
+      schema: ValiotAppWeb.Schema,
+      socket: ValiotAppWeb.UserSocket
+    )
+
     forward("/", Absinthe.Plug, schema: ValiotAppWeb.Schema)
   end
 end

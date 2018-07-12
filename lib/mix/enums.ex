@@ -11,8 +11,14 @@ defmodule Mix.Enums do
         "lib/valiot_app/ecto_enums.ex"
       )
 
-    Mix.Helper.copy_from(paths, "priv/templates/", [enums: enums], [
-      {:eex, "ecto_enums.exs", ecto_enum_path}
-    ])
+    Mix.Helper.copy_from(
+      paths,
+      "priv/templates/",
+      [enums: enums],
+      [
+        {:eex, "ecto_enums.exs", ecto_enum_path}
+      ],
+      %{force: true}
+    )
   end
 end
