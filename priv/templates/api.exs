@@ -14,9 +14,12 @@ defmodule ValiotApp.Api do
     |> Enum.reduce(Api.<%= module %>, fn
       {_, nil}, query ->
         query
-
       {:filter, filter}, query ->
         query |> filter_<%= k |> Inflex.underscore |> Inflex.pluralize %>(filter)
+      {:limit, limit}, query ->
+        from q in query, limit: ^limit
+      {:offset, offset}, query ->
+        from q in query, offset: ^offset
     end)
     |> Repo.all()
   end

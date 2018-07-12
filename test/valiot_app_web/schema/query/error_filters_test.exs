@@ -262,4 +262,31 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
              }
            }
   end
+
+  @query """
+  query ($limit: Int, $offset: Int) {
+    authors(limit: $limit, offset: $offset ) {
+      name
+    }
+  }
+  """
+  @variables %{"limit" => 1, "offset" => 1}
+  test "9. Authors using limit and offset" do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query, variables: @variables)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "authors" => [
+                 %{"name" => "Henry"}
+               ]
+             }
+           }
+  end
+
 end
