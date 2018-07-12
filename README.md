@@ -48,16 +48,25 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
-
+## Functionality
+  * The are some interesting features for a better use of the api. The following features are before and after the date that in created. The use of limit and offset in the certain list of objects. The last one is the application of filter in object associated many to one
+  * after and before it includes the date selected too, an example of usage is `authors(filter:{before:"2015-01-23T23:50:07Z"})`
+  * the way to use limit and offset is very simple,  limit is for the amount of object that the query will bring from the database, offset is for the object it will start  an example of usage is `authors(limit: 1, offset:1)` this will bring the second one only from the module authors
+  * Applying filters to module children is really simple and easy, here is an easy example
+  `authors{
+    comment(limit:1, offset:2){
+      id
+      }
+    }`
 
 ## Making Queries
   * The following examples use the schema provided above.
   * The initial data (Seeds) used can be found in: `lib/support/seeds.ex`, uncomment the section of *Authors Seeds* inside of this file.
 
 ### To run a Query in Elixir tests section:
-  * Change the `@token` or eliminate it if not needed, in `error_filters_test.exs` 
-  * Run the tests provided in the repository with `mix test test/valiot_app_web/schema/query/error_filters_test.exs` 
-  
+  * Change the `@token` or eliminate it if not needed, in `error_filters_test.exs`
+  * Run the tests provided in the repository with `mix test test/valiot_app_web/schema/query/error_filters_test.exs`
+
 
 ### To run a Query with GraphiQL :
   * Populate the Database with `mix run priv/repo/seeds.exs`
