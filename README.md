@@ -54,11 +54,13 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
   * after and before it includes the date selected too, an example of usage is ```authors(filter:{before:"2015-01-23T23:50:07Z"})```
   * the way to use limit and offset is very simple,  limit is for the amount of object that the query will bring from the database, offset is for the object it will start  an example of usage is ```authors(limit: 1, offset:1)``` this will bring the second one only from the module authors
   * Applying filters to module children is really simple and easy, here is an easy example
-  ```authors{
+```
+  authors{
     comment(limit:1, offset:2){
       id
       }
-    }```
+    }
+```
 
 ## Making Queries
   * The following examples use the schema provided above.
@@ -276,4 +278,3 @@ mutation {
   }
 }
 ```
-
