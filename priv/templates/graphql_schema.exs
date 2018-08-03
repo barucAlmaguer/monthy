@@ -26,6 +26,7 @@ defmodule ValiotAppWeb.Schema do
     @desc <%= inspect "Get all #{schema |> Inflex.pluralize |> Inflex.underscore}" %>
     field <%= inspect schema |> Inflex.pluralize |> Inflex.underscore |> String.to_atom %>, list_of(<%= inspect schema |> Inflex.underscore |> String.to_atom %>) do
       arg(:filter, :filters_<%= schema |> Inflex.underscore %>)
+      arg(:order_by, :order_<%= schema |> Inflex.underscore %>)
       arg(:limit, :integer)
       arg(:offset, :integer)
       resolve(&ValiotApp.<%= inspect [Atom.to_string(schema)] |> Module.concat %>Resolver.all/2)
@@ -48,6 +49,13 @@ defmodule ValiotAppWeb.Schema do
 <% end %><% end %>
   end
 <% end %>
+
+  <%= for {schema, values} <- types do %>
+    input_object :order_<%= schema |> Inflex.underscore %> do
+      field(:asc , :<%= schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %>)
+      field(:desc , :<%= schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %>)
+    end
+  <% end %>
 
   <%= for {schema, values} <- types do %>
   @desc <%= inspect "Filtering #{schema |> Inflex.underscore |> Inflex.pluralize}" %>

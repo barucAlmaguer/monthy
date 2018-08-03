@@ -305,7 +305,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
                ] }
            }
   end
-  
+
   @query """
   query ($term: Int) {
     author(id: $term) {
@@ -332,6 +332,64 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
                    %{"id" => "1"}
                  ]
                }
+             }
+           }
+  end
+
+  @query """
+  {
+    authors(orderBy:{desc: ID}) {
+      id
+    }
+  }
+  """
+  test "12. Authors order desc by id" do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "authors" => [
+                 %{"id" => "5"},
+                 %{"id" => "4"},
+                 %{"id" => "3"},
+                 %{"id" => "2"},
+                 %{"id" => "1"}
+               ]
+             }
+           }
+  end
+
+  @query """
+  {
+    authors(orderBy:{desc: INSERTED_AT}) {
+      id
+    }
+  }
+  """
+  test "13. Authors order desc by inserted_at " do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "authors" => [
+                 %{"id" => "5"},
+                 %{"id" => "4"},
+                 %{"id" => "3"},
+                 %{"id" => "2"},
+                 %{"id" => "1"}
+               ]
              }
            }
   end

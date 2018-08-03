@@ -20,6 +20,13 @@ defmodule ValiotApp.Api do
         from q in query, limit: ^limit
       {:offset, offset}, query ->
         from q in query, offset: ^offset
+      {:order_by, order}, query ->
+        case order do
+          %{asc: asc} ->
+            from(q in query, order_by: field(q, ^asc))
+          %{desc: desc}->
+            from(q in query, order_by: [desc: field(q, ^desc)])
+        end
     end)
     |> Repo.all()
   end

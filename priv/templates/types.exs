@@ -9,6 +9,19 @@ defmodule ValiotAppWeb.Schema.Types do
   end
   <% end %>
 
+    <%= for {schema, values} <- types do %>
+    enum <%= inspect schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %> do
+      value(:id)
+      value(:inserted_at)
+      value(:updated_at)
+      <%= for {type, attrs} <- values do %><%= case Map.get(attrs, :database) do %>
+        <% :normal -> %> value(<%= inspect type |> Inflex.underscore |> String.to_atom %>)
+        <% :enum -> %> value(<%= inspect type |> Inflex.underscore |> String.to_atom %>)
+        <% :belongs_to -> %>
+        <% :has_many -> %>
+      <% end %><% end %>
+    end
+    <% end %>
   # Objects
 
   <%= for {schema, values} <- types do %>
