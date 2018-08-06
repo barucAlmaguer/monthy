@@ -1,5 +1,5 @@
 defmodule Mix.Enums do
-  def genereate_ecto_enums(nil) do
+  def generate_ecto_enums(nil) do
   end
 
   def generate_ecto_enums(enums) do

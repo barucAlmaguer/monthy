@@ -11,18 +11,13 @@ defmodule ValiotApp.Schema.Query.DefaultValTests do
       "%ValiotApp.Api.Author{name: \"George\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
     )
 
-    Code.eval_string(
-      "_ = %ValiotApp.Api.Author{name: \"Henry\", date_of_birth: ~D[1995-02-01]} |> ValiotApp.Repo.insert!()"
-    )
-
     :ok
   end
 
   @query """
   {
-    authors {
-      name
-      lastName
+    author(id: 1) {
+      active
     }
   }
   """
@@ -37,10 +32,8 @@ defmodule ValiotApp.Schema.Query.DefaultValTests do
 
     assert json_response(conn, 200) == %{
              "data" => %{
-               "authors" => [
-                 %{"name" => "George", "lastName" => "Williams"},
-                 %{"name" => "Henry", "lastName" => "null"}
-               ]
+               "author" =>
+                 %{"active" => false}
              }
            }
   end
