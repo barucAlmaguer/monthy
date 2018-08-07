@@ -15,8 +15,8 @@ use Mix.Config
 # which you typically run after static files are built.
 config :valiot_app, ValiotAppWeb.Endpoint,
   load_from_system_env: true,
-  url: [scheme: "https", host: "heineken-api.herokuapp.com", port: 443],
-  url: [host: "example.com", port: 80],
+  url: [scheme: "https", host: "domain.com", port: 443],
+  url: [host: "domain.com", port: 80],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
   cache_static_manifest: "priv/static/cache_manifest.json"
@@ -30,6 +30,14 @@ config :valiot_app, ValiotApp.Repo,
   ],
   ssl: true
 
+  config :valiot_app, ValiotApp.ValiotRepo,
+    adapter: Ecto.Adapters.Postgres,
+    url: System.get_env("MAIN_DATABASE"),
+    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+    ssl_opts: [
+      cacertfile: "priv/rds-combined-ca-bundle.pem"
+    ],
+    ssl: true
 # Do not print debug messages in production
 config :logger, level: :info
 
@@ -73,4 +81,3 @@ config :logger, level: :info
 
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
-import_config "prod.secret.exs"
