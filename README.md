@@ -14,8 +14,9 @@ To start your Phoenix server:
 ```
 type Author {
   name: String!
-  lastName: String! @default(value: "null")
+  lastName: String!
   dateOfBirth: Date
+  active: Boolean @default(value: false)
   posts: [Post]
   comments: [Comment]
 }
@@ -70,7 +71,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
  * Run the tests provided in the repository with `mix test` 
 
 ### To run a Query with GraphiQL :
-  * Populate the Database with seeds in `/default_value_test.exs` by putting them in `seeds.ex` file and running `mix run priv/repo/seeds.exs`
+  * Populate the Database with seeds inside of the files ending with `_test.exs` by putting them in `seeds.ex` file and running `mix run priv/repo/seeds.exs`
 
 #### Example 1
   * Get children values of a field:  
@@ -255,7 +256,7 @@ mutation ($input: UpdateAuthorParams) {
 ```
 {"input": {"name": "Liam"}}
 ```
-## Example 3
+### Example 3
   * Subscribe to *Delete*
 ```
 subscription {
