@@ -16,28 +16,32 @@ use Mix.Config
 config :valiot_app, ValiotAppWeb.Endpoint,
   load_from_system_env: true,
   url: [scheme: "https", host: System.get_env("DOMAIN"), port: 443],
-  url: [host: System.get_env("DOMAIN"), port: 80],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
-  cache_static_manifest: "priv/static/cache_manifest.json"
 
 config :valiot_app, ValiotApp.Repo,
   adapter: Ecto.Adapters.Postgres,
-  url: System.get_env("DATABASE_URL"),
+  hostname: System.get_env("DB_HOSTNAME"),
+  database: System.get_env("DB_DATABASE"),
+  username: System.get_env("DB_USERNAME"),
+  password: System.get_env("DB_PASSWORD"),
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl_opts: [
     cacertfile: "priv/rds-combined-ca-bundle.pem"
   ],
   ssl: true
 
-  config :valiot_app, ValiotApp.ValiotRepo,
-    adapter: Ecto.Adapters.Postgres,
-    url: System.get_env("MAIN_DATABASE"),
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
-    ssl_opts: [
-      cacertfile: "priv/rds-combined-ca-bundle.pem"
-    ],
-    ssl: true
+config :valiot_app, ValiotApp.ValiotRepo,
+  adapter: Ecto.Adapters.Postgres,
+  hostname: System.get_env("MAIN_DB_HOSTNAME"),
+  database: System.get_env("MAIN_DB_DATABASE"),
+  username: System.get_env("MAIN_DB_USERNAME"),
+  password: System.get_env("MAIN_DB_PASSWORD"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  ssl_opts: [
+    cacertfile: "priv/rds-combined-ca-bundle.pem"
+  ],
+  ssl: true
 # Do not print debug messages in production
 config :logger, level: :info
 
