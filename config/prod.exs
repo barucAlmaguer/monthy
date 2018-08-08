@@ -17,7 +17,7 @@ config :valiot_app, ValiotAppWeb.Endpoint,
   load_from_system_env: true,
   url: [scheme: "https", host: System.get_env("DOMAIN"), port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
-  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
+  secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE")
 
 config :valiot_app, ValiotApp.Repo,
   adapter: Ecto.Adapters.Postgres,
