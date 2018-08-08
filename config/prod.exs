@@ -15,8 +15,8 @@ use Mix.Config
 # which you typically run after static files are built.
 config :valiot_app, ValiotAppWeb.Endpoint,
   load_from_system_env: true,
-  url: [scheme: "https", host: "domain.com", port: 443],
-  url: [host: "domain.com", port: 80],
+  url: [scheme: "https", host: System.get_env("DOMAIN"), port: 443],
+  url: [host: System.get_env("DOMAIN"), port: 80],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   secret_key_base: Map.fetch!(System.get_env(), "SECRET_KEY_BASE"),
   cache_static_manifest: "priv/static/cache_manifest.json"
