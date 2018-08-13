@@ -63,9 +63,9 @@ defmodule ValiotAppWeb.Schema do
     @desc "Matching id"
     field(:id, :id)
     @desc "filter of datetime before and including date"
-    field(:before, :datetime)
+    field(:before, :naive_datetime)
     @desc "filter of datetime after and including date"
-    field(:after, :datetime)
+    field(:after, :naive_datetime)
     <%= for {type, attrs} <- values do %>
     <%= case Map.get(attrs, :database) do %>
     <% :normal -> %>@desc <%= inspect "Matching #{type |> Inflex.underscore }" %>

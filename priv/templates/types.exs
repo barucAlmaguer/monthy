@@ -27,8 +27,8 @@ defmodule ValiotAppWeb.Schema.Types do
   <%= for {schema, values} <- types do %>
   object <%= inspect schema |> Inflex.underscore |> String.to_atom %> do
     field(:id, :id)
-    field(:inserted_at, :datetime)
-    field(:updated_at, :datetime)
+    field(:inserted_at, :naive_datetime)
+    field(:updated_at, :naive_datetime)
     <%= for {type, attrs} <- values do %><%= case Map.get(attrs, :database) do %>
     <% :normal -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
     <% :has_many -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, list_of(<%= inspect type |> Inflex.singularize |> Inflex.underscore |> String.to_atom %>))do
