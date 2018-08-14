@@ -393,4 +393,28 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
              }
            }
   end
+
+  @query """
+  {
+    comment(id:1) {
+      inserted_at
+    }
+  }
+  """
+  test "14 first commment with id 1 and geting its inserted at  " do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "comment" =>
+                 %{"insertedAt" => "2018-07-11T23:08:17.345950"}
+             }
+           }
+  end
 end
