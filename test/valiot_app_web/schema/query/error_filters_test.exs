@@ -413,7 +413,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     assert json_response(response, 200) == %{
              "data" => %{
                "comment" =>
-                 %{"insertedAt" => "2018-07-11T23:08:17.345950"}
+                 %{"inserted_at" => "2018-07-11T23:08:17.345950"}
              }
            }
   end
