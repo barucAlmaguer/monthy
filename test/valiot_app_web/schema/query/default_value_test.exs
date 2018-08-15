@@ -32,8 +32,7 @@ defmodule ValiotApp.Schema.Query.DefaultValTests do
 
     assert json_response(conn, 200) == %{
              "data" => %{
-               "author" =>
-                 %{"active" => false}
+               "author" => %{"active" => false}
              }
            }
   end

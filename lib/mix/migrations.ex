@@ -18,7 +18,7 @@ defmodule Mix.Migrations do
         [
           {:eex, "migration.exs", ctx_path}
         ],
-         %{force: true}
+        %{force: true}
       )
     end)
   end

@@ -11,7 +11,7 @@ type Post {
   author: Author
   name: String!
   body: String!
-  status: Status
+  status_word: StatusWord
   comments: [Comment]
 }
 
@@ -21,7 +21,7 @@ type Comment {
   body: String!
 }
 
-enum Status {
+enum StatusWord {
   APPROVED
   PENDING
   REJECTED

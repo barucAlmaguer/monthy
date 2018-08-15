@@ -4,7 +4,7 @@ defmodule ValiotAppWeb.Schema.Types do
 
   # Enums
   <%= for {enum, values} <- enums do %>
-  enum <%= inspect enum |> Atom.to_string |> String.downcase |> String.to_atom %> do<%= for value <- values do %>
+  enum <%= inspect enum |> Atom.to_string |> Inflex.underscore |> String.downcase |> String.to_atom %> do<%= for value <- values do %>
     value(<%= inspect value |> String.downcase |> String.to_atom %>)<% end %>
   end
   <% end %>
@@ -36,7 +36,7 @@ defmodule ValiotAppWeb.Schema.Types do
       resolve(&ValiotApp.<%=  type |> Inflex.camelize|> Inflex.singularize%>Resolver.all/3)
     end
     <% :belongs_to -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect type |> Inflex.underscore |> String.to_atom %>, resolve: assoc(<%= inspect type |> Inflex.underscore |> String.to_atom %>))
-    <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> String.downcase |> String.to_atom %>)
+    <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.downcase |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.downcase |> String.to_atom %>)
 <% end %><% end %>end
 <% end %>
 end

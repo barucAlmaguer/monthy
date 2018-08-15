@@ -42,6 +42,7 @@ config :valiot_app, ValiotApp.ValiotRepo,
     cacertfile: "priv/rds-combined-ca-bundle.pem"
   ],
   ssl: true
+
 # Do not print debug messages in production
 config :logger, level: :info
 

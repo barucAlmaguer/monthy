@@ -38,9 +38,17 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
         updated_at: ~N[2018-07-11 23:08:17.345957]
       }|> ValiotApp.Repo.insert!()")
 
-    Code.eval_string("_ =
-      %ValiotApp.Api.Author{id: 5, active: true, last_name: \"Johnson\", name: \"Samantha\", date_of_birth: ~D[2000-01-01]}
-      |> ValiotApp.Repo.insert!()")
+    Code.eval_string("%ValiotApp.Api.Post{
+          body: \"how are you\",
+          name: \"pedro\",
+          status_word: :pending,
+        }|> ValiotApp.Repo.insert!()")
+
+    Code.eval_string(
+      "%ValiotApp.Api.Author{id: 5, active: true, last_name: \"Johnson\", name: \"Samantha\", date_of_birth: ~D[2000-01-01]}
+      |> ValiotApp.Repo.insert!()"
+    )
+
     :ok
   end
 
@@ -296,13 +304,15 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
       |> get("/api", query: @query, variables: @variables)
 
     assert json_response(response, 200) == %{
-             "data" => %{ "authors" => [
+             "data" => %{
+               "authors" => [
                  %{"name" => "George"},
                  %{"name" => "Henry"},
                  %{"name" => "Rebeca"},
                  %{"name" => "Anna"},
                  %{"name" => "Samantha"}
-               ] }
+               ]
+             }
            }
   end
 
@@ -396,12 +406,12 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   @query """
   {
-    comment(id:1) {
-      inserted_at
+    posts(filter:{status_word:PENDING}) {
+      statusWord
     }
   }
   """
-  test "14 first commment with id 1 and geting its inserted at  " do
+  test "14. Posts with enum " do
     response =
       build_conn()
       |> put_req_header(
@@ -412,8 +422,32 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
     assert json_response(response, 200) == %{
              "data" => %{
-               "comment" =>
-                 %{"inserted_at" => "2018-07-11T23:08:17.345950"}
+               "posts" => [
+                 %{"statusWord" => "PENDING"}
+               ]
+             }
+           }
+  end
+
+  @query """
+  {
+    comment(id:1) {
+      inserted_at
+    }
+  }
+  """
+  test "15 first commment with id 1 and geting its inserted at  " do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "comment" => %{"inserted_at" => "2018-07-11T23:08:17.345950"}
              }
            }
   end

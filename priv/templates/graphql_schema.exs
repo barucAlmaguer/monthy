@@ -45,7 +45,7 @@ defmodule ValiotAppWeb.Schema do
     <% :normal -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
     <% :has_many -> %>
     <% :belongs_to -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>_id, :integer)
-    <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> String.downcase |> String.to_atom %>)
+    <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type)  |> Inflex.underscore |> String.downcase |> String.to_atom %>)
 <% end %><% end %>
   end
 <% end %>
@@ -94,7 +94,7 @@ defmodule ValiotAppWeb.Schema do
       <% :normal -> %>arg(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
       <% :has_many -> %>
       <% :belongs_to -> %>arg(<%= inspect type |> Inflex.underscore |> String.to_atom %>_id, :integer)
-      <% :enum -> %>arg(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> String.downcase |> String.to_atom %>)
+      <% :enum -> %>arg(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type)  |> Inflex.underscore |> String.downcase |> String.to_atom %>)
 <% end %><% end %>
 
       resolve(&ValiotApp.<%= inspect [Atom.to_string(schema)] |> Module.concat %>Resolver.create/2)
