@@ -41,6 +41,17 @@ defmodule ValiotApp.Api do
 
       {:filter, filter}, query ->
         query |> filter_<%= k |> Inflex.underscore |> Inflex.pluralize %>(filter)
+      {:limit, limit}, query ->
+        from q in query, limit: ^limit
+      {:offset, offset}, query ->
+        from q in query, offset: ^offset
+      {:order_by, order}, query ->
+        case order do
+          %{asc: asc} ->
+            from(q in query, order_by: field(q, ^asc))
+          %{desc: desc}->
+            from(q in query, order_by: [desc: field(q, ^desc)])
+        end
     end)
     from(q in query, where: field(q, ^field_belong) == ^item.id) |>
     Repo.all()

@@ -451,4 +451,29 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
              }
            }
   end
+
+  @query """
+  {
+    author(id: 1) {
+      name
+      comments(limit: 1, orderBy: {desc: INSERTED_AT})
+      { body }
+    }
+  }
+  """
+  test "16 can limit and orderBy on a has_many relationship" do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "author" => %{"comments" => [%{"body" => "how are you"}], "name" => "George"}
+             }
+           }
+  end
 end
