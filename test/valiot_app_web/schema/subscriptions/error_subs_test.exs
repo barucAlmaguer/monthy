@@ -8,6 +8,10 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
 
   setup do
     Code.eval_string(
+      "%ValiotApp.Api.Permission{user_id: 4, relation: :author, create: true, update: true, delete: true} |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string(
       "%ValiotApp.Api.Author{id: 6, name: \"Steven\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
     )
 

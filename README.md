@@ -62,6 +62,24 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
       }
     }
 ```
+## Adding Permissions
+  * First, manually create CRUD permissions to a `user_id` and specific table (`relation`). Example using seeds:
+  ```
+  %ValiotApp.Api.Permission{user_id: 1, relation: :permission, create: true, update: true, read: true, delete: true} 
+  |> ValiotApp.Repo.insert!()
+  ```
+  * The default values to `create`, `update`, `read`, and `delete` fields are *false*.
+  ### Create permissions
+  #### Example
+  Here we create permission to user `1`, table `author`, with only read permission `true`.
+```
+mutation{
+  createPermission(userId: 1 relation: AUTHOR read: true){
+    id
+  }
+}
+```
+
 
 ## Making Queries
   * The following examples use the schema provided above.
