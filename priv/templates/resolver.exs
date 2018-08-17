@@ -41,8 +41,8 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
   def create(args, %{context: %{current_user: current_user}}) do
     case AuthHelper.authorized?(:create, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_user, :id)<%= if Atom.to_string(k) |> Inflex.underscore == "permission" do %>, args<% end %>) do
       true ->
-        {:ok, request} = Api.create_<%= Atom.to_string(k) |> Inflex.underscore %>(args)
-        Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, create_<%= Atom.to_string(k) |> Inflex.underscore %>: "*")
+        {_, request} = Api.create_<%= Atom.to_string(k) |> Inflex.underscore %>(args)
+        Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, <%= Atom.to_string(k) |> Inflex.underscore %>_created: "*")
         {:ok, request}
       <%= case Atom.to_string(k) |> Inflex.underscore do %>
         <% "permission" -> %>
@@ -64,8 +64,8 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
       true ->
         case Api.get_<%= Atom.to_string(k) |> Inflex.underscore %>(id) do
           nil -> {:error, "Resource with id #{id} was not found"}
-          <%= Atom.to_string(k) |> Inflex.underscore %> -> {:ok, request} = Api.update_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>, <%= Atom.to_string(k) |> Inflex.underscore %>_params)
-            Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, update_<%= Atom.to_string(k) |> Inflex.underscore %>: "*")
+          <%= Atom.to_string(k) |> Inflex.underscore %> -> {_, request} = Api.update_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>, <%= Atom.to_string(k) |> Inflex.underscore %>_params)
+            Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, <%= Atom.to_string(k) |> Inflex.underscore %>_updated: "*")
             {:ok, request}
         end
 
@@ -84,8 +84,8 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
       true ->
         case Api.get_<%= Atom.to_string(k) |> Inflex.underscore %>(id) do
           nil -> {:error, "Resource with id #{id} was not found"}
-          <%= Atom.to_string(k) |> Inflex.underscore %> -> {:ok, request} = Api.delete_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>)
-            Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, delete_<%= Atom.to_string(k) |> Inflex.underscore %>: "*")
+          <%= Atom.to_string(k) |> Inflex.underscore %> -> {_, request} = Api.delete_<%= Atom.to_string(k) |> Inflex.underscore %>(<%= Atom.to_string(k) |> Inflex.underscore %>)
+            Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, <%= Atom.to_string(k) |> Inflex.underscore %>_deleted: "*")
             {:ok, request}
         end
 
