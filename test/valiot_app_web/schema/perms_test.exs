@@ -17,7 +17,9 @@ defmodule ValiotApp.Schema.Permission do
   @mutation """
   mutation {
     createPermission(user_id: 4 relation: PERMISSION read: true) {
-      id
+      result {
+        id
+      }
     }
   }
   """
