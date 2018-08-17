@@ -211,15 +211,30 @@ query ($term: Int) {
 
 ## Subscriptions and Mutations
   * Run the test provided for subscriptions with `mix test`
+  * Components of a `mutation` / `subscription`
+    * Result: The object created/updated/deleted by the mutation. May be null if mutation failed.
+    * Successful: Indicates if the mutation completed successfully or not.
+    * Messages
+      * Code: A unique error code for the type of validation used.
+      * Field: The input field that the error applies to.
+      * Message: A friendly error message, appropriate for display to the end user.
 
 ### Example 1
   * Subscribe to *Create*
 ```
 subscription {
-  createAuthor {
-    name
-    lastName
-    dateOfBirth
+  authorCreated {
+    result {
+      name
+      lastName
+      dateOfBirth
+    }
+    successful
+    messages {
+      code
+      field
+      message
+    }
   }
 }
 ```
@@ -227,9 +242,17 @@ subscription {
 ```
 mutation {
   createAuthor(name: "Jennifer", lastName: "Jones", dateOfBirth: "1992-01-01") {
-    name
-    lastName
-    dateOfBirth
+    result {
+      name
+      lastName
+      dateOfBirth
+    }
+    successful
+    messages {
+      code
+      field
+      message
+    }
   }
 }
 ```
@@ -239,9 +262,13 @@ mutation {
   "data": {
     "createAuthor": [
       {
-        "dateOfBirth": "1992-01-01",
-        "lastName": "Jones",
-        "name": "Jennifer"
+        "result": {
+          "dateOfBirth": "1992-01-01",
+          "lastName": "Jones",
+          "name": "Jennifer"
+        },
+        "successful": true,
+        "messages": []
       }
     ]
   }
@@ -251,11 +278,13 @@ mutation {
   * Subscribe to *Update*
 ```
 subscription {
-  updateAuthor {
-    name
-    lastName
-    dateOfBirth
-    id
+  authorUpdated {
+    result {
+      name
+      lastName
+      dateOfBirth
+      id
+    }
   }
 }
 ```
@@ -263,10 +292,12 @@ subscription {
 ```
 mutation ($input: UpdateAuthorParams) {
   updateAuthor(author: $input, id: 6) {
-    name
-    lastName
-    id
-    dateOfBirth
+    result {
+      name
+      lastName
+      id
+      dateOfBirth
+    }
   }
 }
 ```
@@ -278,11 +309,13 @@ mutation ($input: UpdateAuthorParams) {
   * Subscribe to *Delete*
 ```
 subscription {
-  deleteAuthor {
-    name
-    lastName
-    id
-    dateOfBirth
+  authorDeleted {
+    result {
+      name
+      lastName
+      id
+      dateOfBirth
+    }
   }
 }
 ```
@@ -290,10 +323,12 @@ subscription {
 ```
 mutation {
   deleteAuthor(id: 7) {
-    name
-    lastName
-    id
-    dateOfBirth
+    result {
+      name
+      lastName
+      id
+      dateOfBirth
+    }
   }
 }
 ```
