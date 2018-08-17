@@ -8,6 +8,10 @@ defmodule ValiotApp.Schema.Query.DefaultValTests do
 
   setup do
     Code.eval_string(
+      "%ValiotApp.Api.Permission{user_id: 4, relation: :author, read: true}  |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string(
       "%ValiotApp.Api.Author{name: \"George\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
     )
 

@@ -50,6 +50,24 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
+## Adding Permissions
+  * First, manually create CRUD permissions to a `user_id` and specific table (`relation`). Example using seeds:
+  ```
+  %ValiotApp.Api.Permission{user_id: 1, relation: :permission, create: true, update: true, read: true, delete: true} 
+  |> ValiotApp.Repo.insert!()
+  ```
+  * The default values to `create`, `update`, `read`, and `delete` fields are *false*.
+  ### Create permissions
+  #### Example
+  Here we create permission to user `1`, table `author`, with only read permission `true`.
+```
+mutation{
+  createPermission(userId: 1 relation: AUTHOR read: true){
+    id
+  }
+}
+```
+
 ## Functionality
   * The are some interesting features for a better use of the api. The following features are before filter and after filter from the date that is created. The use of limit and offset in the certain list of objects. The last one is the application of filter in object associated many to one
   * after and before it includes the date selected too, an example of usage is ```authors(filter:{before:"2015-01-23T23:50:07Z"})```

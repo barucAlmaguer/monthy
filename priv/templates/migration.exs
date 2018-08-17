@@ -2,7 +2,7 @@ defmodule ValiotApp.Repo.Migrations.Create<%= inspect [Atom.to_string(k) |> Infl
   use Ecto.Migration
 
   def up do
-    <%= for {type, attrs} <- Enum.filter(v, fn {type, attrs} -> Map.get(attrs, :database) == :enum end) do %>
+    <%= for {_type, attrs} <- Enum.filter(v, fn {_type, attrs} -> Map.get(attrs, :database) == :enum end) do %>
     <%= inspect [Map.get(attrs, :type)] |> Module.concat %>Enum.create_type<% end %>
     create table(<%= inspect Inflex.underscore(k) |> Inflex.pluralize |> String.to_atom %>) do
       <%= for {type, attrs} <- v do %><%= case Map.get(attrs, :database) do %>
@@ -13,13 +13,13 @@ defmodule ValiotApp.Repo.Migrations.Create<%= inspect [Atom.to_string(k) |> Infl
 
       timestamps()
     end
-    <%= for {type, attrs} <- Enum.filter(v, fn {type, attrs} -> Map.get(attrs, :database) == :belongs_to end) do %>
+    <%= for {_type, attrs} <- Enum.filter(v, fn {_type, attrs} -> Map.get(attrs, :database) == :belongs_to end) do %>
     create index(<%= inspect Inflex.underscore(k) |> Inflex.pluralize |> String.to_atom %>, [<%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>_id])<% end %>
   end
 
   def down do
     drop table(<%= inspect Inflex.underscore(k) |> Inflex.pluralize |> String.to_atom %>)
-    <%= for {type, attrs} <- Enum.filter(v, fn {type, attrs} -> Map.get(attrs, :database) == :enum end) do %>
+    <%= for {_type, attrs} <- Enum.filter(v, fn {_type, attrs} -> Map.get(attrs, :database) == :enum end) do %>
     <%= inspect [Map.get(attrs, :type)] |> Module.concat %>Enum.drop_type<% end %>
   end
 end

@@ -8,6 +8,18 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   setup do
     Code.eval_string(
+      "%ValiotApp.Api.Permission{user_id: 4, relation: :author, read: true} |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string(
+      "%ValiotApp.Api.Permission{user_id: 4, relation: :comment, read: true} |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string(
+      "%ValiotApp.Api.Permission{user_id: 4, relation: :post, read: true} |> ValiotApp.Repo.insert!()"
+    )
+
+    Code.eval_string(
       "%ValiotApp.Api.Author{id: 1, last_name: \"Williams\", name: \"George\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
     )
 

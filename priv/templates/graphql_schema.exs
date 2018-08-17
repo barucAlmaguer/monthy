@@ -22,7 +22,7 @@ defmodule ValiotAppWeb.Schema do
       arg(:id, non_null(:id))
       resolve(&ValiotApp.UserResolver.find/2)
     end
-    <%= for {schema, values} <- types do %>
+    <%= for {schema, _values} <- types do %>
     @desc <%= inspect "Get all #{schema |> Inflex.pluralize |> Inflex.underscore}" %>
     field <%= inspect schema |> Inflex.pluralize |> Inflex.underscore |> String.to_atom %>, list_of(<%= inspect schema |> Inflex.underscore |> String.to_atom %>) do
       arg(:filter, :filters_<%= schema |> Inflex.underscore %>)
@@ -50,7 +50,7 @@ defmodule ValiotAppWeb.Schema do
   end
 <% end %>
 
-  <%= for {schema, values} <- types do %>
+  <%= for {schema, _values} <- types do %>
     input_object :order_<%= schema |> Inflex.underscore %> do
       field(:asc , :<%= schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %>)
       field(:desc , :<%= schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %>)
@@ -109,7 +109,7 @@ defmodule ValiotAppWeb.Schema do
 <% end %>end
 
   subscription do
-    <%= for {schema, values} <- types do %>
+    <%= for {schema, _values} <- types do %>
     field :update_<%= schema |> Inflex.underscore %>, <%= inspect schema |> Inflex.underscore |> String.to_atom %> do
       config(fn _args, _info ->
         {:ok, topic: "*"}

@@ -21,6 +21,7 @@ defmodule Mix.Tasks.Valiot.Gen.Api do
   end
 
   defp createFiles({:ok, struct}) do
+    struct = Mix.Permissions.generate_perms(struct)
     IO.inspect(struct)
     Mix.Enums.generate_ecto_enums(Map.get(struct, :enums))
     Mix.Migrations.generate_migrations(Map.get(struct, :types))
