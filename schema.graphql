@@ -9,7 +9,7 @@ type Author {
 
 type Post {
   author: Author
-  name: String!
+  name: String! @unique
   body: String!
   status_word: StatusWord
   comments: [Comment]
