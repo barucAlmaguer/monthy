@@ -15,6 +15,8 @@ defmodule ValiotApp.Repo.Migrations.Create<%= inspect [Atom.to_string(k) |> Infl
     end
     <%= for {_type, attrs} <- Enum.filter(v, fn {_type, attrs} -> Map.get(attrs, :database) == :belongs_to end) do %>
     create index(<%= inspect Inflex.underscore(k) |> Inflex.pluralize |> String.to_atom %>, [<%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>_id])<% end %>
+    <%= for {type, _attrs} <- Enum.filter(v, fn {_type, attrs} -> Map.get(attrs, :unique) end) do %>
+    create unique_index(<%= inspect Inflex.underscore(k) |> Inflex.pluralize |> String.to_atom %>, [<%= inspect type |> Inflex.underscore |> String.to_atom %>])<% end %>
   end
 
   def down do

@@ -23,7 +23,7 @@ type Author {
 
 type Post {
   author: Author
-  name: String!
+  name: String! @unique
   body: String!
   status: Status
   comments: [Comment]
