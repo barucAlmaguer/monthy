@@ -1,5 +1,5 @@
 type Author {
-  name: String!
+  name: String! @unique
   lastName: String!
   dateOfBirth: Date
   active: Boolean @default(value: false)
