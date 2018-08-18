@@ -106,6 +106,12 @@ defmodule ValiotApp.SdlProcessing do
         nil -> nil
       end
 
+    unique =
+      case Regex.run(~r/@unique/, body) do
+        nil -> false
+        _ -> true
+      end
+
     valid_types = [
       "Float",
       "Integer",
@@ -129,7 +135,7 @@ defmodule ValiotApp.SdlProcessing do
     attributeMap(
       t,
       enums,
-      Map.put(map, name, %{type: type, null: !null, default: default, database: database})
+      Map.put(map, name, %{type: type, unique: unique, null: !null, default: default, database: database})
     )
   end
 

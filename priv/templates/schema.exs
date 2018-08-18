@@ -17,6 +17,8 @@ defmodule ValiotApp.Api.<%= inspect [Atom.to_string(k)] |> Module.concat %> do
   def changeset(plan, attrs) do
     plan
     |> cast(attrs, [<%= for {type, attrs} <- v do %><%= cond do %><% Map.get(attrs, :database) == :belongs_to -> %><%= inspect type |> Inflex.underscore |> String.to_atom %>_id, <% Map.get(attrs, :database) != :has_many -> %><%= inspect type |> Inflex.underscore |> String.to_atom %>, <% true ->%><% end %><% end %>])
+    <%= for {type, _} <- Enum.filter(v, fn {_type, attrs} -> Map.get(attrs, :unique) end) do %>
+    |> unique_constraint(<%= inspect type |> Inflex.underscore |> String.to_atom %>, message: <%= inspect "#{type |> Inflex.underscore} must be unique" %>)<% end %>
     |> validate_required(<%= inspect Enum.filter(v, fn {_type, attrs} -> !Map.get(attrs, :null) end) |> Enum.map(fn {type, attrs} -> if Map.get(attrs, :database) == :belongs_to, do: "#{type |> Inflex.underscore}_id" |> String.to_atom, else: type |> Inflex.underscore |> String.to_atom end) %>)
   end
 end
