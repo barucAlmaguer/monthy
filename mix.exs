@@ -50,7 +50,8 @@ defmodule ValiotApp.Mixfile do
       {:guardian, "~> 1.0"},
       {:ecto_enum, "~> 1.0"},
       {:cors_plug, "~> 1.5"},
-      {:inflex, "~> 1.10.0"}
+      {:inflex, "~> 1.10.0"},
+      {:kronky, "~> 0.5.0"}
     ]
   end
 

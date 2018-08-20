@@ -24,19 +24,23 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
 
   @subscription """
   subscription {
-    createAuthor {
-      name
-      lastName
-      dateOfBirth
+    authorCreated {
+      result {
+        name
+        lastName
+        dateOfBirth
+      }
     }
   }
   """
   @mutation """
   mutation {
     createAuthor(name: "Jennifer", lastName: "Jones", dateOfBirth: "1992-01-01") {
-      name
-      lastName
-      dateOfBirth
+      result {
+        name
+        lastName
+        dateOfBirth
+      }
     }
   }
   """
@@ -61,9 +65,11 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
     assert json_response(conn, 200) == %{
              "data" => %{
                "createAuthor" => %{
-                 "dateOfBirth" => "1992-01-01",
-                 "lastName" => "Jones",
-                 "name" => "Jennifer"
+                 "result" => %{
+                   "dateOfBirth" => "1992-01-01",
+                   "lastName" => "Jones",
+                   "name" => "Jennifer"
+                 }
                }
              }
            }
@@ -72,10 +78,12 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
     expected = %{
       result: %{
         data: %{
-          "createAuthor" => %{
-            "dateOfBirth" => "1992-01-01",
-            "lastName" => "Jones",
-            "name" => "Jennifer"
+          "authorCreated" => %{
+            "result" => %{
+              "dateOfBirth" => "1992-01-01",
+              "lastName" => "Jones",
+              "name" => "Jennifer"
+            }
           }
         }
       },
@@ -88,21 +96,25 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
 
   @subscription """
   subscription {
-    updateAuthor {
-      name
-      lastName
-      dateOfBirth
-      id
+    authorUpdated {
+      result {
+        name
+        lastName
+        dateOfBirth
+        id
+      }
     }
   }
   """
   @mutation """
   mutation ($input: UpdateAuthorParams!) {
     updateAuthor(author: $input, id: 6) {
-      name
-      lastName
-      id
-      dateOfBirth
+      result {
+        name
+        lastName
+        id
+        dateOfBirth
+      }
     }
   }
   """
@@ -130,10 +142,12 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
     assert json_response(conn, 200) == %{
              "data" => %{
                "updateAuthor" => %{
-                 "dateOfBirth" => "1990-01-01",
-                 "id" => "6",
-                 "lastName" => "Williams",
-                 "name" => "Liam"
+                 "result" => %{
+                   "dateOfBirth" => "1990-01-01",
+                   "id" => "6",
+                   "lastName" => "Williams",
+                   "name" => "Liam"
+                 }
                }
              }
            }
@@ -142,11 +156,13 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
     expected = %{
       result: %{
         data: %{
-          "updateAuthor" => %{
-            "dateOfBirth" => "1990-01-01",
-            "id" => "6",
-            "lastName" => "Williams",
-            "name" => "Liam"
+          "authorUpdated" => %{
+            "result" => %{
+              "dateOfBirth" => "1990-01-01",
+              "id" => "6",
+              "lastName" => "Williams",
+              "name" => "Liam"
+            }
           }
         }
       },
@@ -159,21 +175,25 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
 
   @subscription """
   subscription {
-    deleteAuthor {
-      name
-      lastName
-      id
-      dateOfBirth
+    authorDeleted {
+      result {
+        name
+        lastName
+        id
+        dateOfBirth
+      }
     }
   }
   """
   @mutation """
   mutation {
     deleteAuthor(id: 7) {
-      name
-      lastName
-      id
-      dateOfBirth
+      result {
+        name
+        lastName
+        id
+        dateOfBirth
+      }
     }
   }
   """
@@ -197,10 +217,12 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
     assert json_response(conn, 200) == %{
              "data" => %{
                "deleteAuthor" => %{
-                 "dateOfBirth" => "1995-02-01",
-                 "id" => "7",
-                 "lastName" => "Smith",
-                 "name" => "Peter"
+                 "result" => %{
+                   "dateOfBirth" => "1995-02-01",
+                   "id" => "7",
+                   "lastName" => "Smith",
+                   "name" => "Peter"
+                 }
                }
              }
            }
@@ -209,11 +231,13 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
     expected = %{
       result: %{
         data: %{
-          "deleteAuthor" => %{
-            "dateOfBirth" => "1995-02-01",
-            "id" => "7",
-            "lastName" => "Smith",
-            "name" => "Peter"
+          "authorDeleted" => %{
+            "result" => %{
+              "dateOfBirth" => "1995-02-01",
+              "id" => "7",
+              "lastName" => "Smith",
+              "name" => "Peter"
+            }
           }
         }
       },
