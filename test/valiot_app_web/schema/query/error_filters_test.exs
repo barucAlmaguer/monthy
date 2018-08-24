@@ -488,4 +488,30 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
              }
            }
   end
+
+  @query """
+  {
+    authors(filter:{ids: [1,2]}){
+      id
+    }
+  }
+  """
+  test "17 use ids filter in authors" do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query)
+
+    assert json_response(response, 200) == %{
+        "data" => %{
+          "authors" =>[
+            %{"id" => "1"},
+            %{"id" => "2"}
+          ]
+        }
+    }
+  end
 end

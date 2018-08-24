@@ -88,6 +88,8 @@ defmodule ValiotApp.Api do
         from q in query, where: q.inserted_at <= ^date
       {:after, date}, query ->
         from q in query, where: q.inserted_at >= ^date
+      {:ids, ids}, query ->
+          from q in query, where: q.id in ^ids
       <%= for {type, attrs} <- values do %>
         <%= case Map.get(attrs, :database) do %>
           <% :normal -> %>{<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= type |> Inflex.underscore %>}, query ->
