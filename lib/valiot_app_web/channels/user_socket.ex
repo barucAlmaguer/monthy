@@ -1,6 +1,7 @@
 defmodule ValiotAppWeb.UserSocket do
   use Phoenix.Socket
   use Absinthe.Phoenix.Socket, schema: ValiotAppWeb.Schema
+  import Ecto.Query, only: [where: 2]
 
   ## Channels
   # channel "room:*", ValiotAppWeb.RoomChannel
@@ -20,8 +21,30 @@ defmodule ValiotAppWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    {:ok, socket}
+  def connect(params, socket) do
+    with "Bearer " <> token <- params["Authorization"],
+         {:ok, current_user} <- current_user(token) do
+      socket =
+        Absinthe.Phoenix.Socket.put_options(socket,
+          context: %{
+            current_user: current_user
+          }
+        )
+
+      {:ok, socket}
+    else
+      _ -> {:ok, socket}
+    end
+  end
+
+  defp current_user(token) do
+    ValiotApp.Accounts.User
+    |> where(token: ^token)
+    |> ValiotApp.ValiotRepo.one()
+    |> case do
+      nil -> {:error, "Invalid authorization token"}
+      user -> {:ok, user}
+    end
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

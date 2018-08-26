@@ -121,9 +121,7 @@ payload_object(<%= inspect schema |> Inflex.underscore |> String.to_atom %>_payl
       config(fn _args, _info ->
         {:ok, topic: "*"}
       end)
-      resolve(fn item, _, _ ->
-        {:ok, item}
-      end)
+      resolve(&ValiotApp.SubscriptionResolver.subscribe/3)
       middleware &build_payload/2
     end
 
@@ -131,9 +129,7 @@ payload_object(<%= inspect schema |> Inflex.underscore |> String.to_atom %>_payl
       config(fn _args, _info ->
         {:ok, topic: "*"}
       end)
-      resolve(fn item, _, _ ->
-        {:ok, item}
-      end)
+      resolve(&ValiotApp.SubscriptionResolver.subscribe/3)
       middleware &build_payload/2
     end
 
@@ -141,9 +137,7 @@ payload_object(<%= inspect schema |> Inflex.underscore |> String.to_atom %>_payl
       config(fn _args, _info ->
         {:ok, topic: "*"}
       end)
-      resolve(fn item, _, _ ->
-        {:ok, item}
-      end)
+      resolve(&ValiotApp.SubscriptionResolver.subscribe/3)
       middleware &build_payload/2
     end
   <% end %>
