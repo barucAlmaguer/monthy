@@ -2,7 +2,9 @@
 - [New feature] Added kronky for better error responses on mutations
 - [New feature] Changed subscriptions names
 - [New feature] Add unique field support on generator
+- [New feature] Add filter by list of ids
 - [Bug Fix] Subscriptions now require authorization
+
 # 0.1.0
 - [Bug Fix] Enum with multiple words works now
 - [Bug Fix] Queries for inserted_at and created_at work now

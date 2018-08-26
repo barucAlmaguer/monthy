@@ -12,7 +12,7 @@ defmodule ValiotApp.Schema.Query.DefaultValTests do
     )
 
     Code.eval_string(
-      "%ValiotApp.Api.Author{name: \"George\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Author{id: 1, name: \"George\", last_name: \"Williams\", date_of_birth: ~D[1990-01-01]} |> ValiotApp.Repo.insert!()"
     )
 
     :ok
