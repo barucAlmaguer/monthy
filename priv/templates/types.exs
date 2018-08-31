@@ -2,6 +2,12 @@ defmodule ValiotAppWeb.Schema.Types do
   use Absinthe.Schema.Notation
   use Absinthe.Ecto, repo: ValiotApp.Repo
 
+  scalar :text do
+    description("Text field")
+    parse(fn %Absinthe.Blueprint.Input.String{value: value} -> {:ok, value} end)
+    serialize(fn str -> str end)
+  end
+
   # Enums
   <%= for {enum, values} <- enums do %>
   enum <%= inspect enum |> Atom.to_string |> Inflex.underscore |> String.downcase |> String.to_atom %> do<%= for value <- values do %>
