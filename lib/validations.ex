@@ -11,7 +11,8 @@ defmodule ValiotApp.Validations do
         "Boolean",
         "NaiveDatetime",
         "DateTime",
-        "Date"
+        "Date",
+        "Text"
       ] ++
         Enum.map(enums, fn {k, _} -> Atom.to_string(k) end) ++
         Enum.map(types, fn {k, _} -> Atom.to_string(k) end) ++

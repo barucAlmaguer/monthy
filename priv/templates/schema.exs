@@ -5,7 +5,7 @@ defmodule ValiotApp.Api.<%= inspect [Atom.to_string(k)] |> Module.concat %> do
   schema <%= inspect k |> Inflex.underscore |> Inflex.pluralize %> do
     <%= for {type, attrs} <- v do %><%= case Map.get(attrs, :database) do %>
     <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect [Map.get(attrs, :type)] |> Module.concat %>Enum)
-    <% :normal -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
+    <% :normal -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect if Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom == :text, do: :string, else: Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
     <% :belongs_to -> %>belongs_to(<%= inspect type |> Inflex.underscore |> String.to_atom %>, ValiotApp.Api.<%= inspect [Map.get(attrs, :type)] |> Module.concat %>, foreign_key: <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>_id)
     <% :has_many -> %>has_many(<%= inspect type |> Inflex.pluralize |> Inflex.underscore |> String.to_atom %>, ValiotApp.Api.<%= inspect [type |> Inflex.singularize |> Inflex.camelize] |> Module.concat %>)
     <% end %><% end %>
