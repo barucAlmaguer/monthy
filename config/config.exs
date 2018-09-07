@@ -7,6 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :valiot_app, ecto_repos: [ValiotApp.Repo, ValiotApp.ValiotRepo]
+config :phoenix, :format_encoders, json: Jason
+config :ecto, json_library: Jason
 
 # Configures the endpoint
 config :valiot_app, ValiotAppWeb.Endpoint,
