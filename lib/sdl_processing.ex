@@ -103,7 +103,7 @@ defmodule ValiotApp.SdlProcessing do
 
     default =
       case Regex.run(~r/(?<=@default\(value:)\s[\w\d\."]*/, body) do
-        [value] -> String.trim(value) |> Poison.decode!()
+        [value] -> String.trim(value) |> Jason.decode!()
         nil -> nil
       end
 

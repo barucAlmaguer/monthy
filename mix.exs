@@ -41,7 +41,7 @@ defmodule ValiotApp.Mixfile do
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
-      {:poison, "~> 3.1.0"},
+      {:jason, "~> 1.1"},
       {:absinthe, "~> 1.4.5"},
       {:absinthe_plug, "~> 1.4.5"},
       {:absinthe_ecto, git: "https://github.com/absinthe-graphql/absinthe_ecto.git"},
