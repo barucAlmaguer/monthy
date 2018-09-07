@@ -15,6 +15,6 @@ defmodule ValiotAppWeb.Router do
       socket: ValiotAppWeb.UserSocket
     )
 
-    forward("/", Absinthe.Plug, schema: ValiotAppWeb.Schema)
+    forward("/", Absinthe.Plug, schema: ValiotAppWeb.Schema, json_codec: Jason)
   end
 end
