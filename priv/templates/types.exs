@@ -24,6 +24,7 @@ defmodule ValiotAppWeb.Schema.Types do
         <% :normal -> %> value(<%= inspect type |> Inflex.underscore |> String.to_atom %>)
         <% :enum -> %> value(<%= inspect type |> Inflex.underscore |> String.to_atom %>)
         <% :belongs_to -> %>
+        <% :has_one -> %>
         <% :has_many -> %>
       <% end %><% end %>
     end
@@ -44,6 +45,7 @@ defmodule ValiotAppWeb.Schema.Types do
       arg(:order_by, :order_<%= type |> Inflex.underscore |> Inflex.singularize %>)
       resolve(&ValiotApp.<%=  type |> Inflex.camelize|> Inflex.singularize%>Resolver.all/3)
     end
+    <% :has_one -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect type |> Inflex.underscore |> String.to_atom %>, resolve: assoc(<%= inspect type |> Inflex.underscore |> String.to_atom %>))
     <% :belongs_to -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>_id, :id)
     field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect type |> Inflex.underscore |> String.to_atom %>, resolve: assoc(<%= inspect type |> Inflex.underscore |> String.to_atom %>))
     <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.downcase |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.downcase |> String.to_atom %>)

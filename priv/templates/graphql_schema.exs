@@ -46,6 +46,7 @@ defmodule ValiotAppWeb.Schema do
     <%= for {type, attrs} <- values do %><%= case Map.get(attrs, :database) do %>
     <% :normal -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
     <% :has_many -> %>
+    <% :has_one -> %>
     <% :belongs_to -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>_id, :integer)
     <% :enum -> %>field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type)  |> Inflex.underscore |> String.downcase |> String.to_atom %>)
 <% end %><% end %>
@@ -75,6 +76,7 @@ defmodule ValiotAppWeb.Schema do
     <% :normal -> %>@desc <%= inspect "Matching #{type |> Inflex.underscore }" %>
     field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
     <% :has_many -> %>
+    <% :has_one -> %>
     <% :belongs_to -> %>
     <% :enum -> %>@desc <%= inspect "Matching #{type |> Inflex.underscore }" %>
     field(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
@@ -100,6 +102,7 @@ payload_object(<%= inspect schema |> Inflex.underscore |> String.to_atom %>_payl
       <%= for {type, attrs} <- values do %><%= case Map.get(attrs, :database) do %>
       <% :normal -> %>arg(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom %>)
       <% :has_many -> %>
+      <% :has_one -> %>
       <% :belongs_to -> %>arg(<%= inspect type |> Inflex.underscore |> String.to_atom %>_id, :integer)
       <% :enum -> %>arg(<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= inspect Map.get(attrs, :type)  |> Inflex.underscore |> String.downcase |> String.to_atom %>)
 <% end %><% end %>

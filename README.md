@@ -13,19 +13,20 @@ To start your Phoenix server:
     * Example of GraphQL schema
 ```
 type Author {
-  name: String!
+  name: String! @unique
   lastName: String!
   dateOfBirth: Date
   active: Boolean @default(value: false)
   posts: [Post]
   comments: [Comment]
+  avatar: Avatar @has_one
 }
 
 type Post {
   author: Author
   name: String! @unique
   body: Text!
-  status: Status
+  status_word: StatusWord
   comments: [Comment]
 }
 
@@ -35,13 +36,19 @@ type Comment {
   body: String!
 }
 
-enum Status {
+type Avatar {
+  image_url: String
+  author: Author
+}
+
+enum StatusWord {
   APPROVED
   PENDING
   REJECTED
 }
+
 ```
-  * Run `mix valiot.gen.api /path/to/schema.graphql`
+  * Run `mix valiot.gen.api schema.graphql`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
   * Run the formatter with `mix format`
   * Start Phoenix endpoint with `mix phx.server`
@@ -53,7 +60,7 @@ Ready to run in production? Please [check our deployment guides](http://www.phoe
 ## Adding Permissions
   * First, manually create CRUD permissions to a `user_id` and specific table (`relation`). Example using seeds:
   ```
-  %ValiotApp.Api.Permission{user_id: 1, relation: :permission, create: true, update: true, read: true, delete: true} 
+  %ValiotApp.Api.Permission{user_id: 1, relation: :permission, create: true, update: true, read: true, delete: true}
   |> ValiotApp.Repo.insert!()
   ```
   * The default values to `create`, `update`, `read`, and `delete` fields are *false*.
@@ -84,15 +91,18 @@ mutation{
 ## Making Queries
   * The following examples use the schema provided above.
 
- ### To run the tests:
- * Change the `@token` or eliminate it if not needed, in `error_filters_test.exs` 
- * Run the tests provided in the repository with `mix test` 
+### To run the tests:
+ * Change the `@token` or eliminate it if not needed, in `error_filters_test.exs`
+ * Run the tests provided in the repository with `mix test`
 
 ### To run a Query with GraphiQL :
   * Populate the Database with seeds inside of the files ending with `_test.exs` by putting them in `seeds.ex` file and running `mix run priv/repo/seeds.exs`
 
+### One to One relationships:
+On your schema.graphql add `@has_one` to one of the relations, the other will become the `belongs_to`.
+
 #### Example 1
-  * Get children values of a field:  
+  * Get children values of a field:
 ```
 {
   authors{
@@ -125,7 +135,7 @@ mutation{
       {
         "name": "Samantha",
         "dateOfBirth": "2000-01-01"
-      }   
+      }
     ]
   }
 }

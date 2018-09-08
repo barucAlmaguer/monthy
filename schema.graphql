@@ -5,6 +5,7 @@ type Author {
   active: Boolean @default(value: false)
   posts: [Post]
   comments: [Comment]
+  avatar: Avatar @has_one
 }
 
 type Post {
@@ -19,6 +20,11 @@ type Comment {
   author: Author
   post: Post
   body: String!
+}
+
+type Avatar {
+  image_url: String
+  author: Author
 }
 
 enum StatusWord {

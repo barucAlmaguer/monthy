@@ -65,7 +65,7 @@ defmodule ValiotApp.SdlProcessing do
 
   defp has_relations?(attrs, types) do
     Enum.any?(attrs, fn {_, attr} ->
-      !Enum.member?(types, Map.get(attr, :type))
+      :has_one != Map.get(attr, :database) && !Enum.member?(types, Map.get(attr, :type))
     end)
   end
 
@@ -113,6 +113,12 @@ defmodule ValiotApp.SdlProcessing do
         _ -> true
       end
 
+    has_one =
+      case Regex.run(~r/@has_one/, body) do
+        nil -> false
+        _ -> true
+      end
+
     valid_types = [
       "Float",
       "Integer",
@@ -127,6 +133,7 @@ defmodule ValiotApp.SdlProcessing do
     database =
       cond do
         type == "" -> :has_many
+        has_one -> :has_one
         Enum.member?(valid_types, type) -> :normal
         Enum.map(enums, fn {k, _} -> Atom.to_string(k) end) |> Enum.member?(type) -> :enum
         true -> :belongs_to
@@ -137,7 +144,13 @@ defmodule ValiotApp.SdlProcessing do
     attributeMap(
       t,
       enums,
-      Map.put(map, name, %{type: type, unique: unique, null: !null, default: default, database: database})
+      Map.put(map, name, %{
+        type: type,
+        unique: unique,
+        null: !null,
+        default: default,
+        database: database
+      })
     )
   end
 

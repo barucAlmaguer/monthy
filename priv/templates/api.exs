@@ -100,6 +100,7 @@ defmodule ValiotApp.Api do
               from(q in query, where: q.<%= type |> Inflex.underscore %> == ^<%= type |> Inflex.underscore %>)
           <% end %>
           <% :has_many -> %>
+          <% :has_one -> %>
           <% :belongs_to -> %>
           <% :enum -> %>{<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= type |> Inflex.underscore %>}, query ->
           from(q in query, where: q.<%= type |> Inflex.underscore  %> == ^<%= type |> Inflex.underscore  %>)

@@ -506,12 +506,12 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
       |> get("/api", query: @query)
 
     assert json_response(response, 200) == %{
-        "data" => %{
-          "authors" =>[
-            %{"id" => "1"},
-            %{"id" => "2"}
-          ]
-        }
-    }
+             "data" => %{
+               "authors" => [
+                 %{"id" => "1"},
+                 %{"id" => "2"}
+               ]
+             }
+           }
   end
 end

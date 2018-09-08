@@ -2,6 +2,7 @@
 - [New feature] Added Text type for longer than 255 strings.
 - [New feature] Query association id in belongs_to
 - [New feature] Use Jason instead of Poison
+- [New feature] Added One to One relationships
 
 # 0.2.0
 - [New feature] Added kronky for better error responses on mutations
