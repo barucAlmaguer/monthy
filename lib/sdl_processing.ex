@@ -69,10 +69,11 @@ defmodule ValiotApp.SdlProcessing do
     end)
   end
 
-  defp has_missing_dependencies?(v, sorted, types) do
+  defp has_missing_dependencies?(v, sorted, _types) do
+    # Check that it's a dependency using belongs_to
     dependencies =
-      Enum.map(v, fn {_, v} -> Map.get(v, :type) end)
-      |> Enum.filter(fn t -> !Enum.member?(types, t) end)
+      Enum.filter(v, fn {_, v} -> Map.get(v, :database) == :belongs_to end)
+      |> Enum.map(fn {_, v} -> Map.get(v, :type) end)
 
     sorted_dependencies =
       Enum.map(sorted, fn {k, _} ->
