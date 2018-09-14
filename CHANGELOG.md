@@ -1,4 +1,6 @@
 # Master
+
+# 0.2.1
 - [New feature] Added Text type for longer than 255 strings.
 - [New feature] Query association id in belongs_to
 - [New feature] Use Jason instead of Poison
