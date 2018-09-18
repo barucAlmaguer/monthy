@@ -3,12 +3,12 @@ type Author {
   lastName: String!
   dateOfBirth: Date
   active: Boolean @default(value: false)
-  posts: [Post]
+  blog_posts: [BlogPost]
   comments: [Comment]
   avatar: Avatar @has_one
 }
 
-type Post {
+type BlogPost {
   author: Author
   name: String! @unique
   body: Text!
@@ -18,7 +18,7 @@ type Post {
 
 type Comment {
   author: Author
-  post: Post
+  blog_post: BlogPost
   body: String!
 }
 

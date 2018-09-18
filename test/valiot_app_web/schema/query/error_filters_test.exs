@@ -16,7 +16,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     )
 
     Code.eval_string(
-      "%ValiotApp.Api.Permission{user_id: 4, relation: :post, read: true} |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{user_id: 4, relation: :blog_post, read: true} |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(
@@ -50,7 +50,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
         updated_at: ~N[2018-07-11 23:08:17.345957]
       }|> ValiotApp.Repo.insert!()")
 
-    Code.eval_string("%ValiotApp.Api.Post{
+    Code.eval_string("%ValiotApp.Api.BlogPost{
           body: \"how are you\",
           name: \"pedro\",
           status_word: :pending,
@@ -418,12 +418,12 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   @query """
   {
-    posts(filter:{status_word:PENDING}) {
+    blog_posts(filter:{status_word:PENDING}) {
       statusWord
     }
   }
   """
-  test "14. Posts with enum " do
+  test "14. BlogPosts with enum " do
     response =
       build_conn()
       |> put_req_header(
@@ -434,7 +434,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
     assert json_response(response, 200) == %{
              "data" => %{
-               "posts" => [
+               "blog_posts" => [
                  %{"statusWord" => "PENDING"}
                ]
              }

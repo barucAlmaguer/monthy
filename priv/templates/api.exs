@@ -32,7 +32,7 @@ defmodule ValiotApp.Api do
   end
 
   def list_<%= k |> Inflex.underscore |> Inflex.pluralize %>(filters, item) do
-    field_belong = item.__struct__ |> to_string() |> String.split(".") |> List.last |>
+    field_belong = item.__struct__ |> to_string() |> Inflex.underscore |> String.split(".") |> List.last |>
     String.downcase |> Kernel.<>("_id") |>String.to_atom
     query = filters
     |> Enum.reduce(Api.<%= module %>, fn

@@ -12,7 +12,7 @@ defmodule ValiotApp.Schema.Mutations.TextTests do
     )
 
     Code.eval_string(
-      "%ValiotApp.Api.Permission{user_id: 4, relation: :post, read: true, create: true}  |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{user_id: 4, relation: :blog_post, read: true, create: true}  |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(
@@ -24,7 +24,7 @@ defmodule ValiotApp.Schema.Mutations.TextTests do
 
   @mutation """
   mutation {
-    createPost(name: "Test", body: "Lorem ipsum dolor sit amet consectetur adipiscing elit fermentum, pulvinar platea sodales conubia curae vivamus eros, convallis porta quam facilisis at pretium in. Nisl luctus nec phasellus leo vehicula feugiat gravida iaculis suspendisse non rutrum sem integer enim.", authorId: 1) {
+    createBlogPost(name: "Test", body: "Lorem ipsum dolor sit amet consectetur adipiscing elit fermentum, pulvinar platea sodales conubia curae vivamus eros, convallis porta quam facilisis at pretium in. Nisl luctus nec phasellus leo vehicula feugiat gravida iaculis suspendisse non rutrum sem integer enim.", authorId: 1) {
       successful
     }
   }
@@ -43,7 +43,7 @@ defmodule ValiotApp.Schema.Mutations.TextTests do
 
     assert json_response(conn, 200) == %{
              "data" => %{
-               "createPost" => %{
+               "createBlogPost" => %{
                  "successful" => true
                }
              }
