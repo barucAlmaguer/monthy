@@ -9,7 +9,7 @@ defmodule ValiotApp.Schema.Query.BelongsToIdTests do
     )
 
     Code.eval_string(
-      "%ValiotApp.Api.Permission{user_id: 4, relation: :post, read: true}  |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{user_id: 4, relation: :blog_post, read: true}  |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(
@@ -17,7 +17,7 @@ defmodule ValiotApp.Schema.Query.BelongsToIdTests do
     )
 
     Code.eval_string(
-      "%ValiotApp.Api.Post{id: 1, name: \"Test Post\", body: \"Test body\", author_id: 1} |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.BlogPost{id: 1, name: \"Test Blog Post\", body: \"Test body\", author_id: 1} |> ValiotApp.Repo.insert!()"
     )
 
     :ok
@@ -25,7 +25,7 @@ defmodule ValiotApp.Schema.Query.BelongsToIdTests do
 
   @query """
   {
-    post(id: 1) {
+    blog_post(id: 1) {
       author_id
     }
   }
@@ -41,7 +41,7 @@ defmodule ValiotApp.Schema.Query.BelongsToIdTests do
 
     assert json_response(conn, 200) == %{
              "data" => %{
-               "post" => %{"author_id" => "1"}
+               "blog_post" => %{"author_id" => "1"}
              }
            }
   end

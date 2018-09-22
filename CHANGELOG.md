@@ -1,4 +1,5 @@
 # Master
+- [Bug Fix] Fix missing underscore on list_ belongs to.
 
 # 0.2.1
 - [New feature] Added Text type for longer than 255 strings.
