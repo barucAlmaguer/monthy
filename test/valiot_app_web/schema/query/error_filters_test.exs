@@ -120,12 +120,37 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
 
   @query """
   {
+    authors(filter: {name: "\\w+ebeca"}) {
+      name
+    }
+  }
+  """
+  test "3. Authors filtered by name: \\w+ebeca " do
+    response =
+      build_conn()
+      |> put_req_header(
+        "authorization",
+        @token
+      )
+      |> get("/api", query: @query)
+
+    assert json_response(response, 200) == %{
+             "data" => %{
+               "authors" => [
+                 %{"name" => "Rebeca"}
+               ]
+             }
+           }
+  end
+
+  @query """
+  {
     authors(filter: {name: 123}) {
       name
     }
   }
   """
-  test "3. Authors error output when filter value is invalid, name: 123" do
+  test "4. Authors error output when filter value is invalid, name: 123" do
     response =
       build_conn()
       |> put_req_header(
@@ -153,7 +178,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => "George"}
-  test "4. Authors field filtered by name when using a variable $term" do
+  test "5. Authors field filtered by name when using a variable $term" do
     response =
       build_conn()
       |> put_req_header(
@@ -179,7 +204,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => 1}
-  test "5. Authors field returns an error when using a bad variable value" do
+  test "6. Authors field returns an error when using a bad variable value" do
     response =
       build_conn()
       |> put_req_header(
@@ -201,7 +226,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => "Williams"}
-  test "6. Authors field returns values when using lastName variable value" do
+  test "7. Authors field returns values when using lastName variable value" do
     response =
       build_conn()
       |> put_req_header(
@@ -228,7 +253,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => "1990-01-01"}
-  test "7. Authors filter by date_of_birth" do
+  test "8. Authors filter by date_of_birth" do
     response =
       build_conn()
       |> put_req_header(
@@ -253,7 +278,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     }
   }
   """
-  test "8. Authors filter by Boolean" do
+  test "9. Authors filter by Boolean" do
     response =
       build_conn()
       |> put_req_header(
@@ -280,7 +305,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => 1}
-  test "9. Authors filter by ID" do
+  test "10. Authors filter by ID" do
     response =
       build_conn()
       |> put_req_header(
@@ -306,7 +331,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"after" => "2018-07-03T15:52:11.330Z"}
-  test "10. Authors filter after" do
+  test "11. Authors filter after" do
     response =
       build_conn()
       |> put_req_header(
@@ -338,7 +363,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
   }
   """
   @variables %{"term" => 1}
-  test "11. Authors with many assoc in comments" do
+  test "12. Authors with many assoc in comments" do
     response =
       build_conn()
       |> put_req_header(
@@ -365,7 +390,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     }
   }
   """
-  test "12. Authors order desc by id" do
+  test "13. Authors order desc by id" do
     response =
       build_conn()
       |> put_req_header(
@@ -394,7 +419,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     }
   }
   """
-  test "13. Authors order desc by inserted_at " do
+  test "14. Authors order desc by inserted_at " do
     response =
       build_conn()
       |> put_req_header(
@@ -423,7 +448,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     }
   }
   """
-  test "14. BlogPosts with enum " do
+  test "15. BlogPosts with enum " do
     response =
       build_conn()
       |> put_req_header(
@@ -448,7 +473,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     }
   }
   """
-  test "15 first commment with id 1 and geting its inserted at  " do
+  test "16 first commment with id 1 and geting its inserted at  " do
     response =
       build_conn()
       |> put_req_header(
@@ -473,7 +498,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     }
   }
   """
-  test "16 can limit and orderBy on a has_many relationship" do
+  test "17 can limit and orderBy on a has_many relationship" do
     response =
       build_conn()
       |> put_req_header(
@@ -496,7 +521,7 @@ defmodule ValiotApp.Schema.Query.FiltersTests do
     }
   }
   """
-  test "17 use ids filter in authors" do
+  test "18 use ids filter in authors" do
     response =
       build_conn()
       |> put_req_header(
