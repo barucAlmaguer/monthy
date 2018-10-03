@@ -144,7 +144,7 @@ On your schema.graphql add `@has_one` to one of the relations, the other will be
   * Get children values of a field using the keyword `filter`
 ```
 {
-  authors(filter: {name: "Rebeca"}) {
+  authors(filter: {name: "\\w+beca"}) {
     lastName
   }
 }

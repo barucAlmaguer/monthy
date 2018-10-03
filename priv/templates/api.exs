@@ -95,7 +95,7 @@ defmodule ValiotApp.Api do
           <% :normal -> %>{<%= inspect type |> Inflex.underscore |> String.to_atom %>, <%= type |> Inflex.underscore %>}, query ->
           <%= case Map.get(attrs, :type) |> Inflex.underscore |> String.to_atom do %>
             <% :string -> %>
-              from q in query, where: ilike(q.<%= type |> Inflex.underscore  %>, ^"%#{<%= type |> Inflex.underscore  %>}%")
+              from q in query, where: fragment("? ~ ?", q.<%= type |> Inflex.underscore  %>, ^"#{<%= type |> Inflex.underscore  %>}")
             <% _ -> %>
               from(q in query, where: q.<%= type |> Inflex.underscore %> == ^<%= type |> Inflex.underscore %>)
           <% end %>

@@ -1,5 +1,6 @@
 # Master
 - [Bug Fix] Fix missing underscore on list_ belongs to.
+- [New feature] Filter by strings can now use POSIX (Regex)
 
 # 0.2.1
 - [New feature] Added Text type for longer than 255 strings.
