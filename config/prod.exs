@@ -31,20 +31,16 @@ config :valiot_app, ValiotApp.Repo,
   ],
   ssl: true
 
-config :valiot_app, ValiotApp.ValiotRepo,
-  adapter: Ecto.Adapters.Postgres,
-  hostname: System.get_env("MAIN_DB_HOSTNAME"),
-  database: System.get_env("MAIN_DB_DATABASE"),
-  username: System.get_env("MAIN_DB_USERNAME"),
-  password: System.get_env("MAIN_DB_PASSWORD"),
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
-  ssl_opts: [
-    cacertfile: "priv/rds-combined-ca-bundle.pem"
-  ],
-  ssl: true
-
 # Do not print debug messages in production
+config :valiot_app, :token_helper, %{
+  url: “url para valiot auth “,
+  header: %{
+    authorization:
+      “token”
+  }
+}
 config :logger, level: :info
+
 
 # ## SSL Support
 #

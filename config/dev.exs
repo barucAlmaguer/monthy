@@ -13,6 +13,14 @@ config :valiot_app, ValiotAppWeb.Endpoint,
   check_origin: false,
   watchers: []
 
+config :valiot_app, :token_helper, %{
+  url: “url para valiot auth “,
+  header: %{
+    authorization:
+      “token”
+  }
+}
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed
@@ -42,13 +50,5 @@ config :valiot_app, ValiotApp.Repo,
   # username: "postgres",
   # password: "postgres",
   database: "valiot_app_dev",
-  hostname: "localhost",
-  pool_size: 10
-
-config :valiot_app, ValiotApp.ValiotRepo,
-  adapter: Ecto.Adapters.Postgres,
-  # username: "postgres",
-  # password: "postgres",
-  database: "valiot_server_dev",
   hostname: "localhost",
   pool_size: 10

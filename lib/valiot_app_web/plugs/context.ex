@@ -4,9 +4,6 @@ defmodule ValiotAppWeb.Context do
   import Plug.Conn
   import Ecto.Query, only: [where: 2]
 
-  alias ValiotApp.ValiotRepo
-  alias ValiotApp.Accounts.User
-
   def init(opts), do: opts
 
   def call(conn, _) do
@@ -21,18 +18,19 @@ defmodule ValiotAppWeb.Context do
 
   defp build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, current_user} <- authorize(token) do
-      {:ok, %{current_user: current_user, token: token}}
+         {:ok, current_token} <- authorize(token) do
+      {:ok, %{current_token: current_token, token: token}}
     end
   end
 
   defp authorize(token) do
-    User
-    |> where(token: ^token)
-    |> ValiotRepo.one()
+    ValiotAppWeb.TokenHelper.authorize_token(token)
     |> case do
-      nil -> {:error, "Invalid authorization token"}
-      user -> {:ok, user}
+      {:ok, %{"valid" => false}} ->
+        {:error, "Invalid authorization token"}
+
+      {:ok, %{"valid" => true, "id" => id}} ->
+        {:ok, %{token: token, id: id}}
     end
   end
 end

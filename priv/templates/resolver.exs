@@ -3,15 +3,15 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
   alias ValiotAppWeb.AuthHelper
 
 
-  def all(item, args, %{context: %{current_user: current_user}}) do
-    case AuthHelper.authorized?(:read, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_user, :id)) do
+  def all(item, args, %{context: %{current_token: current_token}}) do
+    case AuthHelper.authorized?(:read, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_token, :id)) do
       true -> {:ok, Api.list_<%= Atom.to_string(k) |> Inflex.pluralize |> Inflex.underscore %>(args, item)}
       _ -> {:error, "Not Authorized to perform this action"}
     end
   end
 
-  def all(args, %{context: %{current_user: current_user}}) do
-    case AuthHelper.authorized?(:read, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_user, :id)) do
+  def all(args, %{context: %{current_token: current_token}}) do
+    case AuthHelper.authorized?(:read, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_token, :id)) do
       true -> {:ok, Api.list_<%= Atom.to_string(k) |> Inflex.pluralize |> Inflex.underscore %>(args)}
       _ -> {:error, "Not Authorized to perform this action"}
     end
@@ -21,8 +21,8 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:error, "Not Authorized"}
   end
 
-  def find(%{id: id}, %{context: %{current_user: current_user}}) do
-    case AuthHelper.authorized?(:read, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_user, :id)) do
+  def find(%{id: id}, %{context: %{current_token: current_token}}) do
+    case AuthHelper.authorized?(:read, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_token, :id)) do
       true ->
         case Api.get_<%= Atom.to_string(k) |> Inflex.underscore %>(id) do
           nil -> {:error, "Resource with id #{id} was not found"}
@@ -38,8 +38,8 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:error, "Not Authorized"}
   end
 
-  def create(args, %{context: %{current_user: current_user}}) do
-    case AuthHelper.authorized?(:create, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_user, :id)<%= if Atom.to_string(k) |> Inflex.underscore == "permission" do %>, args<% end %>) do
+  def create(args, %{context: %{current_token: current_token}}) do
+    case AuthHelper.authorized?(:create, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_token, :id)<%= if Atom.to_string(k) |> Inflex.underscore == "permission" do %>, args<% end %>) do
       true ->
         {_, request} = Api.create_<%= Atom.to_string(k) |> Inflex.underscore %>(args)
         Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, <%= Atom.to_string(k) |> Inflex.underscore %>_created: "*")
@@ -59,8 +59,8 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:error, "Not Authorized"}
   end
 
-  def update(%{id: id, <%= Atom.to_string(k) |> Inflex.underscore %>: <%= Atom.to_string(k) |> Inflex.underscore %>_params}, %{context: %{current_user: current_user}}) do
-    case AuthHelper.authorized?(:update, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_user, :id)) do
+  def update(%{id: id, <%= Atom.to_string(k) |> Inflex.underscore %>: <%= Atom.to_string(k) |> Inflex.underscore %>_params}, %{context: %{current_token: current_token}}) do
+    case AuthHelper.authorized?(:update, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_token, :id)) do
       true ->
         case Api.get_<%= Atom.to_string(k) |> Inflex.underscore %>(id) do
           nil -> {:error, "Resource with id #{id} was not found"}
@@ -79,8 +79,8 @@ defmodule ValiotApp.<%= inspect [Atom.to_string(k)] |> Module.concat %>Resolver 
     {:error, "Not Authorized"}
   end
 
-  def delete(%{id: id}, %{context: %{current_user: current_user}}) do
-    case AuthHelper.authorized?(:delete, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_user, :id)) do
+  def delete(%{id: id}, %{context: %{current_token: current_token}}) do
+    case AuthHelper.authorized?(:delete, :<%= Atom.to_string(k) |> Inflex.underscore %>, Map.get(current_token, :id)) do
       true ->
         case Api.get_<%= Atom.to_string(k) |> Inflex.underscore %>(id) do
           nil -> {:error, "Resource with id #{id} was not found"}
