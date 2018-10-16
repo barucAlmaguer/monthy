@@ -7,23 +7,6 @@ defmodule ValiotAppWeb.Schema do
   import_types(Kronky.ValidationMessageTypes)
 
   query do
-    # Users
-
-    @desc "Logout"
-    field :sign_out, type: :user do
-      resolve(&ValiotApp.UserResolver.logout/2)
-    end
-
-    @desc "Get all users"
-    field :users, list_of(:user) do
-      resolve(&ValiotApp.UserResolver.all/2)
-    end
-
-    @desc "Get info for user"
-    field :user, type: :user do
-      arg(:id, non_null(:id))
-      resolve(&ValiotApp.UserResolver.find/2)
-    end
     <%= for {schema, _values} <- types do %>
     @desc <%= inspect "Get all #{schema |> Inflex.pluralize |> Inflex.underscore}" %>
     field <%= inspect schema |> Inflex.pluralize |> Inflex.underscore |> String.to_atom %>, list_of(<%= inspect schema |> Inflex.underscore |> String.to_atom %>) do
