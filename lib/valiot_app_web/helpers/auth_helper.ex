@@ -8,7 +8,7 @@ defmodule ValiotAppWeb.AuthHelper do
     case authorized?(perm, type, id) do
       true ->
         ValiotApp.Api.Permission
-        |> where(user_id: ^Map.get(args, :user_id))
+        |> where(token_id: ^Map.get(args, :token_id))
         |> where(relation: ^Map.get(args, :relation))
         |> Repo.one()
         |> case do
@@ -23,7 +23,7 @@ defmodule ValiotAppWeb.AuthHelper do
 
   def authorized?(perm, type, id) do
     ValiotApp.Api.Permission
-    |> where(user_id: ^id)
+    |> where(token_id: ^id)
     |> where(relation: ^type)
     |> where([p], field(p, ^perm) == true)
     |> Repo.one()

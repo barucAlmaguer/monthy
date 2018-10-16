@@ -25,7 +25,7 @@ defmodule Mix.Permissions do
       end
       |> Enum.join("\n")
 
-    "\ntype Permission {\n  user_id: Integer!\n  relation: Relation!\n#{perms}}\n#{enum}"
+    "\ntype Permission {\n  token_id: Integer!\n  relation: Relation!\n#{perms}}\n#{enum}"
   end
 
   def create_struct({:ok, perms}, struct) do

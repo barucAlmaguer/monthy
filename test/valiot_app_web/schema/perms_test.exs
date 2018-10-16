@@ -8,7 +8,7 @@ defmodule ValiotApp.Schema.Permission do
 
   setup do
     Code.eval_string(
-      "%ValiotApp.Api.Permission{user_id: 4, relation: :permission, create: true} |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{token_id: 4, relation: :permission, create: true} |> ValiotApp.Repo.insert!()"
     )
 
     :ok
@@ -16,7 +16,7 @@ defmodule ValiotApp.Schema.Permission do
 
   @mutation """
   mutation {
-    createPermission(user_id: 4 relation: PERMISSION read: true) {
+    createPermission(token_id: 4 relation: PERMISSION read: true) {
       result {
         id
       }

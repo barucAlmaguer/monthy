@@ -8,7 +8,7 @@ defmodule ValiotApp.Schema.Subscription.ErrorSubsTest do
 
   setup do
     Code.eval_string(
-      "%ValiotApp.Api.Permission{user_id: 4, relation: :author, create: true, update: true, delete: true} |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{token_id: 4, relation: :author, create: true, update: true, delete: true} |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(
