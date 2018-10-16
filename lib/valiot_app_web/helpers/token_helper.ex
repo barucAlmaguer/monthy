@@ -51,7 +51,8 @@ defmodule ValiotAppWeb.TokenHelper do
           token
           id
         }
-      }"
+      }
+    }"
     {:ok, response} = HTTPoison.post(@url, body, @header)
     {:ok, result} = Jason.decode(response.body)
     {:ok, parse_result("updateToken", result)}
