@@ -1,6 +1,6 @@
 # ValiotApp
 
-[ ![Codeship Status for DisruptiveAngels/valiot-app](https://app.codeship.com/projects/2edd70f0-4fb1-0136-e065-4202c386f1e6/status?branch=master)](https://app.codeship.com/projects/293608)
+[ ![Codeship Status for valiot/valiot-app](https://app.codeship.com/projects/4731e360-b38b-0136-3d03-1e21b4d27ea1/status?branch=master)](https://app.codeship.com/projects/311007)
 
 To start your Phoenix server:
 
