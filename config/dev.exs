@@ -14,10 +14,9 @@ config :valiot_app, ValiotAppWeb.Endpoint,
   watchers: []
 
 config :valiot_app, :token_helper, %{
-  url: “url para valiot auth “,
+  url: "url para valiot auth ",
   header: %{
-    authorization:
-      “token”
+    authorization: "token"
   }
 }
 

@@ -32,15 +32,15 @@ config :valiot_app, ValiotApp.Repo,
   ssl: true
 
 # Do not print debug messages in production
+
 config :valiot_app, :token_helper, %{
-  url: “url para valiot auth “,
+  url: "url para valiot auth ",
   header: %{
-    authorization:
-      “token”
+    authorization: "token"
   }
 }
-config :logger, level: :info
 
+config :logger, level: :info
 
 # ## SSL Support
 #
