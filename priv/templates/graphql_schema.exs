@@ -37,8 +37,8 @@ defmodule ValiotAppWeb.Schema do
 
   <%= for {schema, _values} <- types do %>
     input_object :order_<%= schema |> Inflex.underscore %> do
-      field(:asc , :<%= schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %>)
-      field(:desc , :<%= schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %>)
+      field(:asc , :<%= schema |> Inflex.underscore |> Kernel.<>("_attributes")|> String.to_atom %>)
+      field(:desc , :<%= schema |> Inflex.underscore |> Kernel.<>("_attributes")|> String.to_atom %>)
     end
   <% end %>
 

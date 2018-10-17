@@ -16,7 +16,7 @@ defmodule ValiotAppWeb.Schema.Types do
   <% end %>
 
     <%= for {schema, values} <- types do %>
-    enum <%= inspect schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %> do
+    enum <%= inspect schema |> Inflex.underscore |> Kernel.<>("_attributes")|> String.to_atom %> do
       value(:id)
       value(:inserted_at)
       value(:updated_at)
