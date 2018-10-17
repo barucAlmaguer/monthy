@@ -13,7 +13,7 @@ defmodule ValiotAppWeb.AuthHelper do
         |> Repo.one()
         |> case do
           nil -> true
-          _user -> "Resource already in existance. Try updatePermission."
+          _token -> "Resource already in existance. Try updatePermission."
         end
 
       false ->
@@ -29,7 +29,7 @@ defmodule ValiotAppWeb.AuthHelper do
     |> Repo.one()
     |> case do
       nil -> false
-      _user -> true
+      _token -> true
     end
   end
 end

@@ -17,3 +17,10 @@ config :valiot_app, ValiotApp.Repo,
   database: "valiot_app_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :valiot_app, :token_helper, %{
+  url: "url para valiot auth ",
+  header: %{
+    authorization: "token"
+  }
+}
