@@ -5,11 +5,11 @@ defmodule ValiotApp.Schema.Query.BelongsToIdTests do
 
   setup do
     Code.eval_string(
-      "%ValiotApp.Api.Permission{token_id: 4, relation: :author, read: true}  |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{token_id: 1, relation: :author, read: true}  |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(
-      "%ValiotApp.Api.Permission{token_id: 4, relation: :blog_post, read: true}  |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{token_id: 1, relation: :blog_post, read: true}  |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(

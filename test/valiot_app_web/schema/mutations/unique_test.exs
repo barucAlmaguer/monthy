@@ -8,7 +8,7 @@ defmodule ValiotApp.Schema.Mutations.UniqueTests do
 
   setup do
     Code.eval_string(
-      "%ValiotApp.Api.Permission{token_id: 4, relation: :author, read: true, create: true}  |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{token_id: 1, relation: :author, read: true, create: true}  |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(
