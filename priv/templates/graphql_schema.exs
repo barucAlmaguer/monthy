@@ -2,28 +2,10 @@ defmodule ValiotAppWeb.Schema do
   use Absinthe.Schema
   import Kronky.Payload
   import_types(ValiotAppWeb.Schema.Types)
-  import_types(ValiotAppWeb.Schema.ValiotTypes)
   import_types(Absinthe.Type.Custom)
   import_types(Kronky.ValidationMessageTypes)
 
   query do
-    # Users
-
-    @desc "Logout"
-    field :sign_out, type: :user do
-      resolve(&ValiotApp.UserResolver.logout/2)
-    end
-
-    @desc "Get all users"
-    field :users, list_of(:user) do
-      resolve(&ValiotApp.UserResolver.all/2)
-    end
-
-    @desc "Get info for user"
-    field :user, type: :user do
-      arg(:id, non_null(:id))
-      resolve(&ValiotApp.UserResolver.find/2)
-    end
     <%= for {schema, _values} <- types do %>
     @desc <%= inspect "Get all #{schema |> Inflex.pluralize |> Inflex.underscore}" %>
     field <%= inspect schema |> Inflex.pluralize |> Inflex.underscore |> String.to_atom %>, list_of(<%= inspect schema |> Inflex.underscore |> String.to_atom %>) do
@@ -55,8 +37,8 @@ defmodule ValiotAppWeb.Schema do
 
   <%= for {schema, _values} <- types do %>
     input_object :order_<%= schema |> Inflex.underscore %> do
-      field(:asc , :<%= schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %>)
-      field(:desc , :<%= schema |> Inflex.underscore |> Kernel.<>("_atributes")|> String.to_atom %>)
+      field(:asc , :<%= schema |> Inflex.underscore |> Kernel.<>("_attributes")|> String.to_atom %>)
+      field(:desc , :<%= schema |> Inflex.underscore |> Kernel.<>("_attributes")|> String.to_atom %>)
     end
   <% end %>
 

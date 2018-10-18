@@ -58,9 +58,9 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
 ## Adding Permissions
-  * First, manually create CRUD permissions to a `user_id` and specific table (`relation`). Example using seeds:
+  * First, manually create CRUD permissions to a `token_id` and specific table (`relation`). Example using seeds:
   ```
-  %ValiotApp.Api.Permission{user_id: 1, relation: :permission, create: true, update: true, read: true, delete: true}
+  %ValiotApp.Api.Permission{token_id: 1, relation: :permission, create: true, update: true, read: true, delete: true}
   |> ValiotApp.Repo.insert!()
   ```
   * The default values to `create`, `update`, `read`, and `delete` fields are *false*.

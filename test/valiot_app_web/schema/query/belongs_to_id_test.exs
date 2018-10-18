@@ -1,15 +1,15 @@
 defmodule ValiotApp.Schema.Query.BelongsToIdTests do
   use ValiotAppWeb.ConnCase, async: true
 
-  @token "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJ2YWxpb3RfYXBwIiwiZXhwIjoxNTMxNDk5NzE4LCJpYXQiOjE1MjkwODA1MTgsImlzcyI6InZhbGlvdF9hcHAiLCJqdGkiOiIyODY4NjVjZi1iN2UzLTQyMjctOWYzNS0xY2ViZGUwOWE1NTQiLCJuYmYiOjE1MjkwODA1MTcsInN1YiI6IjQiLCJ0eXAiOiJhY2Nlc3MifQ.I3PV52s4fdwtdSiIBS8irozcaTzCeFg3smtQp_E7apVvXK0_2Zh2mrtpDGuKt4VgVWmoPN4jlHHEgpUs--iHsw"
+  @token Application.get_env(:valiot_app, :token_helper).header.authorization
 
   setup do
     Code.eval_string(
-      "%ValiotApp.Api.Permission{user_id: 4, relation: :author, read: true}  |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{token_id: 1, relation: :author, read: true}  |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(
-      "%ValiotApp.Api.Permission{user_id: 4, relation: :blog_post, read: true}  |> ValiotApp.Repo.insert!()"
+      "%ValiotApp.Api.Permission{token_id: 1, relation: :blog_post, read: true}  |> ValiotApp.Repo.insert!()"
     )
 
     Code.eval_string(

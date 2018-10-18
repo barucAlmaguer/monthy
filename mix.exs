@@ -37,6 +37,7 @@ defmodule ValiotApp.Mixfile do
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:httpoison, "~> 1.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
       {:postgrex, ">= 0.0.0"},
       {:gettext, "~> 0.11"},

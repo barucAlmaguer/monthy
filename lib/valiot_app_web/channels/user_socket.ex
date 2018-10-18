@@ -1,49 +1,36 @@
 defmodule ValiotAppWeb.UserSocket do
   use Phoenix.Socket
   use Absinthe.Phoenix.Socket, schema: ValiotAppWeb.Schema
-  import Ecto.Query, only: [where: 2]
 
   ## Channels
   # channel "room:*", ValiotAppWeb.RoomChannel
-
   ## Transports
   transport(:websocket, Phoenix.Transports.WebSocket)
   # transport :longpoll, Phoenix.Transports.LongPoll
-
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
   # verification, you can put default assigns into
   # the socket that will be set for all channels, ie
   #
-  #     {:ok, assign(socket, :user_id, verified_user_id)}
+  #     {:ok, assign(socket, :token_id, verified_token_id)}
   #
   # To deny connection, return `:error`.
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(params, socket) do
-    with "Bearer " <> token <- params["Authorization"],
-         {:ok, current_user} <- current_user(token) do
+    with "Bearer " <> token <- params["authorization"],
+         {:ok, current_token} <- ValiotAppWeb.TokenHelper.authorize_token(token) do
       socket =
         Absinthe.Phoenix.Socket.put_options(socket,
           context: %{
-            current_user: current_user
+            current_token: current_token
           }
         )
 
       {:ok, socket}
     else
       _ -> {:ok, socket}
-    end
-  end
-
-  defp current_user(token) do
-    ValiotApp.Accounts.User
-    |> where(token: ^token)
-    |> ValiotApp.ValiotRepo.one()
-    |> case do
-      nil -> {:error, "Invalid authorization token"}
-      user -> {:ok, user}
     end
   end
 

@@ -6,7 +6,7 @@
 use Mix.Config
 
 # General application configuration
-config :valiot_app, ecto_repos: [ValiotApp.Repo, ValiotApp.ValiotRepo]
+config :valiot_app, ecto_repos: [ValiotApp.Repo]
 config :phoenix, :format_encoders, json: Jason
 config :ecto, json_library: Jason
 

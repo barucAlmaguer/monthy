@@ -10,7 +10,6 @@ defmodule ValiotApp.Application do
     children = [
       # Start the Ecto repository
       supervisor(ValiotApp.Repo, []),
-      supervisor(ValiotApp.ValiotRepo, []),
       # Start the endpoint when the application starts
       supervisor(ValiotAppWeb.Endpoint, []),
       # Start your own worker by calling: ValiotApp.Worker.start_link(arg1, arg2, arg3)
