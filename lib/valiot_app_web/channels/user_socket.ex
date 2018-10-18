@@ -19,7 +19,9 @@ defmodule ValiotAppWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(params, socket) do
-    with "Bearer " <> token <- params["authorization"],
+    auth = params["Authorization"] || params["authorization"]
+
+    with "Bearer " <> token <- auth,
          {:ok, current_token} <- ValiotAppWeb.TokenHelper.authorize_token(token) do
       socket =
         Absinthe.Phoenix.Socket.put_options(socket,
