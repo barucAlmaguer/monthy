@@ -1,5 +1,6 @@
 # Master
--
+- [New Feature] Use valiot-auth for tokens.
+- [New Feature] Remove ValiotRepo
 
 # 0.3.0
 - [Bug Fix] Fix missing underscore on list_ belongs to.
