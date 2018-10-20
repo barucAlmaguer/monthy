@@ -1,4 +1,6 @@
 # Master
+
+# 0.4.0
 - [New Feature] Use valiot-auth for tokens.
 - [New Feature] Remove ValiotRepo
 
