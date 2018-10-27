@@ -1,12 +1,21 @@
 type Area {
   name: String!
+  issue: [Issue]
+  profiles: [Profile]
+  projects: [Project]
+}
+
+type AreaIssue {
+  area: Area
+  issue: Issue
 }
 
 type Issue {
   name: String
   description: String
-  author: Profile
+  profile: Profile
   areas: [Area]
+  project: Project
 }
 
 type Project {
@@ -32,7 +41,6 @@ type Profile {
   picture: String
   description: String
   interests: [Area]
-  areas: [Area]
-  main: Area
+  area: String
   projects: [Project]
 }
