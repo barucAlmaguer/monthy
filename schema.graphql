@@ -1,34 +1,38 @@
-type Author {
-  name: String! @unique
-  lastName: String!
-  dateOfBirth: Date
-  active: Boolean @default(value: false)
-  blog_posts: [BlogPost]
-  comments: [Comment]
-  avatar: Avatar @has_one
+type Area {
+  name: String!
 }
 
-type BlogPost {
-  author: Author
-  name: String! @unique
-  body: Text!
-  status_word: StatusWord
-  comments: [Comment]
+type Issue {
+  name: String
+  description: String
+  author: Profile
+  areas: [Area]
 }
 
-type Comment {
-  author: Author
-  blog_post: BlogPost
-  body: String!
+type Project {
+  name: String
+  tag: String
+  description: String
+  areas: [Area]
+  issues: [Issue]
 }
 
-type Avatar {
-  image_url: String
-  author: Author
+type Role {
+  name: String
 }
 
-enum StatusWord {
-  APPROVED
-  PENDING
-  REJECTED
+type ProjectProfile {
+  project: Project
+  profile: Profile
+  role: Role
+}
+
+type Profile {
+  name: String
+  picture: String
+  description: String
+  interests: [Area]
+  areas: [Area]
+  main: Area
+  projects: [Project]
 }
