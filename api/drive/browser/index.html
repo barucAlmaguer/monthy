@@ -15,8 +15,8 @@
 
     <script type="text/javascript">
       // Client ID and API key from the Developer Console
-      var CLIENT_ID = '1088766657399-kts8dvmkomdfmiti1nmbs3tlc9av45od.apps.googleusercontent.com';
-      var API_KEY = 'AIzaSyC3rJ6V8It2OJ381EJ3owdsEFW-gJv9sq0';
+      var CLIENT_ID = '455314734098-gf1nc1gtac5r2ucrtjljhsngjk1ldsla.apps.googleusercontent.com';
+      var API_KEY = 'AIzaSyBOiefl_OSmGPyhHKkxFDTU0XTlhBtDQbM';
 
       // Array of API discovery doc URLs for APIs used by the quickstart
       var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
@@ -56,6 +56,9 @@
           updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
           authorizeButton.onclick = handleAuthClick;
           signoutButton.onclick = handleSignoutClick;
+        }).catch((res)=>{
+          console.log('ERROR')
+          console.log(res)
         });
       }
 
@@ -106,15 +109,16 @@
       function listFiles() {
         gapi.client.drive.files.list({
           'pageSize': 10,
-          'fields': "nextPageToken, files(id, name)"
+          'fields': "nextPageToken, files(id, name, owners)"
         }).then(function(response) {
           appendPre('Files:');
           var files = response.result.files;
           if (files && files.length > 0) {
             for (var i = 0; i < files.length; i++) {
               var file = files[i];
-              appendPre(file.name + ' (' + file.id + ')');
-            }
+              appendPre(file.name + ' (' + file.owners[0].displayName + ')');
+              console.log(file.owners)
+            } 
           } else {
             appendPre('No files found.');
           }
