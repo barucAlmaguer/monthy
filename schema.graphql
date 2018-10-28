@@ -40,7 +40,7 @@ type Profile {
   name: String
   picture: String
   description: String
-  interests: [Area]
-  area: String
+  areas: [Area]
+  main: String
   projects: [Project]
 }
