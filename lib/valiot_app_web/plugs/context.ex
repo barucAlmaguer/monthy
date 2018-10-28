@@ -21,7 +21,9 @@ defmodule ValiotAppWeb.Context do
 
   defp build_context(conn) do
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
-         {:ok, current_user} <- authorize(token) do
+    {:ok, current_user} <- authorize(token) do
+      IO.puts("AUTHORIZEDDD")
+      IO.inspect(current_user)
       {:ok, %{current_user: current_user, token: token}}
     end
   end

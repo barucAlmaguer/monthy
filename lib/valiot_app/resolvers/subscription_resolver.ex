@@ -1,5 +1,5 @@
 defmodule ValiotApp.SubscriptionResolver do
-  def subscribe(item, _, %{context: %{current_token: _current_token}}) do
+  def subscribe(item, _, %{context: %{current_user: _current_user}}) do
     {:ok, item}
   end
 

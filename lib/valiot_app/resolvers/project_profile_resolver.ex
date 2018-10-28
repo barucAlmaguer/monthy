@@ -3,15 +3,15 @@ defmodule ValiotApp.ProjectProfileResolver do
   alias ValiotAppWeb.AuthHelper
 
 
-  def all(item, args, %{context: %{current_token: current_token}}) do
-    case AuthHelper.authorized?(:read, :project_profile, Map.get(current_token, :id)) do
+  def all(item, args, %{context: %{current_user: current_user}}) do
+    case AuthHelper.authorized?(:read, :project_profile, Map.get(current_user, :id)) do
       true -> {:ok, Api.list_project_profiles(args, item)}
       _ -> {:error, "Not Authorized to perform this action"}
     end
   end
 
-  def all(args, %{context: %{current_token: current_token}}) do
-    case AuthHelper.authorized?(:read, :project_profile, Map.get(current_token, :id)) do
+  def all(args, %{context: %{current_user: current_user}}) do
+    case AuthHelper.authorized?(:read, :project_profile, Map.get(current_user, :id)) do
       true -> {:ok, Api.list_project_profiles(args)}
       _ -> {:error, "Not Authorized to perform this action"}
     end
@@ -21,8 +21,8 @@ defmodule ValiotApp.ProjectProfileResolver do
     {:error, "Not Authorized"}
   end
 
-  def find(%{id: id}, %{context: %{current_token: current_token}}) do
-    case AuthHelper.authorized?(:read, :project_profile, Map.get(current_token, :id)) do
+  def find(%{id: id}, %{context: %{current_user: current_user}}) do
+    case AuthHelper.authorized?(:read, :project_profile, Map.get(current_user, :id)) do
       true ->
         case Api.get_project_profile(id) do
           nil -> {:error, "Resource with id #{id} was not found"}
@@ -38,16 +38,16 @@ defmodule ValiotApp.ProjectProfileResolver do
     {:error, "Not Authorized"}
   end
 
-  def create(args, %{context: %{current_token: current_token}}) do
-    case AuthHelper.authorized?(:create, :project_profile, Map.get(current_token, :id)) do
+  def create(args, %{context: %{current_user: current_user}}) do
+    case AuthHelper.authorized?(:create, :project_profile, Map.get(current_user, :id)) do
       true ->
         {_, request} = Api.create_project_profile(args)
         Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, project_profile_created: "*")
         {:ok, request}
-      
+
           _ ->
         {:error, "Not Authorized to perform this action"}
-      
+
     end
   end
 
@@ -55,8 +55,8 @@ defmodule ValiotApp.ProjectProfileResolver do
     {:error, "Not Authorized"}
   end
 
-  def update(%{id: id, project_profile: project_profile_params}, %{context: %{current_token: current_token}}) do
-    case AuthHelper.authorized?(:update, :project_profile, Map.get(current_token, :id)) do
+  def update(%{id: id, project_profile: project_profile_params}, %{context: %{current_user: current_user}}) do
+    case AuthHelper.authorized?(:update, :project_profile, Map.get(current_user, :id)) do
       true ->
         case Api.get_project_profile(id) do
           nil -> {:error, "Resource with id #{id} was not found"}
@@ -75,8 +75,8 @@ defmodule ValiotApp.ProjectProfileResolver do
     {:error, "Not Authorized"}
   end
 
-  def delete(%{id: id}, %{context: %{current_token: current_token}}) do
-    case AuthHelper.authorized?(:delete, :project_profile, Map.get(current_token, :id)) do
+  def delete(%{id: id}, %{context: %{current_user: current_user}}) do
+    case AuthHelper.authorized?(:delete, :project_profile, Map.get(current_user, :id)) do
       true ->
         case Api.get_project_profile(id) do
           nil -> {:error, "Resource with id #{id} was not found"}
