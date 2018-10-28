@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "HackFCFM API": {
+      "schemaPath": "hack-fcfm.graphql",
+      "extensions": {
+        "endpoints": {
+          "default": "http://barux301.local:4000/api/graphiql"
+        }
+      }
+    }
+  }
+}

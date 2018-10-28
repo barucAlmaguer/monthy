@@ -1,0 +1,813 @@
+# source: http://barux301.local:4000/api/graphiql
+# timestamp: Sat Oct 27 2018 22:28:37 GMT-0500 (CDT)
+
+schema {
+  query: RootQueryType
+  mutation: RootMutationType
+  subscription: RootSubscriptionType
+}
+
+type Area {
+  id: ID
+  insertedAt: NaiveDateTime
+  issue(filter: FiltersIssue, limit: Int, offset: Int, orderBy: OrderIssue): [Issue]
+  name: String
+  profiles(filter: FiltersProfile, limit: Int, offset: Int, orderBy: OrderProfile): [Profile]
+  projects(filter: FiltersProject, limit: Int, offset: Int, orderBy: OrderProject): [Project]
+  updatedAt: NaiveDateTime
+}
+
+enum AreaAttributes {
+  ID
+  INSERTED_AT
+  NAME
+  UPDATED_AT
+}
+
+type AreaIssue {
+  area: Area
+  areaId: ID
+  id: ID
+  insertedAt: NaiveDateTime
+  issue: Issue
+  issueId: ID
+  updatedAt: NaiveDateTime
+}
+
+enum AreaIssueAttributes {
+  ID
+  INSERTED_AT
+  UPDATED_AT
+}
+
+type AreaIssuePayload {
+  """
+  A list of failed validations. May be blank or null if mutation succeeded.
+  """
+  messages: [ValidationMessage]
+
+  """
+  The object created/updated/deleted by the mutation. May be null if mutation failed.
+  """
+  result: AreaIssue
+
+  """Indicates if the mutation completed successfully or not. """
+  successful: Boolean!
+}
+
+type AreaPayload {
+  """
+  A list of failed validations. May be blank or null if mutation succeeded.
+  """
+  messages: [ValidationMessage]
+
+  """
+  The object created/updated/deleted by the mutation. May be null if mutation failed.
+  """
+  result: Area
+
+  """Indicates if the mutation completed successfully or not. """
+  successful: Boolean!
+}
+
+"""Filtering areas"""
+input FiltersArea {
+  """filter of datetime after and including date"""
+  after: NaiveDateTime
+
+  """filter of datetime before and including date"""
+  before: NaiveDateTime
+
+  """Matching id"""
+  id: ID
+
+  """Filter of list of ids"""
+  ids: [Int]
+
+  """Matching name"""
+  name: String
+}
+
+"""Filtering area_issues"""
+input FiltersAreaIssue {
+  """filter of datetime after and including date"""
+  after: NaiveDateTime
+
+  """filter of datetime before and including date"""
+  before: NaiveDateTime
+
+  """Matching id"""
+  id: ID
+
+  """Filter of list of ids"""
+  ids: [Int]
+}
+
+"""Filtering issues"""
+input FiltersIssue {
+  """filter of datetime after and including date"""
+  after: NaiveDateTime
+
+  """filter of datetime before and including date"""
+  before: NaiveDateTime
+
+  """Matching description"""
+  description: String
+
+  """Matching id"""
+  id: ID
+
+  """Filter of list of ids"""
+  ids: [Int]
+
+  """Matching name"""
+  name: String
+}
+
+"""Filtering permissions"""
+input FiltersPermission {
+  """filter of datetime after and including date"""
+  after: NaiveDateTime
+
+  """filter of datetime before and including date"""
+  before: NaiveDateTime
+
+  """Matching create"""
+  create: Boolean
+
+  """Matching delete"""
+  delete: Boolean
+
+  """Matching id"""
+  id: ID
+
+  """Filter of list of ids"""
+  ids: [Int]
+
+  """Matching read"""
+  read: Boolean
+
+  """Matching relation"""
+  relation: Relation
+
+  """Matching token_id"""
+  tokenId: Int
+
+  """Matching update"""
+  update: Boolean
+}
+
+"""Filtering profiles"""
+input FiltersProfile {
+  """filter of datetime after and including date"""
+  after: NaiveDateTime
+
+  """filter of datetime before and including date"""
+  before: NaiveDateTime
+
+  """Matching description"""
+  description: String
+
+  """Matching id"""
+  id: ID
+
+  """Filter of list of ids"""
+  ids: [Int]
+
+  """Matching main"""
+  main: String
+
+  """Matching name"""
+  name: String
+
+  """Matching picture"""
+  picture: String
+}
+
+"""Filtering projects"""
+input FiltersProject {
+  """filter of datetime after and including date"""
+  after: NaiveDateTime
+
+  """filter of datetime before and including date"""
+  before: NaiveDateTime
+
+  """Matching description"""
+  description: String
+
+  """Matching id"""
+  id: ID
+
+  """Filter of list of ids"""
+  ids: [Int]
+
+  """Matching name"""
+  name: String
+
+  """Matching tag"""
+  tag: String
+}
+
+"""Filtering project_profiles"""
+input FiltersProjectProfile {
+  """filter of datetime after and including date"""
+  after: NaiveDateTime
+
+  """filter of datetime before and including date"""
+  before: NaiveDateTime
+
+  """Matching id"""
+  id: ID
+
+  """Filter of list of ids"""
+  ids: [Int]
+}
+
+"""Filtering roles"""
+input FiltersRole {
+  """filter of datetime after and including date"""
+  after: NaiveDateTime
+
+  """filter of datetime before and including date"""
+  before: NaiveDateTime
+
+  """Matching id"""
+  id: ID
+
+  """Filter of list of ids"""
+  ids: [Int]
+
+  """Matching name"""
+  name: String
+}
+
+type Issue {
+  areas(filter: FiltersArea, limit: Int, offset: Int, orderBy: OrderArea): [Area]
+  description: String
+  id: ID
+  insertedAt: NaiveDateTime
+  name: String
+  profile: Profile
+  profileId: ID
+  project: Project
+  projectId: ID
+  updatedAt: NaiveDateTime
+}
+
+enum IssueAttributes {
+  DESCRIPTION
+  ID
+  INSERTED_AT
+  NAME
+  UPDATED_AT
+}
+
+type IssuePayload {
+  """
+  A list of failed validations. May be blank or null if mutation succeeded.
+  """
+  messages: [ValidationMessage]
+
+  """
+  The object created/updated/deleted by the mutation. May be null if mutation failed.
+  """
+  result: Issue
+
+  """Indicates if the mutation completed successfully or not. """
+  successful: Boolean!
+}
+
+"""
+The `Naive DateTime` scalar type represents a naive date and time without
+timezone. The DateTime appears in a JSON response as an ISO8601 formatted
+string.
+"""
+scalar NaiveDateTime
+
+input OrderArea {
+  asc: AreaAttributes
+  desc: AreaAttributes
+}
+
+input OrderAreaIssue {
+  asc: AreaIssueAttributes
+  desc: AreaIssueAttributes
+}
+
+input OrderIssue {
+  asc: IssueAttributes
+  desc: IssueAttributes
+}
+
+input OrderPermission {
+  asc: PermissionAttributes
+  desc: PermissionAttributes
+}
+
+input OrderProfile {
+  asc: ProfileAttributes
+  desc: ProfileAttributes
+}
+
+input OrderProject {
+  asc: ProjectAttributes
+  desc: ProjectAttributes
+}
+
+input OrderProjectProfile {
+  asc: ProjectProfileAttributes
+  desc: ProjectProfileAttributes
+}
+
+input OrderRole {
+  asc: RoleAttributes
+  desc: RoleAttributes
+}
+
+type Permission {
+  create: Boolean
+  delete: Boolean
+  id: ID
+  insertedAt: NaiveDateTime
+  read: Boolean
+  relation: Relation
+  tokenId: Int
+  update: Boolean
+  updatedAt: NaiveDateTime
+}
+
+enum PermissionAttributes {
+  CREATE
+  DELETE
+  ID
+  INSERTED_AT
+  READ
+  RELATION
+  TOKEN_ID
+  UPDATE
+  UPDATED_AT
+}
+
+type PermissionPayload {
+  """
+  A list of failed validations. May be blank or null if mutation succeeded.
+  """
+  messages: [ValidationMessage]
+
+  """
+  The object created/updated/deleted by the mutation. May be null if mutation failed.
+  """
+  result: Permission
+
+  """Indicates if the mutation completed successfully or not. """
+  successful: Boolean!
+}
+
+type Profile {
+  areas(filter: FiltersArea, limit: Int, offset: Int, orderBy: OrderArea): [Area]
+  description: String
+  id: ID
+  insertedAt: NaiveDateTime
+  main: String
+  name: String
+  picture: String
+  projects(filter: FiltersProject, limit: Int, offset: Int, orderBy: OrderProject): [Project]
+  updatedAt: NaiveDateTime
+}
+
+enum ProfileAttributes {
+  DESCRIPTION
+  ID
+  INSERTED_AT
+  MAIN
+  NAME
+  PICTURE
+  UPDATED_AT
+}
+
+type ProfilePayload {
+  """
+  A list of failed validations. May be blank or null if mutation succeeded.
+  """
+  messages: [ValidationMessage]
+
+  """
+  The object created/updated/deleted by the mutation. May be null if mutation failed.
+  """
+  result: Profile
+
+  """Indicates if the mutation completed successfully or not. """
+  successful: Boolean!
+}
+
+type Project {
+  areas(filter: FiltersArea, limit: Int, offset: Int, orderBy: OrderArea): [Area]
+  description: String
+  id: ID
+  insertedAt: NaiveDateTime
+  issues(filter: FiltersIssue, limit: Int, offset: Int, orderBy: OrderIssue): [Issue]
+  name: String
+  tag: String
+  updatedAt: NaiveDateTime
+}
+
+enum ProjectAttributes {
+  DESCRIPTION
+  ID
+  INSERTED_AT
+  NAME
+  TAG
+  UPDATED_AT
+}
+
+type ProjectPayload {
+  """
+  A list of failed validations. May be blank or null if mutation succeeded.
+  """
+  messages: [ValidationMessage]
+
+  """
+  The object created/updated/deleted by the mutation. May be null if mutation failed.
+  """
+  result: Project
+
+  """Indicates if the mutation completed successfully or not. """
+  successful: Boolean!
+}
+
+type ProjectProfile {
+  id: ID
+  insertedAt: NaiveDateTime
+  profile: Profile
+  profileId: ID
+  project: Project
+  projectId: ID
+  role: Role
+  roleId: ID
+  updatedAt: NaiveDateTime
+}
+
+enum ProjectProfileAttributes {
+  ID
+  INSERTED_AT
+  UPDATED_AT
+}
+
+type ProjectProfilePayload {
+  """
+  A list of failed validations. May be blank or null if mutation succeeded.
+  """
+  messages: [ValidationMessage]
+
+  """
+  The object created/updated/deleted by the mutation. May be null if mutation failed.
+  """
+  result: ProjectProfile
+
+  """Indicates if the mutation completed successfully or not. """
+  successful: Boolean!
+}
+
+enum Relation {
+  AREA
+  AREA_ISSUE
+  ISSUE
+  PERMISSION
+  PROFILE
+  PROJECT
+  PROJECT_PROFILE
+  ROLE
+}
+
+type Role {
+  id: ID
+  insertedAt: NaiveDateTime
+  name: String
+  updatedAt: NaiveDateTime
+}
+
+enum RoleAttributes {
+  ID
+  INSERTED_AT
+  NAME
+  UPDATED_AT
+}
+
+type RolePayload {
+  """
+  A list of failed validations. May be blank or null if mutation succeeded.
+  """
+  messages: [ValidationMessage]
+
+  """
+  The object created/updated/deleted by the mutation. May be null if mutation failed.
+  """
+  result: Role
+
+  """Indicates if the mutation completed successfully or not. """
+  successful: Boolean!
+}
+
+type RootMutationType {
+  """Create area"""
+  createArea(name: String): AreaPayload
+
+  """Create area_issue"""
+  createAreaIssue(areaId: Int, issueId: Int): AreaIssuePayload
+
+  """Create issue"""
+  createIssue(description: String, name: String, profileId: Int, projectId: Int): IssuePayload
+
+  """Create permission"""
+  createPermission(create: Boolean, delete: Boolean, read: Boolean, relation: Relation, tokenId: Int, update: Boolean): PermissionPayload
+
+  """Create profile"""
+  createProfile(description: String, main: String, name: String, picture: String): ProfilePayload
+
+  """Create project"""
+  createProject(description: String, name: String, tag: String): ProjectPayload
+
+  """Create project_profile"""
+  createProjectProfile(profileId: Int, projectId: Int, roleId: Int): ProjectProfilePayload
+
+  """Create role"""
+  createRole(name: String): RolePayload
+
+  """Create user"""
+  createUser(email: String!, password: String!): User
+
+  """Delete area"""
+  deleteArea(id: ID!): AreaPayload
+
+  """Delete area_issue"""
+  deleteAreaIssue(id: ID!): AreaIssuePayload
+
+  """Delete issue"""
+  deleteIssue(id: ID!): IssuePayload
+
+  """Delete permission"""
+  deletePermission(id: ID!): PermissionPayload
+
+  """Delete profile"""
+  deleteProfile(id: ID!): ProfilePayload
+
+  """Delete project"""
+  deleteProject(id: ID!): ProjectPayload
+
+  """Delete project_profile"""
+  deleteProjectProfile(id: ID!): ProjectProfilePayload
+
+  """Delete role"""
+  deleteRole(id: ID!): RolePayload
+
+  """Delete user"""
+  deleteUser(id: ID!): User
+
+  """Login"""
+  login(email: String!, password: String!): Session
+
+  """Update area"""
+  updateArea(area: UpdateAreaParams, id: Int!): AreaPayload
+
+  """Update area_issue"""
+  updateAreaIssue(areaIssue: UpdateAreaIssueParams, id: Int!): AreaIssuePayload
+
+  """Update issue"""
+  updateIssue(id: Int!, issue: UpdateIssueParams): IssuePayload
+
+  """Update permission"""
+  updatePermission(id: Int!, permission: UpdatePermissionParams): PermissionPayload
+
+  """Update profile"""
+  updateProfile(id: Int!, profile: UpdateProfileParams): ProfilePayload
+
+  """Update project"""
+  updateProject(id: Int!, project: UpdateProjectParams): ProjectPayload
+
+  """Update project_profile"""
+  updateProjectProfile(id: Int!, projectProfile: UpdateProjectProfileParams): ProjectProfilePayload
+
+  """Update role"""
+  updateRole(id: Int!, role: UpdateRoleParams): RolePayload
+
+  """Update user"""
+  updateUser(id: Int!, user: UpdateUserParams): User
+}
+
+type RootQueryType {
+  """Get info for area"""
+  area(id: ID!): Area
+
+  """Get info for area_issue"""
+  areaIssue(id: ID!): AreaIssue
+
+  """Get all area_issues"""
+  areaIssues(filter: FiltersAreaIssue, limit: Int, offset: Int, orderBy: OrderAreaIssue): [AreaIssue]
+
+  """Get all areas"""
+  areas(filter: FiltersArea, limit: Int, offset: Int, orderBy: OrderArea): [Area]
+
+  """Get info for issue"""
+  issue(id: ID!): Issue
+
+  """Get all issues"""
+  issues(filter: FiltersIssue, limit: Int, offset: Int, orderBy: OrderIssue): [Issue]
+
+  """Get info for permission"""
+  permission(id: ID!): Permission
+
+  """Get all permissions"""
+  permissions(filter: FiltersPermission, limit: Int, offset: Int, orderBy: OrderPermission): [Permission]
+
+  """Get info for profile"""
+  profile(id: ID!): Profile
+
+  """Get all profiles"""
+  profiles(filter: FiltersProfile, limit: Int, offset: Int, orderBy: OrderProfile): [Profile]
+
+  """Get info for project"""
+  project(id: ID!): Project
+
+  """Get info for project_profile"""
+  projectProfile(id: ID!): ProjectProfile
+
+  """Get all project_profiles"""
+  projectProfiles(filter: FiltersProjectProfile, limit: Int, offset: Int, orderBy: OrderProjectProfile): [ProjectProfile]
+
+  """Get all projects"""
+  projects(filter: FiltersProject, limit: Int, offset: Int, orderBy: OrderProject): [Project]
+
+  """Get info for role"""
+  role(id: ID!): Role
+
+  """Get all roles"""
+  roles(filter: FiltersRole, limit: Int, offset: Int, orderBy: OrderRole): [Role]
+}
+
+type RootSubscriptionType {
+  areaCreated: AreaPayload
+  areaDeleted: AreaPayload
+  areaIssueCreated: AreaIssuePayload
+  areaIssueDeleted: AreaIssuePayload
+  areaIssueUpdated: AreaIssuePayload
+  areaUpdated: AreaPayload
+  issueCreated: IssuePayload
+  issueDeleted: IssuePayload
+  issueUpdated: IssuePayload
+  permissionCreated: PermissionPayload
+  permissionDeleted: PermissionPayload
+  permissionUpdated: PermissionPayload
+  profileCreated: ProfilePayload
+  profileDeleted: ProfilePayload
+  profileUpdated: ProfilePayload
+  projectCreated: ProjectPayload
+  projectDeleted: ProjectPayload
+  projectProfileCreated: ProjectProfilePayload
+  projectProfileDeleted: ProjectProfilePayload
+  projectProfileUpdated: ProjectProfilePayload
+  projectUpdated: ProjectPayload
+  roleCreated: RolePayload
+  roleDeleted: RolePayload
+  roleUpdated: RolePayload
+}
+
+type Session {
+  token: String
+}
+
+input UpdateAreaIssueParams {
+  areaId: Int
+  issueId: Int
+}
+
+input UpdateAreaParams {
+  name: String
+}
+
+input UpdateIssueParams {
+  description: String
+  name: String
+  profileId: Int
+  projectId: Int
+}
+
+input UpdatePermissionParams {
+  create: Boolean
+  delete: Boolean
+  read: Boolean
+  relation: Relation
+  tokenId: Int
+  update: Boolean
+}
+
+input UpdateProfileParams {
+  description: String
+  main: String
+  name: String
+  picture: String
+}
+
+input UpdateProjectParams {
+  description: String
+  name: String
+  tag: String
+}
+
+input UpdateProjectProfileParams {
+  profileId: Int
+  projectId: Int
+  roleId: Int
+}
+
+input UpdateRoleParams {
+  name: String
+}
+
+input UpdateUserParams {
+  password: String
+  username: String
+}
+
+type User {
+  email: String
+  id: ID
+  password: String
+}
+
+"""  Validation messages are returned when mutation input does not meet the requirements.
+  While client-side validation is highly recommended to provide the best User Experience,
+  All inputs will always be validated server-side.
+
+  Some examples of validations are:
+
+  * Username must be at least 10 characters
+  * Email field does not contain an email address
+  * Birth Date is required
+
+  While GraphQL has support for required values, mutation data fields are always
+  set to optional in our API. This allows 'required field' messages
+  to be returned in the same manner as other validations. The only exceptions
+  are id fields, which may be required to perform updates or deletes.
+
+"""
+type ValidationMessage {
+  """
+  A unique error code for the type of validation used.
+  
+      TODO: Add list
+  """
+  code: String!
+
+  """
+  The input field that the error applies to. The field can be used to
+      identify which field the error message should be displayed next to in the
+      presentation layer.
+  
+      If there are multiple errors to display for a field, multiple validation
+      messages will be in the result.
+  
+      This field may be null in cases where an error cannot be applied to a specific field.
+      
+  """
+  field: String
+
+  """
+  A friendly error message, appropriate for display to the end user.
+  
+      The message is interpolated to include the appropriate variables.
+  
+      Example: `Username must be at least 10 characters`
+  
+      This message may change without notice, so we do not recommend you match against the text.
+      Instead, use the *code* field for matching.
+  """
+  message: String
+
+  """
+  A list of substitutions to be applied to a validation message template
+  """
+  options: [ValidationOption]
+
+  """
+  A template used to generate the error message, with placeholders for option substiution.
+  
+      Example: `Username must be at least {count} characters`
+  
+      This message may change without notice, so we do not recommend you match against the text.
+      Instead, use the *code* field for matching.
+      
+  """
+  template: String
+}
+
+type ValidationOption {
+  """
+  The name of a variable to be subsituted in a validation message template
+  """
+  key: String!
+
+  """
+  The value of a variable to be substituted in a validation message template
+  """
+  value: String!
+}
