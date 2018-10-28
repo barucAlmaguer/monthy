@@ -9,7 +9,7 @@ defmodule ValiotApp.Api.Permission do
     field(:relation, RelationEnum)
     field(:token_id, :integer)
     field(:update, :boolean)
-    
+
 
     timestamps()
   end
@@ -18,7 +18,7 @@ defmodule ValiotApp.Api.Permission do
   def changeset(plan, attrs) do
     plan
     |> cast(attrs, [:create, :delete, :read, :relation, :token_id, :update, ])
-    
+
     |> validate_required([:relation, :token_id])
   end
 end

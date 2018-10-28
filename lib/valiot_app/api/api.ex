@@ -2,8 +2,114 @@ defmodule ValiotApp.Api do
   import Ecto.Query, warn: false
   alias ValiotApp.Repo
   alias ValiotApp.Api
+  alias ValiotApp.Api.User
 
-  
+  def store_token(%User{} = user, token) do
+    user
+    |> User.store_token_changeset(%{token: token})
+    |> Repo.update()
+  end
+
+  def revoke_token(%User{} = user, token) do
+    user
+    |> User.store_token_changeset(%{token: token})
+    |> Repo.update()
+  end
+
+  @doc """
+  Returns the list of users.
+
+  ## Examples
+
+      iex> list_users()
+      [%User{}, ...]
+
+  """
+  def list_users do
+    Repo.all(User)
+  end
+
+  @doc """
+  Gets a single user.
+
+  Raises `Ecto.NoResultsError` if the User does not exist.
+
+  ## Examples
+
+      iex> get_user!(123)
+      %User{}
+
+      iex> get_user!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_user!(id), do: Repo.get!(User, id)
+  def get_user(id), do: Repo.get(User, id)
+
+  @doc """
+  Creates a user.
+
+  ## Examples
+
+      iex> create_user(%{field: value})
+      {:ok, %User{}}
+
+      iex> create_user(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_user(attrs \\ %{}) do
+    %User{}
+    |> User.registration_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a user.
+
+  ## Examples
+
+      iex> update_user(user, %{field: new_value})
+      {:ok, %User{}}
+
+      iex> update_user(user, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.update_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a User.
+
+  ## Examples
+
+      iex> delete_user(user)
+      {:ok, %User{}}
+
+      iex> delete_user(user)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_user(%User{} = user) do
+    Repo.delete(user)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user changes.
+
+  ## Examples
+
+      iex> change_user(user)
+      %Ecto.Changeset{source: %User{}}
+
+  """
+  def change_user(%User{} = user) do
+    User.changeset(user, %{})
+  end
 
   def list_profiles do
     Repo.all(Api.Profile)
@@ -90,37 +196,37 @@ defmodule ValiotApp.Api do
         from q in query, where: q.inserted_at >= ^date
       {:ids, ids}, query ->
           from q in query, where: q.id in ^ids
-      
-        
-          
-      
+
+
+
+
         {:description, description}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.description, ^"#{description}")
-            
-          
-      
+
+
+
         {:main, main}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.main, ^"#{main}")
-            
-          
-      
+
+
+
         {:name, name}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.name, ^"#{name}")
-            
-          
-      
+
+
+
         {:picture, picture}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.picture, ^"#{picture}")
-            
-          
-      
-        
-          
-      
+
+
+
+
+
+
     end)
   end
 
@@ -209,13 +315,13 @@ defmodule ValiotApp.Api do
         from q in query, where: q.inserted_at >= ^date
       {:ids, ids}, query ->
           from q in query, where: q.id in ^ids
-      
+
         {:name, name}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.name, ^"#{name}")
-            
-          
-      
+
+
+
     end)
   end
 
@@ -304,31 +410,31 @@ defmodule ValiotApp.Api do
         from q in query, where: q.inserted_at >= ^date
       {:ids, ids}, query ->
           from q in query, where: q.id in ^ids
-      
-        
-          
-      
+
+
+
+
         {:description, description}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.description, ^"#{description}")
-            
-          
-      
-        
-          
-      
+
+
+
+
+
+
         {:name, name}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.name, ^"#{name}")
-            
-          
-      
+
+
+
         {:tag, tag}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.tag, ^"#{tag}")
-            
-          
-      
+
+
+
     end)
   end
 
@@ -417,28 +523,28 @@ defmodule ValiotApp.Api do
         from q in query, where: q.inserted_at >= ^date
       {:ids, ids}, query ->
           from q in query, where: q.id in ^ids
-      
-        
-          
-      
+
+
+
+
         {:description, description}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.description, ^"#{description}")
-            
-          
-      
+
+
+
         {:name, name}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.name, ^"#{name}")
-            
-          
-      
-        
-          
-      
-        
-          
-      
+
+
+
+
+
+
+
+
+
     end)
   end
 
@@ -527,22 +633,22 @@ defmodule ValiotApp.Api do
         from q in query, where: q.inserted_at >= ^date
       {:ids, ids}, query ->
           from q in query, where: q.id in ^ids
-      
-        
-          
-      
+
+
+
+
         {:name, name}, query ->
-          
+
               from q in query, where: fragment("? ~ ?", q.name, ^"#{name}")
-            
-          
-      
-        
-          
-      
-        
-          
-      
+
+
+
+
+
+
+
+
+
     end)
   end
 
@@ -631,16 +737,16 @@ defmodule ValiotApp.Api do
         from q in query, where: q.inserted_at >= ^date
       {:ids, ids}, query ->
           from q in query, where: q.id in ^ids
-      
-        
-          
-      
-        
-          
-      
-        
-          
-      
+
+
+
+
+
+
+
+
+
+
     end)
   end
 
@@ -729,13 +835,13 @@ defmodule ValiotApp.Api do
         from q in query, where: q.inserted_at >= ^date
       {:ids, ids}, query ->
           from q in query, where: q.id in ^ids
-      
-        
-          
-      
-        
-          
-      
+
+
+
+
+
+
+
     end)
   end
 
@@ -824,41 +930,41 @@ defmodule ValiotApp.Api do
         from q in query, where: q.inserted_at >= ^date
       {:ids, ids}, query ->
           from q in query, where: q.id in ^ids
-      
+
         {:create, create}, query ->
-          
+
               from(q in query, where: q.create == ^create)
-          
-          
-      
+
+
+
         {:delete, delete}, query ->
-          
+
               from(q in query, where: q.delete == ^delete)
-          
-          
-      
+
+
+
         {:read, read}, query ->
-          
+
               from(q in query, where: q.read == ^read)
-          
-          
-      
+
+
+
         {:relation, relation}, query ->
           from(q in query, where: q.relation == ^relation)
-        
-      
+
+
         {:token_id, token_id}, query ->
-          
+
               from(q in query, where: q.token_id == ^token_id)
-          
-          
-      
+
+
+
         {:update, update}, query ->
-          
+
               from(q in query, where: q.update == ^update)
-          
-          
-      
+
+
+
     end)
   end
 end

@@ -44,10 +44,10 @@ defmodule ValiotApp.PermissionResolver do
         {_, request} = Api.create_permission(args)
         Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, permission_created: "*")
         {:ok, request}
-      
+
           msg ->
         {:error, msg}
-        
+
     end
   end
 

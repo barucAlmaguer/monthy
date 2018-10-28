@@ -27,8 +27,8 @@ defmodule ValiotAppWeb.Endpoint do
   plug(
     Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
-    pass: ["*/*"],
-    json_decoder: Jason
+    pass: ["/"],
+    json_decoder: Poison
   )
 
   plug(Plug.MethodOverride)

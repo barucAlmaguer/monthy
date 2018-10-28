@@ -9,7 +9,7 @@ defmodule ValiotAppWeb.Schema.Types do
   end
 
   # Enums
-  
+
   enum :relation do
     value(:profile)
     value(:role)
@@ -20,84 +20,84 @@ defmodule ValiotAppWeb.Schema.Types do
     value(:area_issue)
     value(:permission)
   end
-  
 
-    
+
+
     enum :profile_attributes do
       value(:id)
       value(:inserted_at)
       value(:updated_at)
-      
+
        value(:description)
          value(:main)
          value(:name)
          value(:picture)
-        
-      
+
+
     end
-    
+
     enum :role_attributes do
       value(:id)
       value(:inserted_at)
       value(:updated_at)
        value(:name)
-        
+
     end
-    
+
     enum :project_attributes do
       value(:id)
       value(:inserted_at)
       value(:updated_at)
-      
+
        value(:description)
-        
+
        value(:name)
          value(:tag)
-        
+
     end
-    
+
     enum :issue_attributes do
       value(:id)
       value(:inserted_at)
       value(:updated_at)
-      
+
        value(:description)
          value(:name)
-        
-        
-        
+
+
+
     end
-    
+
     enum :area_attributes do
       value(:id)
       value(:inserted_at)
       value(:updated_at)
-      
+
        value(:name)
-        
-      
-      
+
+
+
     end
-    
+
     enum :project_profile_attributes do
       value(:id)
       value(:inserted_at)
       value(:updated_at)
-      
-        
-        
-        
+
+
+
+
     end
-    
+
     enum :area_issue_attributes do
       value(:id)
       value(:inserted_at)
       value(:updated_at)
-      
-        
-        
+
+
+
     end
-    
+
     enum :permission_attributes do
       value(:id)
       value(:inserted_at)
@@ -108,12 +108,20 @@ defmodule ValiotAppWeb.Schema.Types do
          value(:relation)
          value(:token_id)
          value(:update)
-        
-    end
-    
-  # Objects
 
-  
+    end
+
+  # Objects
+  object :user do
+    field(:id, :id)
+    field(:email, :string)
+    field(:password, :string)
+  end
+
+  object :session do
+    field(:token, :string)
+  end
+
   object :profile do
     field(:id, :id)
     field(:inserted_at, :naive_datetime)

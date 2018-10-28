@@ -44,10 +44,10 @@ defmodule ValiotApp.ProfileResolver do
         {_, request} = Api.create_profile(args)
         Absinthe.Subscription.publish(ValiotAppWeb.Endpoint, request, profile_created: "*")
         {:ok, request}
-      
+
           _ ->
         {:error, "Not Authorized to perform this action"}
-      
+
     end
   end
 
